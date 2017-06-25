@@ -283,7 +283,7 @@ Add the following Key:Value pairs to the application settings of your Web App Se
 - If you need more clarification on this section, follow the instructions [here](https://docs.microsoft.com/en-us/azure/data-lake-store/data-lake-store-secure-data#a-namefilepermissionsaassign-users-or-security-group-as-acls-to-the-azure-data-lake-store-file-system).
 
 ### 10. Create and run the web jobs
-In this step we will add scripts of 6 web jobs to the Web App we created in Step 7. Under ***Manual Deployment Guide/Scripts/webjobs***, you will find 6 folders, one folder for each web job. You will first need to create a zip file for each folder.
+In this step we will add scripts of 7 web jobs to the Web App we created in Step 7. Under ***Manual Deployment Guide/Scripts/webjobs***, you will find 7 folders, one folder for each web job. You will first need to create a zip file for each folder.
 
 **Create and run InstallPackages web job**
 
