@@ -1,0 +1,437 @@
+REFERENCE ASSEMBLY [ExtPython];
+
+DECLARE @max_review_time = 7;
+DECLARE @planning_time int = 30; // number of days in planning time period 
+DECLARE @now DateTime = DateTime.Now;
+DECLARE @last_day DateTime = @now.Add(new System.TimeSpan(@planning_time, 0, 0, 0));
+
+// Use internal database for transferring intermediate results between two USQL scripts
+
+CREATE DATABASE IF NOT EXISTS RSDB;
+USE DATABASE RSDB;
+
+////////////////////////////////////////////////
+// Names of input and output directories 
+////////////////////////////////////////////////
+
+DECLARE @StaticDataFolder string = "/publicparameters/";
+DECLARE @DynamicDataFolder string = "/rawdawdata/";
+DECLARE @GlobalPolicyDir string = "/inventory_scripts/";
+DECLARE @GlobalCSVFolder string = "/optimization/input_csv/";
+DECLARE @policy_name string = "RS";
+
+DECLARE @DemandDir string = @DynamicDataFolder + "demand_forecasts/{*}/{*}/";
+DECLARE @DemandFiles string = @DemandDir + 
+                              "{ForecastDate:yyyy}-{ForecastDate:MM}-{ForecastDate:dd}_{ForecastDate:hh}_{ForecastDate:mm}_{ForecastDate:ss}.csv";
+DECLARE @UsqlFolder string = @GlobalPolicyDir + @policy_name + "/";
+DECLARE @CSVFolder string = @GlobalCSVFolder + @policy_name + "/";
+
+////////////////////////////////////////////////
+// Names of input files
+////////////////////////////////////////////////
+
+DECLARE @ProductStorageFile = @StaticDataFolder + "store_product_storage.csv";
+DECLARE @ProductsSuppliersFile string = @StaticDataFolder + "store_product_supplier.csv";
+
+/////////////////////////////////////////////
+// Load input files
+/////////////////////////////////////////////
+
+@product_storage =
+    EXTRACT StoreID                string,
+            StorageID              string,
+            ProductID              string,
+            StorageCost            float,
+            MissedSaleCost         float,
+            MinInventorySize       int,
+            MaxInventorySize       int
+    FROM @ProductStorageFile
+    USING Extractors.Csv(skipFirstNRows: 1);  
+
+@predicted_demand = 
+    EXTRACT StoreID                         string,
+            ProductID                       string,
+            Timestamp                       DateTime,
+            PredictedDemand                 float,
+            PredictedDemandDistribution     string,
+            PredictedDemandVariance         float,
+            PredictedProbability            float,
+            ForecastDate                    DateTime
+    FROM @DemandFiles
+    USING Extractors.Csv(skipFirstNRows: 1); 
+
+@product_suppliers = 
+    EXTRACT StoreID                         string,
+            SupplierID                      string,
+            ProductID                       string,
+            LeadTime                        int,
+            LeadTimeConfidenceInterval      int,
+            MinOrderQuantity                int,
+            MaxOrderQuantity                int,
+            QuantityMultiplier              int,
+            PurchaseCost                    float,
+            BackorderCost                   float,
+            ShippingCost                    float,
+            PurchaseCostBudget              float,
+            OrderingFrequency               string,
+            ServiceLevel                    float
+    FROM @ProductsSuppliersFile
+    USING Extractors.Csv(skipFirstNRows: 1); 
+
+///////////////////////////////////////////////
+// create table of storage costs
+///////////////////////////////////////////////
+
+DROP TABLE IF EXISTS dbo.StorageCosts;
+CREATE TABLE dbo.StorageCosts (
+    INDEX clx_ProductID CLUSTERED(ProductID ASC) 
+    DISTRIBUTED BY HASH (ProductID)
+) AS SELECT StoreID, ProductID, StorageCost FROM @product_storage;
+
+/////////////////////////////////////////////////////////////////////////////////
+// Create table of average forecasted daily demand in the planning time period
+////////////////////////////////////////////////////////////////////////////////
+
+@last_forecast_time = SELECT StoreID, ProductID, Convert.ToDateTime(MAX(ForecastDate)) AS LastForecastDate 
+                      FROM @predicted_demand GROUP BY StoreID, ProductID;
+
+@last_forecast = SELECT a.StoreID, a.ProductID, Timestamp, PredictedDemand, PredictedProbability 
+                 FROM @predicted_demand AS a 
+                 JOIN @last_forecast_time AS b 
+                 ON a.ProductID == b.ProductID AND a.StoreID == b.StoreID AND ForecastDate == LastForecastDate;
+
+@mean_last_forecast = SELECT StoreID, ProductID, Timestamp, SUM(PredictedDemand * PredictedProbability) AS MeanDemand, 
+                             MAX(PredictedProbability) AS MaxProbability
+                      FROM @last_forecast GROUP BY StoreID, ProductID, Timestamp;     
+
+// compute mean daily demand in the planning time period
+
+@mean_demand = SELECT StoreID, ProductID, Convert.ToInt32(Math.Round(Convert.ToDouble(AVG(MeanDemand)),0)) AS MeanDemand
+               FROM @mean_last_forecast WHERE Timestamp BETWEEN @now AND @last_day
+               GROUP BY StoreID, ProductID;
+
+DROP TABLE IF EXISTS dbo.MeanDemand;
+CREATE TABLE dbo.MeanDemand (
+    INDEX clx_ProductID CLUSTERED(ProductID ASC) 
+    DISTRIBUTED BY HASH (ProductID)
+) AS SELECT * FROM @mean_demand;
+
+//////////////////////////////////////////////////////////////
+// create table of lead times, shipping and backorder costs
+///////////////////////////////////////////////////////////////
+
+DROP TABLE IF EXISTS dbo.SupplierProperties;
+CREATE TABLE dbo.SupplierProperties (
+    INDEX clx_ProductID CLUSTERED(ProductID ASC) 
+    DISTRIBUTED BY HASH (ProductID)
+) AS SELECT StoreID, ProductID, LeadTime, ShippingCost, BackorderCost FROM @product_suppliers;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Choose a representative lead time + max review time interval
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// generate probabilistic forecasts if the input forecast is deterministic
+
+@python_input = SELECT StoreID, ProductID, Timestamp.ToString() AS Timestamp, PredictedDemand, PredictedProbability 
+                FROM @last_forecast;
+
+DECLARE @generateProbabilisticForecast = @"
+import pandas as pd
+from scipy.stats import poisson
+from numpy import arange
+
+def usqlml_main(df):
+    
+    if df.shape[0] == 1: # deterministic prediction, assume that the demand has Poisson distribution
+       mean_demand = df['PredictedDemand'].iat[0]
+       store_id = df['StoreID'].iat[0]
+       product_id = df['ProductID'].iat[0]
+       timestamp = df['Timestamp'].iat[0]
+       probabilistic_forecast = [{'StoreID': store_id, 'ProductID': product_id, 'Timestamp': timestamp,
+                                  'PredictedDemand': x, 'PredictedProbability': poisson.pmf(x, mean_demand)} 
+                                 for x in arange(poisson.ppf(0.01,mean_demand), poisson.ppf(0.99,mean_demand))]
+       probabilistic_forecast_df = pd.DataFrame(probabilistic_forecast, 
+                                                columns = ['StoreID', 'ProductID', 'Timestamp', 'PredictedDemand', 'PredictedProbability'])
+       total_probability = probabilistic_forecast_df['PredictedProbability'].sum()
+       probabilistic_forecast_df['PredictedProbability'] = probabilistic_forecast_df['PredictedProbability'] / total_probability
+
+
+       return probabilistic_forecast_df
+    else:
+       return df
+";
+
+@python_output = REDUCE @python_input ON StoreID, ProductID, Timestamp
+                 PRODUCE StoreID string, 
+                         ProductID string,
+                         Timestamp string,
+                         PredictedDemand double,
+                         PredictedProbability double
+                 USING new Extension.Python.Reducer(pyScript:@generateProbabilisticForecast);
+
+@probabilistic_forecast = SELECT StoreID, ProductID, Convert.ToDateTime(Timestamp) AS Timestamp, PredictedDemand,
+                                 PredictedProbability FROM @python_output;
+
+// compute mean demand in the lead time + maximal review time (average of the mean demands)
+
+DECLARE @myScript = @"
+import pandas as pd
+
+def usqlml_main(df):
+    return pd.DataFrame({'t': range(0,df.iat[0,0])})
+";
+
+@t_indices = REDUCE (SELECT * FROM (VALUES(@planning_time)) AS T([T])) ON [T]
+             PRODUCE t int 
+             USING new Extension.Python.Reducer(pyScript:@myScript);
+
+@mean_last_forecast_lead_review_time = 
+             SELECT a.StoreID, a.ProductID, t, Convert.ToDouble(SUM(MeanDemand)) AS MeanLeadReviewDemand
+             FROM @mean_last_forecast AS a
+             JOIN @product_suppliers AS b ON a.ProductID == b.ProductID AND a.StoreID == b.StoreID
+             CROSS JOIN @t_indices AS c
+             WHERE c.t + LeadTime + @max_review_time < @planning_time 
+             AND Timestamp BETWEEN @now.Add(new System.TimeSpan(c.t, 0, 0, 0))
+             AND @now.Add(new System.TimeSpan(c.t + LeadTime + @max_review_time - 1, 0, 0, 0))
+             GROUP BY a.StoreID, a.ProductID, t;
+
+@mean_lead_review_demand = SELECT StoreID, ProductID, Convert.ToDouble(AVG(MeanLeadReviewDemand)) AS MeanLeadReviewDemand 
+                           FROM @mean_last_forecast_lead_review_time GROUP BY StoreID, ProductID;
+
+// combine daily probabilistic forecasts into a probabilistic forecast over lead time
+
+// choose a representative lead time interval - lead time interval with the mean demand closest to the global mean
+
+@distance_to_mean = SELECT a.StoreID, a.ProductID, t, Math.Abs(a.MeanLeadReviewDemand - b.MeanLeadReviewDemand) AS distance
+                    FROM @mean_last_forecast_lead_review_time AS a
+                    JOIN @mean_lead_review_demand AS b ON a.StoreID == b.StoreID AND a.ProductID == b.ProductID;
+
+@min_distance_to_mean = SELECT StoreID, ProductID, Convert.ToDouble(MIN(distance)) AS min_distance
+                        FROM @distance_to_mean GROUP BY StoreID, ProductID;
+
+@representative_interval = SELECT a.StoreID, a.ProductID, Convert.ToInt32(MIN(t)) AS t_min 
+                           FROM @distance_to_mean AS a JOIN @min_distance_to_mean AS b 
+                           ON a.StoreID == b.StoreID AND a.ProductID == b.ProductID AND distance == min_distance                                
+                           GROUP BY a.StoreID, a.ProductID;
+
+@representative_forecast = SELECT a.StoreID, a.ProductID, Timestamp, PredictedDemand, PredictedProbability
+                           FROM @probabilistic_forecast AS a
+                           JOIN @product_suppliers AS b ON a.ProductID == b.ProductID AND a.StoreID == b.StoreID
+                           JOIN @representative_interval AS c ON a.ProductID == c.ProductID AND a.StoreID == c.StoreID                            
+                           WHERE c.t_min + LeadTime + @max_review_time < @planning_time 
+                               AND Timestamp BETWEEN @now.Add(new System.TimeSpan(c.t_min, 0, 0, 0))
+                               AND @now.Add(new System.TimeSpan(c.t_min + LeadTime + @max_review_time - 1, 0, 0, 0));
+
+////////////////////////////////////////////////////////////////////////
+// Create table of max demand in the lead + review time
+////////////////////////////////////////////////////////////////////////
+
+// compute maximal demand in lead time + review time
+@max_demand_t = SELECT StoreID, ProductID, Timestamp, MAX(PredictedDemand) AS MaxPredictedDemand
+                FROM @representative_forecast GROUP BY StoreID, ProductID, Timestamp;
+
+@max_demand = SELECT StoreID, ProductID, SUM(MaxPredictedDemand) AS MaxDemand
+                FROM @max_demand_t GROUP BY StoreID, ProductID;
+			  
+DROP TABLE IF EXISTS dbo.MaxDemand;
+CREATE TABLE dbo.MaxDemand (
+    INDEX clx_ProductID CLUSTERED(ProductID ASC) 
+    DISTRIBUTED BY HASH (ProductID)
+) AS SELECT * FROM @max_demand;			  
+
+///////////////////////////////////////////////////////////////////////////////////////
+// Create a table of aggregate demand over different lead + review time intervals 
+///////////////////////////////////////////////////////////////////////////////////////
+
+@python_input2 = SELECT StoreID, ProductID, Timestamp.ToString() AS Timestamp, PredictedDemand, PredictedProbability, @max_review_time AS max_review_time
+                 FROM @representative_forecast;
+
+DECLARE @computeAggregateForecast = @"
+import pandas as pd
+from datetime import timedelta
+
+def usqlml_main(df):
+    max_review_time = int(df['max_review_time'].iat[0])
+    df['Timestamp'] = df['Timestamp'].apply(lambda x: pd.to_datetime(x.split(chr(39))[1]))
+    timestamps = df['Timestamp'].unique()
+    timestamps = [pd.to_datetime(x) for x in timestamps]   
+    timestamps.sort()  # in-place sort of timestamps
+    start_time = timestamps[len(timestamps)-1] - timedelta(days = max_review_time)
+   
+    agg_forecasts = pd.DataFrame(columns=['StoreID', 'ProductID', 'ReviewTime', 'PredictedDemand', 'PredictedProbability'])
+    for review_time in range(1,max_review_time+1):
+        
+        timestamps_review_time = [x for x in timestamps if x <= start_time + timedelta(days = review_time)]
+        
+        agg = pd.Series([1], index=[0])
+        for timestamp in timestamps_review_time:
+            
+            agg_new = pd.Series()
+            for x in df.loc[df['Timestamp'] == timestamp].itertuples():
+                agg_x = pd.Series(agg.values * x.PredictedProbability, index = agg.index + x.PredictedDemand)
+                agg_new = agg_new.add(agg_x, fill_value=0)
+            agg = agg_new
+        
+        new_forecast = pd.DataFrame({'StoreID': [df['StoreID'].iat[0]]*len(agg), 'ProductID': [df['ProductID'].iat[0]] * len(agg),
+                                     'ReviewTime': [review_time]*len(agg), 
+                                     'PredictedDemand': agg.index.astype('object').astype('int'), 'PredictedProbability': agg.values}, 
+                                    columns = ['StoreID', 'ProductID', 'ReviewTime', 'PredictedDemand', 'PredictedProbability'])
+        
+        agg_forecasts = pd.concat([agg_forecasts, new_forecast])
+    													
+    agg_forecasts['ReviewTime'] =  agg_forecasts['ReviewTime'].astype('int')
+    agg_forecasts['PredictedDemand'] =  agg_forecasts['PredictedDemand'].astype('int')									
+    return agg_forecasts	
+";
+
+@aggregate_forecast = REDUCE @python_input2 ON StoreID, ProductID
+                      PRODUCE StoreID string,
+                              ProductID string,
+							  ReviewTime int, 
+                              PredictedDemand int,
+                              PredictedProbability double
+USING new Extension.Python.Reducer(pyScript:@computeAggregateForecast);  
+
+////////////////////////////////////////////////////////////////////////
+// Create table of min demand during lead + review time
+////////////////////////////////////////////////////////////////////////
+
+@min_demand = SELECT StoreID, ProductID, MIN(PredictedDemand) AS MinDemand
+              FROM @aggregate_forecast GROUP BY StoreID, ProductID;
+			  
+DROP TABLE IF EXISTS dbo.MinDemand;
+CREATE TABLE dbo.MinDemand (
+    INDEX clx_ProductID CLUSTERED(ProductID ASC) 
+    DISTRIBUTED BY HASH (ProductID)
+) AS SELECT * FROM @min_demand;	
+
+///////////////////////////////////////////////////////////////////////////////////
+// Adjust the table of aggregate demand so that there is the same number of rows 
+// for each review time
+//////////////////////////////////////////////////////////////////////////////////
+
+@python_input3 = SELECT a.StoreID, a.ProductID, ReviewTime, PredictedDemand, PredictedProbability, 
+                        MinDemand, MaxDemand FROM @aggregate_forecast AS a 
+                 JOIN @min_demand AS b ON a.StoreID == b.StoreID AND a.ProductID == b.ProductID                                                                
+                 JOIN @max_demand AS c ON a.StoreID == c.StoreID AND a.ProductID == c.ProductID;
+
+DECLARE @clipBigDemand = @"
+import pandas as pd
+from numpy import arange
+
+def usqlml_main(df):
+   
+    min_demand = int(df['MinDemand'].iat[0])
+    max_demand = int(df['MaxDemand'].iat[0])
+
+    padded = pd.Series([0] * (max_demand - min_demand + 1), index = arange(min_demand, max_demand + 1))
+    padded = padded.add(pd.Series(df['PredictedProbability'].values, index=df['PredictedDemand']), fill_value=0)
+    new_length = len(padded)
+   
+    padded_df = pd.DataFrame({'StoreID': [df['StoreID'].iat[0]] * new_length, 
+                              'ProductID': [df['ProductID'].iat[0]] * new_length,
+                              'ReviewTime': [df['ReviewTime'].iat[0]] * new_length, 
+                              'PredictedDemand': padded.index.astype('object').astype('int'), 
+                              'PredictedProbability': padded.values}, 
+                              columns = ['StoreID', 'ProductID', 'ReviewTime', 'PredictedDemand', 'PredictedProbability'])
+
+    padded_df['ReviewTime'] = padded_df['ReviewTime'].astype('int')
+    return padded_df
+";                                                          
+                                                          
+@big_demand_clipped = REDUCE @python_input3 ON StoreID, ProductID, ReviewTime
+                      PRODUCE StoreID string,
+                              ProductID string,
+							  ReviewTime int, 
+                              PredictedDemand int,
+                              PredictedProbability double
+USING new Extension.Python.Reducer(pyScript:@clipBigDemand); 
+
+DROP TABLE IF EXISTS dbo.BigDemand;
+CREATE TABLE dbo.BigDemand (
+    INDEX clx_ProductID CLUSTERED(ProductID ASC) 
+    DISTRIBUTED BY HASH (ProductID)
+) AS SELECT * FROM @big_demand_clipped;	
+
+/////////////////////////////////////////////////////////////////////////////
+// Generate second USQL script that will create CSV files for all stores
+/////////////////////////////////////////////////////////////////////////////
+
+// Get IDs of all stores and products
+
+@store_product_ids = SELECT StoreID, ProductID FROM @product_storage;
+
+@stmts =
+    SELECT * FROM (VALUES (1,"USE DATABASE RSDB;")) AS i(id, output)
+    UNION ALL                                                   
+    SELECT 2 AS id,
+           "OUTPUT (SELECT StorageCost AS h FROM dbo.StorageCosts WHERE StoreID == \"" + StoreID + 
+                    "\" AND ProductID == \"" + ProductID + "\") " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID + "/RS_1_P_0_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids
+    UNION ALL
+    SELECT 3 AS id,
+           "OUTPUT (SELECT MeanDemand AS a FROM dbo.MeanDemand WHERE StoreID == \"" + StoreID + 
+                    "\" AND ProductID == \"" + ProductID + "\") " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID + "/RS_2_P_0_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids
+    UNION ALL
+    SELECT 4 AS id,
+           "OUTPUT (SELECT LeadTime AS [L] FROM dbo.SupplierProperties WHERE StoreID == \"" + StoreID + 
+                    "\" AND ProductID == \"" + ProductID + "\") " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID + "/RS_3_P_0_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids
+    UNION ALL
+    SELECT 5 AS id,
+           "OUTPUT (SELECT ShippingCost AS [K] FROM dbo.SupplierProperties WHERE StoreID == \"" + StoreID + 
+                    "\" AND ProductID == \"" + ProductID + "\") " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID + "/RS_4_P_0_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids
+    UNION ALL
+    SELECT 6 AS id,
+           "OUTPUT (SELECT BackorderCost AS pi FROM dbo.SupplierProperties WHERE StoreID == \"" + StoreID + 
+                    "\" AND ProductID == \"" + ProductID + "\") " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID + "/RS_5_P_0_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids
+	UNION ALL
+    SELECT 7 AS id,
+           "OUTPUT (SELECT MaxDemand AS max_demand FROM dbo.MaxDemand WHERE StoreID == \"" + StoreID + 
+                    "\" AND ProductID == \"" + ProductID + "\") " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID + "/RS_6_P_0_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids
+    UNION ALL
+    SELECT 8 AS id,
+           "OUTPUT (SELECT MinDemand AS min_demand FROM dbo.MinDemand WHERE StoreID == \"" + StoreID + 
+                    "\" AND ProductID == \"" + ProductID + "\") " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID + "/RS_7_P_0_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids
+    UNION ALL
+    SELECT 9 AS id, 
+           "OUTPUT (SELECT max_review_time AS max_R FROM (VALUES(" + @max_review_time + ")) AS T(max_review_time)) " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID + "/RS_8_P_0_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids
+	UNION ALL
+	SELECT 10 AS id, 
+           "OUTPUT (SELECT ReviewTime AS review_time, PredictedDemand AS big_demand, PredictedProbability AS prob_demand FROM dbo.BigDemand " +
+           "WHERE StoreID == \"" + StoreID + "\" AND ProductID == \"" + ProductID + "\") " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID + "/RS_9_P_2_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids;
+    
+// Write USQL commands to the second script
+
+DECLARE @outfile string = @UsqlFolder + "genscript_RS.usql";
+
+OUTPUT (SELECT output FROM @stmts ORDER BY id ASC OFFSET 0 ROWS) TO @outfile
+USING Outputters.Text(delimiter: ' ', quoting: false);
+
+    
+    
