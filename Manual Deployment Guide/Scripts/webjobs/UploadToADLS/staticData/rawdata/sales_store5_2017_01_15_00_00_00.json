@@ -1,0 +1,4658 @@
+{
+    "SalesLogDateTime": "2017-01-15 00:00:00",
+    "StoreID": 5,
+    "Transactions": [
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 07:03:40"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 34.0,
+            "Tax": 2.38,
+            "Total": 36.38,
+            "TransactionDateTime": "2017-01-14 07:11:51"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 15.91,
+            "Tax": 1.11,
+            "Total": 17.02,
+            "TransactionDateTime": "2017-01-14 07:13:40"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 13.89,
+            "Tax": 0.97,
+            "Total": 14.86,
+            "TransactionDateTime": "2017-01-14 07:16:38"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 22.28,
+            "Tax": 1.56,
+            "Total": 23.84,
+            "TransactionDateTime": "2017-01-14 07:22:34"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 07:24:34"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 07:26:59"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 07:29:20"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 13.89,
+            "Tax": 0.97,
+            "Total": 14.86,
+            "TransactionDateTime": "2017-01-14 07:34:10"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 23.51,
+            "Tax": 1.65,
+            "Total": 25.16,
+            "TransactionDateTime": "2017-01-14 07:37:33"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 16.78,
+            "Tax": 1.17,
+            "Total": 17.95,
+            "TransactionDateTime": "2017-01-14 07:41:10"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 25.53,
+            "Tax": 1.79,
+            "Total": 27.32,
+            "TransactionDateTime": "2017-01-14 07:44:56"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 26.63,
+            "Tax": 1.86,
+            "Total": 28.49,
+            "TransactionDateTime": "2017-01-14 07:49:16"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 23.15,
+            "Tax": 1.62,
+            "Total": 24.77,
+            "TransactionDateTime": "2017-01-14 07:54:43"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 20.26,
+            "Tax": 1.42,
+            "Total": 21.68,
+            "TransactionDateTime": "2017-01-14 08:06:13"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 08:11:38"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 15.91,
+            "Tax": 1.11,
+            "Total": 17.02,
+            "TransactionDateTime": "2017-01-14 08:16:31"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 08:17:14"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 16.78,
+            "Tax": 1.17,
+            "Total": 17.95,
+            "TransactionDateTime": "2017-01-14 08:18:18"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 15.91,
+            "Tax": 1.11,
+            "Total": 17.02,
+            "TransactionDateTime": "2017-01-14 08:20:01"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 08:22:02"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 08:23:38"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 31.9,
+            "Tax": 2.23,
+            "Total": 34.13,
+            "TransactionDateTime": "2017-01-14 08:27:13"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 24.3,
+            "Tax": 1.7,
+            "Total": 26.0,
+            "TransactionDateTime": "2017-01-14 08:28:46"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 08:30:09"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 23.15,
+            "Tax": 1.62,
+            "Total": 24.77,
+            "TransactionDateTime": "2017-01-14 08:35:08"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 15.91,
+            "Tax": 1.11,
+            "Total": 17.02,
+            "TransactionDateTime": "2017-01-14 08:39:37"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 25.17,
+            "Tax": 1.76,
+            "Total": 26.93,
+            "TransactionDateTime": "2017-01-14 08:42:41"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 27.5,
+            "Tax": 1.93,
+            "Total": 29.43,
+            "TransactionDateTime": "2017-01-14 08:47:43"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 13.89,
+            "Tax": 0.97,
+            "Total": 14.86,
+            "TransactionDateTime": "2017-01-14 08:48:44"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 18.01,
+            "Tax": 1.26,
+            "Total": 19.27,
+            "TransactionDateTime": "2017-01-14 08:51:08"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 08:52:25"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 16.78,
+            "Tax": 1.17,
+            "Total": 17.95,
+            "TransactionDateTime": "2017-01-14 08:54:35"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 19.11,
+            "Tax": 1.34,
+            "Total": 20.45,
+            "TransactionDateTime": "2017-01-14 08:59:04"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 22.36,
+            "Tax": 1.57,
+            "Total": 23.93,
+            "TransactionDateTime": "2017-01-14 09:03:40"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 39.14,
+            "Tax": 2.74,
+            "Total": 41.88,
+            "TransactionDateTime": "2017-01-14 09:07:20"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 9.62,
+            "Tax": 0.67,
+            "Total": 10.29,
+            "TransactionDateTime": "2017-01-14 09:08:45"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 09:12:57"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 29.52,
+            "Tax": 2.07,
+            "Total": 31.59,
+            "TransactionDateTime": "2017-01-14 09:20:05"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 13.89,
+            "Tax": 0.97,
+            "Total": 14.86,
+            "TransactionDateTime": "2017-01-14 09:22:27"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 09:22:59"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 09:25:03"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 18.01,
+            "Tax": 1.26,
+            "Total": 19.27,
+            "TransactionDateTime": "2017-01-14 09:29:41"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 13.89,
+            "Tax": 0.97,
+            "Total": 14.86,
+            "TransactionDateTime": "2017-01-14 09:31:18"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 30.67,
+            "Tax": 2.15,
+            "Total": 32.82,
+            "TransactionDateTime": "2017-01-14 09:36:10"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 09:38:53"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 25.53,
+            "Tax": 1.79,
+            "Total": 27.32,
+            "TransactionDateTime": "2017-01-14 09:42:46"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 09:43:03"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 09:46:06"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 25.17,
+            "Tax": 1.76,
+            "Total": 26.93,
+            "TransactionDateTime": "2017-01-14 09:51:32"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 09:51:53"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 09:51:54"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 52.67,
+            "Tax": 3.69,
+            "Total": 56.36,
+            "TransactionDateTime": "2017-01-14 09:57:01"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 53.11,
+            "Tax": 3.72,
+            "Total": 56.83,
+            "TransactionDateTime": "2017-01-14 10:08:12"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 16.78,
+            "Tax": 1.17,
+            "Total": 17.95,
+            "TransactionDateTime": "2017-01-14 10:10:11"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 15.91,
+            "Tax": 1.11,
+            "Total": 17.02,
+            "TransactionDateTime": "2017-01-14 10:11:04"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 10:11:40"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 10:12:01"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 10:12:22"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 15.91,
+            "Tax": 1.11,
+            "Total": 17.02,
+            "TransactionDateTime": "2017-01-14 10:12:59"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 10:14:14"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 30.67,
+            "Tax": 2.15,
+            "Total": 32.82,
+            "TransactionDateTime": "2017-01-14 10:17:58"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 10:20:20"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 15.99,
+            "Tax": 1.12,
+            "Total": 17.11,
+            "TransactionDateTime": "2017-01-14 10:25:19"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 10:25:42"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 10:25:46"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 10:26:54"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 13.89,
+            "Tax": 0.97,
+            "Total": 14.86,
+            "TransactionDateTime": "2017-01-14 10:28:19"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 13.89,
+            "Tax": 0.97,
+            "Total": 14.86,
+            "TransactionDateTime": "2017-01-14 10:28:54"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 59.4,
+            "Tax": 4.16,
+            "Total": 63.56,
+            "TransactionDateTime": "2017-01-14 10:36:33"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 22.28,
+            "Tax": 1.56,
+            "Total": 23.84,
+            "TransactionDateTime": "2017-01-14 10:40:08"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 12.74,
+            "Tax": 0.89,
+            "Total": 13.63,
+            "TransactionDateTime": "2017-01-14 10:40:58"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 9.62,
+            "Tax": 0.67,
+            "Total": 10.29,
+            "TransactionDateTime": "2017-01-14 10:41:01"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 24.38,
+            "Tax": 1.71,
+            "Total": 26.09,
+            "TransactionDateTime": "2017-01-14 10:44:36"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 22.36,
+            "Tax": 1.57,
+            "Total": 23.93,
+            "TransactionDateTime": "2017-01-14 10:51:57"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 31.54,
+            "Tax": 2.21,
+            "Total": 33.75,
+            "TransactionDateTime": "2017-01-14 11:01:30"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 18.01,
+            "Tax": 1.26,
+            "Total": 19.27,
+            "TransactionDateTime": "2017-01-14 11:03:45"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 11:06:19"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 27.5,
+            "Tax": 1.93,
+            "Total": 29.43,
+            "TransactionDateTime": "2017-01-14 11:09:52"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 30.67,
+            "Tax": 2.15,
+            "Total": 32.82,
+            "TransactionDateTime": "2017-01-14 11:12:51"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 15.91,
+            "Tax": 1.11,
+            "Total": 17.02,
+            "TransactionDateTime": "2017-01-14 11:14:58"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 11:15:16"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 20.26,
+            "Tax": 1.42,
+            "Total": 21.68,
+            "TransactionDateTime": "2017-01-14 11:23:30"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 11:25:10"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 11:27:38"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 21.13,
+            "Tax": 1.48,
+            "Total": 22.61,
+            "TransactionDateTime": "2017-01-14 11:31:24"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 11:32:34"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 11:33:11"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 11:34:37"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 40.37,
+            "Tax": 2.83,
+            "Total": 43.2,
+            "TransactionDateTime": "2017-01-14 11:38:17"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 15.91,
+            "Tax": 1.11,
+            "Total": 17.02,
+            "TransactionDateTime": "2017-01-14 11:40:21"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 11:40:40"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 19.11,
+            "Tax": 1.34,
+            "Total": 20.45,
+            "TransactionDateTime": "2017-01-14 11:44:26"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 11:52:31"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 40.37,
+            "Tax": 2.83,
+            "Total": 43.2,
+            "TransactionDateTime": "2017-01-14 11:56:54"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 38.19,
+            "Tax": 2.67,
+            "Total": 40.86,
+            "TransactionDateTime": "2017-01-14 12:02:59"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 30.67,
+            "Tax": 2.15,
+            "Total": 32.82,
+            "TransactionDateTime": "2017-01-14 12:09:11"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 12:10:49"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 16.78,
+            "Tax": 1.17,
+            "Total": 17.95,
+            "TransactionDateTime": "2017-01-14 12:15:04"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 12:16:12"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 12:16:28"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 12.74,
+            "Tax": 0.89,
+            "Total": 13.63,
+            "TransactionDateTime": "2017-01-14 12:16:37"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 15.04,
+            "Tax": 1.05,
+            "Total": 16.09,
+            "TransactionDateTime": "2017-01-14 12:19:11"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 23.15,
+            "Tax": 1.62,
+            "Total": 24.77,
+            "TransactionDateTime": "2017-01-14 12:21:47"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 12:22:00"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 15.91,
+            "Tax": 1.11,
+            "Total": 17.02,
+            "TransactionDateTime": "2017-01-14 12:24:07"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 9.62,
+            "Tax": 0.67,
+            "Total": 10.29,
+            "TransactionDateTime": "2017-01-14 12:26:39"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 12:33:17"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 16.78,
+            "Tax": 1.17,
+            "Total": 17.95,
+            "TransactionDateTime": "2017-01-14 12:34:09"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 29.52,
+            "Tax": 2.07,
+            "Total": 31.59,
+            "TransactionDateTime": "2017-01-14 12:38:57"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 12:41:09"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 12.74,
+            "Tax": 0.89,
+            "Total": 13.63,
+            "TransactionDateTime": "2017-01-14 12:44:33"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 15.91,
+            "Tax": 1.11,
+            "Total": 17.02,
+            "TransactionDateTime": "2017-01-14 12:48:07"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 23.43,
+            "Tax": 1.64,
+            "Total": 25.07,
+            "TransactionDateTime": "2017-01-14 12:50:03"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 13.89,
+            "Tax": 0.97,
+            "Total": 14.86,
+            "TransactionDateTime": "2017-01-14 12:54:09"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 19.11,
+            "Tax": 1.34,
+            "Total": 20.45,
+            "TransactionDateTime": "2017-01-14 12:56:34"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 12:58:14"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 12:59:19"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 22.28,
+            "Tax": 1.56,
+            "Total": 23.84,
+            "TransactionDateTime": "2017-01-14 13:06:48"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 25.17,
+            "Tax": 1.76,
+            "Total": 26.93,
+            "TransactionDateTime": "2017-01-14 13:09:19"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 25.17,
+            "Tax": 1.76,
+            "Total": 26.93,
+            "TransactionDateTime": "2017-01-14 13:16:07"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 13:18:21"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 13:19:30"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 13:20:20"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 13:20:42"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 12.74,
+            "Tax": 0.89,
+            "Total": 13.63,
+            "TransactionDateTime": "2017-01-14 13:22:36"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 13:22:40"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 13:26:01"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 13.89,
+            "Tax": 0.97,
+            "Total": 14.86,
+            "TransactionDateTime": "2017-01-14 13:29:08"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 32.69,
+            "Tax": 2.29,
+            "Total": 34.98,
+            "TransactionDateTime": "2017-01-14 13:36:01"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 13:36:45"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 13:40:13"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 12.74,
+            "Tax": 0.89,
+            "Total": 13.63,
+            "TransactionDateTime": "2017-01-14 13:41:53"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 13:43:23"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 13:43:25"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 12.74,
+            "Tax": 0.89,
+            "Total": 13.63,
+            "TransactionDateTime": "2017-01-14 13:46:04"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 13:48:00"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 24.38,
+            "Tax": 1.71,
+            "Total": 26.09,
+            "TransactionDateTime": "2017-01-14 13:50:58"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 16.78,
+            "Tax": 1.17,
+            "Total": 17.95,
+            "TransactionDateTime": "2017-01-14 13:54:03"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 13:56:29"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 23.15,
+            "Tax": 1.62,
+            "Total": 24.77,
+            "TransactionDateTime": "2017-01-14 14:00:50"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 22.36,
+            "Tax": 1.57,
+            "Total": 23.93,
+            "TransactionDateTime": "2017-01-14 14:01:55"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 9.62,
+            "Tax": 0.67,
+            "Total": 10.29,
+            "TransactionDateTime": "2017-01-14 14:02:04"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 14:03:17"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 14:05:48"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 31.54,
+            "Tax": 2.21,
+            "Total": 33.75,
+            "TransactionDateTime": "2017-01-14 14:12:24"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 14:12:41"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 14:14:30"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 15.91,
+            "Tax": 1.11,
+            "Total": 17.02,
+            "TransactionDateTime": "2017-01-14 14:15:53"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 14:16:19"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 22.28,
+            "Tax": 1.56,
+            "Total": 23.84,
+            "TransactionDateTime": "2017-01-14 14:23:36"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 14:25:59"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 9.62,
+            "Tax": 0.67,
+            "Total": 10.29,
+            "TransactionDateTime": "2017-01-14 14:29:06"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 31.9,
+            "Tax": 2.23,
+            "Total": 34.13,
+            "TransactionDateTime": "2017-01-14 14:36:11"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 23.15,
+            "Tax": 1.62,
+            "Total": 24.77,
+            "TransactionDateTime": "2017-01-14 14:37:52"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 14:40:07"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 29.52,
+            "Tax": 2.07,
+            "Total": 31.59,
+            "TransactionDateTime": "2017-01-14 14:49:10"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 24.38,
+            "Tax": 1.71,
+            "Total": 26.09,
+            "TransactionDateTime": "2017-01-14 14:50:40"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 19.11,
+            "Tax": 1.34,
+            "Total": 20.45,
+            "TransactionDateTime": "2017-01-14 14:55:19"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 35.1,
+            "Tax": 2.46,
+            "Total": 37.56,
+            "TransactionDateTime": "2017-01-14 15:01:41"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 15:02:18"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 42.26,
+            "Tax": 2.96,
+            "Total": 45.22,
+            "TransactionDateTime": "2017-01-14 15:10:27"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 15:12:04"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 15:14:02"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 25.61,
+            "Tax": 1.79,
+            "Total": 27.4,
+            "TransactionDateTime": "2017-01-14 15:19:13"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 15:19:21"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 15:19:55"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 16.78,
+            "Tax": 1.17,
+            "Total": 17.95,
+            "TransactionDateTime": "2017-01-14 15:24:06"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 15:26:38"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 15:29:17"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 28.65,
+            "Tax": 2.01,
+            "Total": 30.66,
+            "TransactionDateTime": "2017-01-14 15:34:13"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 31.54,
+            "Tax": 2.21,
+            "Total": 33.75,
+            "TransactionDateTime": "2017-01-14 15:36:56"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 37.4,
+            "Tax": 2.62,
+            "Total": 40.02,
+            "TransactionDateTime": "2017-01-14 15:40:04"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 19.11,
+            "Tax": 1.34,
+            "Total": 20.45,
+            "TransactionDateTime": "2017-01-14 15:42:13"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 31.9,
+            "Tax": 2.23,
+            "Total": 34.13,
+            "TransactionDateTime": "2017-01-14 15:49:07"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 24.38,
+            "Tax": 1.71,
+            "Total": 26.09,
+            "TransactionDateTime": "2017-01-14 15:55:52"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 25.53,
+            "Tax": 1.79,
+            "Total": 27.32,
+            "TransactionDateTime": "2017-01-14 15:59:53"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 15:59:59"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 16:02:39"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 16:04:52"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 22.28,
+            "Tax": 1.56,
+            "Total": 23.84,
+            "TransactionDateTime": "2017-01-14 16:09:30"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 24.3,
+            "Tax": 1.7,
+            "Total": 26.0,
+            "TransactionDateTime": "2017-01-14 16:14:41"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 16:15:15"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 16:18:54"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 22.28,
+            "Tax": 1.56,
+            "Total": 23.84,
+            "TransactionDateTime": "2017-01-14 16:22:01"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 28.65,
+            "Tax": 2.01,
+            "Total": 30.66,
+            "TransactionDateTime": "2017-01-14 16:29:45"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 16:30:57"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 15.99,
+            "Tax": 1.12,
+            "Total": 17.11,
+            "TransactionDateTime": "2017-01-14 16:31:41"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 16:33:15"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 16:35:13"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 27.5,
+            "Tax": 1.93,
+            "Total": 29.43,
+            "TransactionDateTime": "2017-01-14 16:39:44"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 22.28,
+            "Tax": 1.56,
+            "Total": 23.84,
+            "TransactionDateTime": "2017-01-14 16:47:16"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 33.56,
+            "Tax": 2.35,
+            "Total": 35.91,
+            "TransactionDateTime": "2017-01-14 16:54:35"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 16:55:26"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 16:56:00"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 16:56:45"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 16:57:31"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 16:57:48"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 17:01:34"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 13.89,
+            "Tax": 0.97,
+            "Total": 14.86,
+            "TransactionDateTime": "2017-01-14 17:06:12"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 15.99,
+            "Tax": 1.12,
+            "Total": 17.11,
+            "TransactionDateTime": "2017-01-14 17:08:52"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 9.62,
+            "Tax": 0.67,
+            "Total": 10.29,
+            "TransactionDateTime": "2017-01-14 17:09:29"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 17:16:17"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 20.26,
+            "Tax": 1.42,
+            "Total": 21.68,
+            "TransactionDateTime": "2017-01-14 17:17:59"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 21.41,
+            "Tax": 1.5,
+            "Total": 22.91,
+            "TransactionDateTime": "2017-01-14 17:18:17"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 31.9,
+            "Tax": 2.23,
+            "Total": 34.13,
+            "TransactionDateTime": "2017-01-14 17:25:10"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 17:26:45"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 23.15,
+            "Tax": 1.62,
+            "Total": 24.77,
+            "TransactionDateTime": "2017-01-14 17:31:37"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 20.26,
+            "Tax": 1.42,
+            "Total": 21.68,
+            "TransactionDateTime": "2017-01-14 17:39:03"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 16.78,
+            "Tax": 1.17,
+            "Total": 17.95,
+            "TransactionDateTime": "2017-01-14 17:42:36"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 17.14,
+            "Tax": 1.2,
+            "Total": 18.34,
+            "TransactionDateTime": "2017-01-14 17:42:36"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 25.53,
+            "Tax": 1.79,
+            "Total": 27.32,
+            "TransactionDateTime": "2017-01-14 17:46:46"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 22.28,
+            "Tax": 1.56,
+            "Total": 23.84,
+            "TransactionDateTime": "2017-01-14 17:47:30"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 17:49:55"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 9.62,
+            "Tax": 0.67,
+            "Total": 10.29,
+            "TransactionDateTime": "2017-01-14 17:55:40"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 24.3,
+            "Tax": 1.7,
+            "Total": 26.0,
+            "TransactionDateTime": "2017-01-14 18:04:55"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 18:04:58"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 21.41,
+            "Tax": 1.5,
+            "Total": 22.91,
+            "TransactionDateTime": "2017-01-14 18:06:51"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 12.74,
+            "Tax": 0.89,
+            "Total": 13.63,
+            "TransactionDateTime": "2017-01-14 18:09:45"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 21.41,
+            "Tax": 1.5,
+            "Total": 22.91,
+            "TransactionDateTime": "2017-01-14 18:19:29"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 29.52,
+            "Tax": 2.07,
+            "Total": 31.59,
+            "TransactionDateTime": "2017-01-14 18:21:41"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 18:21:56"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 47.81,
+            "Tax": 3.35,
+            "Total": 51.16,
+            "TransactionDateTime": "2017-01-14 18:26:54"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 12.74,
+            "Tax": 0.89,
+            "Total": 13.63,
+            "TransactionDateTime": "2017-01-14 18:29:19"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 18:34:52"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 18:37:29"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 23.15,
+            "Tax": 1.62,
+            "Total": 24.77,
+            "TransactionDateTime": "2017-01-14 18:40:36"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 18.01,
+            "Tax": 1.26,
+            "Total": 19.27,
+            "TransactionDateTime": "2017-01-14 18:49:00"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 22.36,
+            "Tax": 1.57,
+            "Total": 23.93,
+            "TransactionDateTime": "2017-01-14 18:51:42"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 16.78,
+            "Tax": 1.17,
+            "Total": 17.95,
+            "TransactionDateTime": "2017-01-14 18:52:58"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 31.85,
+            "Tax": 2.23,
+            "Total": 34.08,
+            "TransactionDateTime": "2017-01-14 18:59:17"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 32.77,
+            "Tax": 2.29,
+            "Total": 35.06,
+            "TransactionDateTime": "2017-01-14 19:04:12"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 27.5,
+            "Tax": 1.93,
+            "Total": 29.43,
+            "TransactionDateTime": "2017-01-14 19:12:41"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 19:13:58"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 23.15,
+            "Tax": 1.62,
+            "Total": 24.77,
+            "TransactionDateTime": "2017-01-14 19:21:36"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 19:23:07"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 19:27:03"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 22.28,
+            "Tax": 1.56,
+            "Total": 23.84,
+            "TransactionDateTime": "2017-01-14 19:28:55"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 12.74,
+            "Tax": 0.89,
+            "Total": 13.63,
+            "TransactionDateTime": "2017-01-14 19:30:02"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 9.62,
+            "Tax": 0.67,
+            "Total": 10.29,
+            "TransactionDateTime": "2017-01-14 19:30:08"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 21.13,
+            "Tax": 1.48,
+            "Total": 22.61,
+            "TransactionDateTime": "2017-01-14 19:32:08"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 19:32:30"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 9.62,
+            "Tax": 0.67,
+            "Total": 10.29,
+            "TransactionDateTime": "2017-01-14 19:35:06"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 46.3,
+            "Tax": 3.24,
+            "Total": 49.54,
+            "TransactionDateTime": "2017-01-14 19:41:30"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 23.15,
+            "Tax": 1.62,
+            "Total": 24.77,
+            "TransactionDateTime": "2017-01-14 19:43:08"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 19:44:05"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 19:44:18"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 15.04,
+            "Tax": 1.05,
+            "Total": 16.09,
+            "TransactionDateTime": "2017-01-14 19:45:36"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 22.28,
+            "Tax": 1.56,
+            "Total": 23.84,
+            "TransactionDateTime": "2017-01-14 19:49:18"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 20.26,
+            "Tax": 1.42,
+            "Total": 21.68,
+            "TransactionDateTime": "2017-01-14 19:51:24"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 24.3,
+            "Tax": 1.7,
+            "Total": 26.0,
+            "TransactionDateTime": "2017-01-14 19:52:45"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 13.89,
+            "Tax": 0.97,
+            "Total": 14.86,
+            "TransactionDateTime": "2017-01-14 19:53:15"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 19:54:20"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 19:56:59"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 20:00:21"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 22.28,
+            "Tax": 1.56,
+            "Total": 23.84,
+            "TransactionDateTime": "2017-01-14 20:14:26"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 14.76,
+            "Tax": 1.03,
+            "Total": 15.79,
+            "TransactionDateTime": "2017-01-14 20:15:50"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 20:18:09"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 15.91,
+            "Tax": 1.11,
+            "Total": 17.02,
+            "TransactionDateTime": "2017-01-14 20:22:43"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 28.93,
+            "Tax": 2.03,
+            "Total": 30.96,
+            "TransactionDateTime": "2017-01-14 20:26:30"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 9.62,
+            "Tax": 0.67,
+            "Total": 10.29,
+            "TransactionDateTime": "2017-01-14 20:26:48"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 22.28,
+            "Tax": 1.56,
+            "Total": 23.84,
+            "TransactionDateTime": "2017-01-14 20:31:04"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 7.52,
+            "Tax": 0.53,
+            "Total": 8.05,
+            "TransactionDateTime": "2017-01-14 20:31:35"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 9.62,
+            "Tax": 0.67,
+            "Total": 10.29,
+            "TransactionDateTime": "2017-01-14 20:36:15"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 20:37:47"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 9.62,
+                    "ProductID": "19_1"
+                }
+            ],
+            "Subtotal": 44.64,
+            "Tax": 3.12,
+            "Total": 47.76,
+            "TransactionDateTime": "2017-01-14 20:47:12"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                }
+            ],
+            "Subtotal": 6.37,
+            "Tax": 0.45,
+            "Total": 6.82,
+            "TransactionDateTime": "2017-01-14 20:48:01"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 6.37,
+                    "ProductID": "16_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 13.89,
+            "Tax": 0.97,
+            "Total": 14.86,
+            "TransactionDateTime": "2017-01-14 20:49:05"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                },
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 25.17,
+            "Tax": 1.76,
+            "Total": 26.93,
+            "TransactionDateTime": "2017-01-14 20:51:20"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 8.39,
+                    "ProductID": "14_1"
+                }
+            ],
+            "Subtotal": 8.39,
+            "Tax": 0.59,
+            "Total": 8.98,
+            "TransactionDateTime": "2017-01-14 20:52:40"
+        },
+        {
+            "Products": [
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                },
+                {
+                    "Price": 7.52,
+                    "ProductID": "17_1"
+                }
+            ],
+            "Subtotal": 15.04,
+            "Tax": 1.05,
+            "Total": 16.09,
+            "TransactionDateTime": "2017-01-14 20:59:26"
+        }
+    ]
+}

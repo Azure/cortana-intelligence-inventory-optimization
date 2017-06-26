@@ -1,0 +1,234 @@
+REFERENCE ASSEMBLY [ExtPython];
+
+DECLARE @T int = 5;    // number of time periods
+DECLARE @period_length int = 7; // number of days in each time period
+DECLARE @now DateTime = DateTime.Now;
+DECLARE @last_day DateTime = @now.Add(new System.TimeSpan(@T * @period_length, 0, 0, 0));
+
+// Use internal database for transferring intermediate results between two USQL scripts
+
+CREATE DATABASE IF NOT EXISTS DynLotSizingDB; 
+USE DATABASE DynLotSizingDB;
+
+////////////////////////////////////////////////
+// Names of input and output directories 
+////////////////////////////////////////////////
+
+DECLARE @StaticDataFolder string = "/publicparameters/";
+DECLARE @DynamicDataFolder string = "/rawdata/";
+DECLARE @GlobalCSVFolder string = "/optimization/input_csv/";
+DECLARE @GlobalPolicyDir string = "/inventory_scripts/";
+
+DECLARE @policy_name string = "dynlotsizing";
+DECLARE @UsqlFolder string = @GlobalPolicyDir + @policy_name + "/";
+DECLARE @CSVFolder string = @GlobalCSVFolder + @policy_name + "/";
+
+////////////////////////////////////////////////
+// Names of input files
+////////////////////////////////////////////////
+
+DECLARE @ProductStorageFile = @StaticDataFolder + "store_product_storage.csv";
+DECLARE @InventoryFile string = @DynamicDataFolder + "inv_store{*}.csv";
+DECLARE @ProductsSuppliersFile string = @StaticDataFolder + "store_product_supplier.csv";
+DECLARE @DemandDir string = @DynamicDataFolder + "demand_forecasts/{*}/{*}/";
+DECLARE @DemandFiles string = @DemandDir + 
+                              "{ForecastDate:yyyy}-{ForecastDate:MM}-{ForecastDate:dd}_{ForecastDate:hh}_{ForecastDate:mm}_{ForecastDate:ss}.csv";
+
+/////////////////////////////////////////////
+// Load input files
+/////////////////////////////////////////////
+
+@product_storage =
+    EXTRACT StoreID                string,
+            StorageID              string,
+            ProductID              string,
+            StorageCost            float,
+            MissedSaleCost         float,
+            MinInventorySize       int,
+            MaxInventorySize       int
+    FROM @ProductStorageFile
+    USING Extractors.Csv(skipFirstNRows: 1); 
+
+@inventory = 
+    EXTRACT StoreID                string,
+            ProductID              string,
+            Timestamp              DateTime,
+            InventorySize          int,
+            ExpirationTime         DateTime
+    FROM @InventoryFile
+    USING Extractors.Csv(skipFirstNRows: 1); 
+
+@product_suppliers = 
+    EXTRACT StoreID                         string,
+            SupplierID                      string,
+            ProductID                       string,
+            LeadTime                        int,
+            LeadTimeConfidenceInterval      int,
+            MinOrderQuantity                int,
+            MaxOrderQuantity                int,
+            QuantityMultiplier              int,
+            PurchaseCost                    float,
+            BackorderCost                   float,
+            ShippingCost                    float,
+            PurchaseCostBudget              float,
+            OrderingFrequency               string,
+            ServiceLevel                    float
+    FROM @ProductsSuppliersFile
+    USING Extractors.Csv(skipFirstNRows: 1); 
+
+@predicted_demand = 
+    EXTRACT StoreID                         string,
+            ProductID                       string,
+            Timestamp                       DateTime,
+            PredictedDemand                 float,
+            PredictedDemandDistribution     string,
+            PredictedDemandVariance         float,
+            PredictedProbability            float,
+            ForecastDate                    DateTime
+    FROM @DemandFiles
+    USING Extractors.Csv(skipFirstNRows: 1); 
+
+/////////////////////////////////////////////////
+// Store storage costs in the database
+//////////////////////////////////////////////////
+
+DROP TABLE IF EXISTS dbo.ProductStorage;
+CREATE TABLE dbo.ProductStorage (
+    INDEX clx_StoreID CLUSTERED(StoreID ASC) 
+    DISTRIBUTED BY HASH (StoreID)
+) AS SELECT StoreID, ProductID, StorageCost FROM @product_storage;
+
+/////////////////////////////////////////////////
+// Store current inventory in the database
+/////////////////////////////////////////////////
+
+// Get current inventory
+
+@inventory = SELECT * FROM @inventory AS a WHERE Timestamp <= @now AND (@now - Timestamp).Days < 1;
+
+@inventory_storage = SELECT b.StoreID, b.ProductID, a.InventorySize ?? 0 AS InventorySize
+                     FROM @inventory AS a RIGHT OUTER JOIN @product_storage AS b
+                     ON a.ProductID == b.ProductID AND a.StoreID == b.StoreID;
+
+DROP TABLE IF EXISTS dbo.ProductInventory;
+CREATE TABLE dbo.ProductInventory (
+    INDEX clx_StoreID CLUSTERED(StoreID ASC) 
+    DISTRIBUTED BY HASH (StoreID)
+) AS SELECT StoreID, ProductID, InventorySize FROM @inventory_storage;
+
+///////////////////////////////////////////////////
+// Store shipping costs in the database
+///////////////////////////////////////////////////
+
+DROP TABLE IF EXISTS dbo.ProductShippingCost;
+CREATE TABLE dbo.ProductShippingCost (
+    INDEX clx_StoreID CLUSTERED(StoreID ASC) 
+    DISTRIBUTED BY HASH (StoreID)
+) AS SELECT StoreID, ProductID, ShippingCost FROM @product_suppliers;
+
+//////////////////////////////////////////////////////////////////////////////
+// Generate table of predicted demand
+//////////////////////////////////////////////////////////////////////////////
+
+// Auxiliary Python function for creating t indices
+
+DECLARE @myScript = @"
+import pandas as pd
+
+def usqlml_main(df):
+    return pd.DataFrame({'t': range(1,df.iat[0,0]+1)})
+";
+
+@t_indices = REDUCE (SELECT * FROM (VALUES(@T)) AS T([T])) ON [T]
+             PRODUCE t int 
+             USING new Extension.Python.Reducer(pyScript:@myScript);
+
+@last_forecast_time = SELECT StoreID, ProductID, Convert.ToDateTime(MAX(ForecastDate)) AS LastForecastDate 
+                      FROM @predicted_demand GROUP BY StoreID, ProductID;
+
+@latest_predicted_demand = SELECT a.StoreID, a.ProductID, Timestamp, PredictedDemand 
+                           FROM @predicted_demand AS a 
+                           JOIN @last_forecast_time AS b ON a.ProductID == b.ProductID AND a.StoreID == b.StoreID 
+                                                        AND ForecastDate == LastForecastDate
+                           WHERE Timestamp BETWEEN @now AND @last_day;
+
+@latest_predicted_demand_time_period = SELECT StoreID, ProductID, PredictedDemand, t 
+                                       FROM @latest_predicted_demand AS a CROSS JOIN @t_indices AS b 
+                                       WHERE Timestamp BETWEEN @now.Add(new System.TimeSpan((b.t - 1) * @period_length, 0, 0, 0))
+                                       AND @now.Add(new System.TimeSpan(b.t * @period_length, 0, 0, 0));
+
+@latest_predicted_demand_aggregated_init = SELECT StoreID, ProductID, t, SUM(PredictedDemand) AS demand
+                                           FROM @latest_predicted_demand_time_period GROUP BY StoreID, ProductID, t;
+
+// if the input data has forecasts for less than @T * @period_length days
+// add rows with predicted demand to @latest_predicted_demand_aggregated 
+
+@last_t = SELECT StoreID, ProductID, Convert.ToInt32(MAX(t)) AS t FROM @latest_predicted_demand_aggregated_init
+          GROUP BY StoreID, ProductID;
+
+@last_known_demand = SELECT a.StoreID, a.ProductID, demand FROM @latest_predicted_demand_aggregated_init AS a 
+                     JOIN @last_t AS b ON a.ProductID == b.ProductID AND a.StoreID == b.StoreID AND a.t == b.t;
+
+@last_known_demand_t = SELECT StoreID, ProductID, demand, t FROM @last_known_demand CROSS JOIN @t_indices;
+
+@latest_predicted_demand_aggregated = SELECT b.StoreID, b.ProductID, a.demand ?? b.demand AS demand, b.t 
+                                      FROM @latest_predicted_demand_aggregated_init AS a 
+                                      RIGHT OUTER JOIN @last_known_demand_t AS b ON a.ProductID == b.ProductID AND a.StoreID == b.StoreID AND a.t == b.t; 
+
+DROP TABLE IF EXISTS dbo.PredictedDemand;
+CREATE TABLE dbo.PredictedDemand (
+    INDEX clx_ProductID CLUSTERED(ProductID ASC) 
+    DISTRIBUTED BY HASH (ProductID)
+) AS SELECT * FROM @latest_predicted_demand_aggregated;
+
+/////////////////////////////////////////////////////////////////////////////
+// Generate second USQL script that will create CSV files for all stores
+/////////////////////////////////////////////////////////////////////////////
+
+// Get IDs of all stores and products sold in them
+
+@store_product_ids = SELECT StoreID, ProductID FROM @product_storage;
+
+@stmts = 
+    SELECT * FROM (VALUES (1,"USE DATABASE DynLotSizingDB;")) AS i(id, output)
+    UNION ALL        
+    SELECT 2 AS id, "OUTPUT (SELECT StorageCost AS [h] FROM dbo.ProductStorage WHERE StoreID == \"" + StoreID + 
+                             "\" AND ProductID == \"" + ProductID + "\") " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID +
+           "/dynlotsizing_1_P_0_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids
+    UNION ALL
+    SELECT 3 AS id, "OUTPUT (SELECT InventorySize AS init_inventory FROM dbo.ProductInventory WHERE StoreID == \"" + StoreID + 
+                             "\" AND ProductID == \"" + ProductID + "\") " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID +
+           "/dynlotsizing_2_P_0_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids
+    UNION ALL
+    SELECT 4 AS id, "OUTPUT (SELECT ShippingCost AS [K] FROM dbo.ProductShippingCost WHERE StoreID == \"" + StoreID +
+                             "\" AND ProductID == \"" + ProductID + "\") " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID +
+           "/dynlotsizing_3_P_0_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids
+    UNION ALL
+    SELECT 5 AS id, "OUTPUT (SELECT [T] FROM (VALUES(" + @T + ")) AS T([T])) " +
+           "TO \"" + @CSVFolder + StoreID + "/" + ProductID +
+           "/dynlotsizing_4_P_0_" + StoreID + "_" + ProductID +
+           ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids
+    UNION ALL
+    SELECT 6 AS id, "OUTPUT (SELECT t, demand FROM dbo.PredictedDemand WHERE StoreID == \"" + StoreID + 
+                             "\" AND ProductID == \"" + ProductID + "\") " +
+                    "TO \"" + @CSVFolder + StoreID + "/" + ProductID +
+                    "/dynlotsizing_5_P_1_" + StoreID + "_" + ProductID +
+                    ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_product_ids;
+
+// Write USQL commands to the second script
+
+DECLARE @outfile string = @UsqlFolder + "genscript_dynlotsizing.usql";
+
+OUTPUT (SELECT output FROM @stmts ORDER BY id ASC OFFSET 0 ROWS) TO @outfile 
+USING Outputters.Text(delimiter: ' ', quoting: false);

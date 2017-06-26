@@ -1,0 +1,238 @@
+{
+    "InventoryDateTime": "2017-01-10 00:00:00",
+    "Products": [
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [],
+            "Losses": 0,
+            "ProductID": "1_1",
+            "Sales": 0,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [
+                {
+                    "ExpiryDateTime": "2017-01-10 07:00:00",
+                    "Units": 39
+                }
+            ],
+            "Losses": 0,
+            "ProductID": "2_1",
+            "Sales": 28,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [
+                {
+                    "ExpiryDateTime": "2017-01-11 07:00:00",
+                    "Units": 550
+                }
+            ],
+            "Losses": 0,
+            "ProductID": "3_1",
+            "Sales": 1817,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [],
+            "Losses": 0,
+            "ProductID": "4_1",
+            "Sales": 0,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [],
+            "Losses": 0,
+            "ProductID": "5_1",
+            "Sales": 42,
+            "Spoilages": 218
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [],
+            "Losses": 0,
+            "ProductID": "6_1",
+            "Sales": 0,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [
+                {
+                    "ExpiryDateTime": "2017-01-11 07:00:00",
+                    "Units": 237
+                },
+                {
+                    "ExpiryDateTime": "2017-01-11 07:00:00",
+                    "Units": 657
+                },
+                {
+                    "ExpiryDateTime": "2017-01-11 07:00:00",
+                    "Units": 657
+                }
+            ],
+            "Losses": 0,
+            "ProductID": "7_1",
+            "Sales": 173,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [
+                {
+                    "ExpiryDateTime": "2017-01-10 07:00:00",
+                    "Units": 949
+                },
+                {
+                    "ExpiryDateTime": "2017-01-10 07:00:00",
+                    "Units": 2805
+                },
+                {
+                    "ExpiryDateTime": "2017-01-10 07:00:00",
+                    "Units": 2805
+                }
+            ],
+            "Losses": 0,
+            "ProductID": "8_1",
+            "Sales": 877,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [
+                {
+                    "ExpiryDateTime": "2017-01-11 07:00:00",
+                    "Units": 77
+                }
+            ],
+            "Losses": 0,
+            "ProductID": "9_1",
+            "Sales": 203,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [
+                {
+                    "ExpiryDateTime": "2017-01-11 07:00:00",
+                    "Units": 130
+                },
+                {
+                    "ExpiryDateTime": "2017-01-11 07:00:00",
+                    "Units": 187
+                },
+                {
+                    "ExpiryDateTime": "2017-01-11 07:00:00",
+                    "Units": 187
+                }
+            ],
+            "Losses": 0,
+            "ProductID": "10_1",
+            "Sales": 31,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [],
+            "Losses": 0,
+            "ProductID": "11_1",
+            "Sales": 655,
+            "Spoilages": 5712
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [],
+            "Losses": 0,
+            "ProductID": "12_1",
+            "Sales": 34,
+            "Spoilages": 527
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [],
+            "Losses": 0,
+            "ProductID": "13_1",
+            "Sales": 0,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [],
+            "Losses": 0,
+            "ProductID": "14_1",
+            "Sales": 0,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [],
+            "Losses": 0,
+            "ProductID": "15_1",
+            "Sales": 0,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [
+                {
+                    "ExpiryDateTime": "2044-05-23 07:00:00",
+                    "Units": 305
+                },
+                {
+                    "ExpiryDateTime": "2044-05-23 07:00:00",
+                    "Units": 720
+                },
+                {
+                    "ExpiryDateTime": "2044-05-23 07:00:00",
+                    "Units": 720
+                }
+            ],
+            "Losses": 0,
+            "ProductID": "16_1",
+            "Sales": 274,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [],
+            "Losses": 0,
+            "ProductID": "17_1",
+            "Sales": 0,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [],
+            "Losses": 0,
+            "ProductID": "18_1",
+            "Sales": 0,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [
+                {
+                    "ExpiryDateTime": "2044-05-22 07:00:00",
+                    "Units": 1001
+                }
+            ],
+            "Losses": 0,
+            "ProductID": "19_1",
+            "Sales": 2646,
+            "Spoilages": 0
+        },
+        {
+            "Arrivals": 0,
+            "CurrentInventory": [],
+            "Losses": 0,
+            "ProductID": "20_1",
+            "Sales": 907,
+            "Spoilages": 6193
+        }
+    ],
+    "StoreID": 3
+}

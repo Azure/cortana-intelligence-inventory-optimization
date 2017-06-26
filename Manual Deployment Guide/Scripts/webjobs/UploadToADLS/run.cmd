@@ -1,1 +1,1 @@
-D:\home\Python35\python.exe upload_scripts.py
+D:\home\Python35\python.exe uploadToADLS.py

@@ -1,0 +1,86 @@
+{
+    "PriceDate": "2017-01-06 00:00:00",
+    "PriceUpdates": [
+        {
+            "Price": 5.14,
+            "ProductID": "1_1"
+        },
+        {
+            "Price": 18.74,
+            "ProductID": "2_1"
+        },
+        {
+            "Price": 13.18,
+            "ProductID": "3_1"
+        },
+        {
+            "Price": 1.18,
+            "ProductID": "4_1"
+        },
+        {
+            "Price": 10.69,
+            "ProductID": "5_1"
+        },
+        {
+            "Price": 1.91,
+            "ProductID": "6_1"
+        },
+        {
+            "Price": 4.06,
+            "ProductID": "7_1"
+        },
+        {
+            "Price": 2.49,
+            "ProductID": "8_1"
+        },
+        {
+            "Price": 11.82,
+            "ProductID": "9_1"
+        },
+        {
+            "Price": 16.2,
+            "ProductID": "10_1"
+        },
+        {
+            "Price": 10.75,
+            "ProductID": "11_1"
+        },
+        {
+            "Price": 6.32,
+            "ProductID": "12_1"
+        },
+        {
+            "Price": 24.73,
+            "ProductID": "13_1"
+        },
+        {
+            "Price": 17.36,
+            "ProductID": "14_1"
+        },
+        {
+            "Price": 17.45,
+            "ProductID": "15_1"
+        },
+        {
+            "Price": 13.81,
+            "ProductID": "16_1"
+        },
+        {
+            "Price": 5.53,
+            "ProductID": "17_1"
+        },
+        {
+            "Price": 20.58,
+            "ProductID": "18_1"
+        },
+        {
+            "Price": 3.11,
+            "ProductID": "19_1"
+        },
+        {
+            "Price": 5.2,
+            "ProductID": "20_1"
+        }
+    ],
+    "StoreID": 6
+}
