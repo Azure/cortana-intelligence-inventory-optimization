@@ -8,7 +8,7 @@ Data scientists and developers will tailor this solution to business goals and c
 ## Solution Architecture
 In this session, we provide more details about how the above solution is operationalized in Cortana Intelligence Suite. The figure below describes the solution architecture.
 
-![](https://github.com/Azure/cortana-intelligence-inventory-optimization/tree/master/Manual%20Deployment%20Guide/Figures/SolutionArchitecture.png)
+![](https://github.com/Azure/cortana-intelligence-inventory-optimization/blob/master/Manual%20Deployment%20Guide/Figures/SolutionArchitecture.png)
 
 ### What's Under the Hood
 - **Data source**: The data in this solution is generated using a data simulator, including demand forecasting, inventory level, and sales data. These simulated data are saved on Azure Data Lake Store. 
