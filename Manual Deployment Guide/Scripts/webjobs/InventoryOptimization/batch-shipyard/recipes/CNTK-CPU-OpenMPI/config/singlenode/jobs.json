@@ -1,0 +1,14 @@
+{
+    "job_specifications": [
+        {
+            "id": "cntkjob",
+            "tasks": [
+                {
+                    "image": "alfpark/cntk:2.0beta4-cpu-openmpi-refdata",
+                    "remove_container_after_exit": true,
+                    "command": "/bin/bash -c \"/cntk/build-mkl/cpu/release/bin/cntk configFile=/cntk/Examples/Image/Classification/ConvNet/BrainScript/ConvNet_MNIST.cntk rootDir=. dataDir=/cntk/Examples/Image/DataSets/MNIST\""
+                }
+            ]
+        }
+    ]
+}
