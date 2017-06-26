@@ -19,6 +19,23 @@ In this section, we provide more details about how the above solution is operati
 - **Visualize**: A PowerBI Dashboard is used to visualize inventory policy performance and inventory level. 
 
 ## Solution Dashboard
+Below is a snapshot of the Power BI dashboard that visualizes the results and relevant information of this inventory optimization solution. 
+
+![Power BI Dashboard Snapshot](https://github.com/Azure/cortana-intelligence-inventory-optimization/blob/master/Manual%20Deployment%20Guide/Figures/PowerBI_Dashboard.png)
+
+The dashboard contains four parts:
+
+1. **Inventory Management Policies**: shows the inventory optimization policies that have been created, 
+with Active Flag indicating which policy is active and Sim as a baseline policy to be compared with the
+active policies. 
+
+2. **Evaluation Metrics**: presents the evaluation metrics of inventory optimization, including Normalized 
+Revenue (NR), Total Revenue (TR), Number of Stockout Events (NSE), and Turnover Ratio (TOR). 
+
+3. **Inventory Level**: shows the inventory level aggregated over all the products of a specific set of stores 
+at the end of each day.   
+
+4. **Store Information**: shows the information of the stores which have been simulated in this solution.
 
 ## Getting Started
 This Solution How-To Guide contains materials to help both technical and business audiences understand our inventory optimization solution built on [Cortana Intelligence](https://www.microsoft.com/en-us/server-cloud/cortana-intelligence-suite/Overview.aspx).
