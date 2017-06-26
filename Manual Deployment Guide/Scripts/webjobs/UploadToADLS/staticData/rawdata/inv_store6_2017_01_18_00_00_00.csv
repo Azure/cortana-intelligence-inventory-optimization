@@ -1,0 +1,3 @@
+StoreID,ProductID,InventoryDateTime,Units,ExpiryDateTime
+6,13_1,2017-01-18 00:00:00,17,2017-01-18 07:00:00
+6,14_1,2017-01-18 00:00:00,119,2044-05-23 07:00:00
