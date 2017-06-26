@@ -5,6 +5,7 @@
 - [Architecture](#architecture)
 - [Setup Steps](#setup-steps)
 - [Validation and Results](#validation-and-results)
+- [Inventory Optimization Website](#inventory-optimization-website)
 - [Delete the Solution](#delete-the-solution)
 
 ## Abstract
@@ -25,6 +26,8 @@ You will need the following accounts and software to create this solution:
 
 ## Architecture
 ![](Figures/SolutionArchitecture.png)
+  *<center> Figure 1. Inventory Optimization Architecture </center>*
+
 
 The figure above shows the overall architecture of the Inventory Optimization Solution. Below is a brief introduction of each component. 
 - **Data Source**: The data in this solution is generated using a data simulator, including demand forecasting, inventory level, and sales data.
@@ -333,7 +336,62 @@ We will create a **Main** web job that invokes the other web jobs once every hou
 7) Enter 0 0 * * * * as the **CRON Expression**
 8) Click **OK** at the bottom of the **Add WebJob** blade.
 9) Wait until you see a notification saying "WebJob has been added" in the portal.
-10) Return to the **WebJobs** blade, click **Refresh** at the top until you see the ***Main*** web job.      
+10) Return to the **WebJobs** blade, click **Refresh** at the top until you see the ***Main*** web job.
+
+For details of the function of each web job, please see the **Solution Overview** section in the **Technical Guide.pdf**.     
+
+### 11. Set up PowerBI Dashboard
+We have designed a Power BI dashboard to visualize relevant information of the inventory optimization. 
+The Power BI file of the dashboard named *InventoryOptimizationDashboard.pbix* can be found in the Power 
+BI directory. First, you need to open the file by double clicking. The figure below 
+is what you will see after opening the file.
+
+![Dashboard with Prepopulated Data](Figures/open_dashboard.png)
+*<center> Figure 2. Power BI Dashboard with Prepopulated Data </center>*
+
+The dashboard is prepopulated with default data so that you could have a quick glance at the results of
+the solution. Next, you will need to take the following steps to configure the dashboard:
+
+- On the rightmost panel named *Fields*, right click the table named *InventoryLevel* and select *Edit 
+Query*. You will see the following 
+
+  ![Edit Data Source of InventoryLevel Table](Figures/edit_query_inventory_level.png)
+  *<center> Figure 3. Edit Data Source of InventoryLevel Table </center>*
+
+  Then, click *Source* under the *APPLIED STEPS* on the right side and enter the URL of your inventory table
+
+  ![Edit the URL of InventoryLevel Table](Figures/edit_url_inventory_level.png)
+  *<center> Figure 4. Edit the URL of InventoryLevel Table </center>*
+  
+  adl://[ADL_Name].azuredatalakestore.net/orders/inventory.csv
+
+  where you need to replace the [ADL_Name] with the name of the Azure Data Lake store that you have chosen, and click *OK*.
+
+  Next, sign in to your Azure account by clicking *Sign 
+  in* in the pop-up window below
+
+  ![Enter Azure Credentials](Figures/enter_credentials.png)
+  *<center> Figure 5. Enter Azure Credentials </center>*
+
+  After that, click the button *Connect* to connect to the data source. 
+
+- On the rightmost panel of Figure 3, right click the table named *InventoryPolicy* and select 
+*Edit Query*. Change the URL of the table to 
+adl://[ADL_Name].azuredatalakestore.net/orders/inventory.csv
+
+- Similarly, right click the table named *Metric* and *MetricExtended_InventoryLevel*. Then, select 
+*Edit Query* and change the URL of these two tables to 
+adl://[ADL_Name].azuredatalakestore.net/orders/metric_test.csv
+
+- Right click the table named *StoreInfo* and select *Edit Query* to change the URL of the table to
+adl://[ADL_Name].azuredatalakestore.net/publicparameters/stores.csv
+
+- Right click the table named *SummaryMetric* and select *Edit Query* to change the URL of the table to
+adl://[ADL_Name].azuredatalakestore.net/orders/summary_metric_test.csv
+
+After the above steps, you should be able to see the recent results gradually show up in the dashboard by clicking the **Refresh** button above the dashboard. 
+
+For details of the Power BI dashboard content, please see the **Power BI Visualization Guide** section in the **Technical Guide.pdf**
 
 ## Validation and Results
 
@@ -359,7 +417,7 @@ The ***InventoryOptimization*** and ***GenerateOrder*** web jobs submit U-SQL jo
 
 **Check output in Azure Data Lake Store**
 - Navigate to your resource group and select the **Data Lake Store** we created earlier.
-- Click on **Data Explorer**. Below is a summary of the ADLS data and result folders. Please see the TechnicalGuide.pdf for more details of ADLS directory structure. 
+- Click on **Data Explorer**. Below is a summary of the ADLS data and result folders. Please see the Technical Guide.pdf for more details of ADLS directory structure. 
   - rawdata: inventory level(inv_* ), prices(pc_* ), sales(sales_*), demand forecasting(demand_forecasts folder) data generated by the ***Simulator*** web job. If you don't see any data in this folder after the first run of the ***Simulator*** web job,check the web job log.
   - optimzation: results and logs of ***InventoryOptimization*** web job. The log folder contains Azure Batch job task logs. 
 
@@ -367,8 +425,81 @@ The ***InventoryOptimization*** and ***GenerateOrder*** web jobs submit U-SQL jo
     
     output_csv: Optimization results generated by Azure Batch jobs submitted by the ***InventoryOptimization*** we job. If you don't see any results in this folder after the first run of the ***InventoryOptimization*** web job, check the Azure Batch logs in the log folder under the optimization directory in case of any failure with solving optimization problems. If the log folder is also empty, check the web job log. 
     
-  - orders: orders generated by the baseline policy(Sim) and ***GenerateOrder*** web job for the other policies. If you don't see any data in this folder after the first run of the ***GenerateOrder*** web job, check the web job log. The metric.csv file is the performance metrics of the inventory policies visualized in the PowerBI dashboard. This file is populated by the ***Evaluation*** web job. It may take a few hours for it to get populated. 
+  - orders: orders generated by the baseline policy(Sim) and ***GenerateOrder*** web job for the other policies. If you don't see any data in this folder after the first run of the ***GenerateOrder*** web job, check the web job log. The metric_test.csv file is the performance metrics of the inventory policies visualized in the PowerBI dashboard. This file is populated by the ***Evaluation*** web job. It may take a few hours for it to get populated. 
   - webjob_log: logs of ***InventoryOptimization*** and ***GenerateOrder*** web jobs.The file LastSimulationDatetime.txt is used by the ***Main*** web job to keep track of the simulation date time. 
+
+## Inventory Optimization Website
+
+The purpose of this section is to guide you through the instructions to deploy the inventory optimization website. The purpose of this website is to allow Store Manages to access/review the suggested optimize inventory orders and update the optimization engine configurations
+
+### Requirements
+
+You will need the following accounts and software to create this solution:
+
+-   A [Microsoft Azure subscription](https://azure.microsoft.com/)
+
+-   A network connection
+
+-   [Microsoft Visual Studios](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15)
+
+
+### A. Install Visual Studios 
+
+> Note: We will be installing Visual Studio Community edition 2015. If you have it already or have Visual Studio Professional 2015(or above), you can go to the Step B.
+
+- 1. Download the installer for VS Community Edition [here](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15)
+
+- 2. Run the installer. In sometime, it will ask to select the workloads. Select **Python Development**
+
+- 3. Click Install.
+
+### B. Run Inventory Optimization Website
+
+In this section, we will collect the credentials which the website will need to access data on DataLake Store and then deploy the website.
+
+#### 1. Collect Credentials for DataLake Store Access and Update the Website with this 
+
+ Here, we will collect the credentials of Service Principal(Client ID & Client Secret), DataLake Store name and Tenant Id. As you have deployed the solution, you should already have this information. You can access this information again by going to the Application Settings of the Web App(In case of manual deployment) or Azure Functions(in case of automated deployment).
+
+- 1. Download the [inventoryoptimizationwebsite.zip]() and unzip it
+
+- 5. Browse to the unzipped file to inventoryoptimizationwebsite\inventoryoptimizationwebsite\inventoryoptimizationwebsite and open **views.py** under inventoryoptimizationwebsite project
+
+- 6. Update the value for variables on line 49 - 52 in views.py. Replace the text between ' ' with the value of each variable.  
+
+```
+adl_name = '<DATALAKESTORE_NAME>'
+tenant_id = '<TENANT_ID>'
+client_id = '<CLIENT_ID>'
+client_secret = '<CLIENT_SECRET>'
+```
+
+- 7. Save and close the file.
+
+#### 2. Publish Web Site to Azure Web App Server
+
+- 1. Open the Visual Studios. On the right top corner, click **Sign In**. Provide your azure subscription(portal.microsoft.com) credentials.  
+
+- 2. Go to file -> Open -> Project/Solution.
+
+- 3. Browse to the folder where you unzipped the inventoryoptimizationwebsite and open **inventoryoptimizationwebsite.sln**.
+
+- 4. If the poject fails to load, just right click on the Solution Explorer area and click on build. It will load the project.
+
+- 5. Right click on the [PY]inventoryoptimizationwebsite and select publish.
+
+- 6. In the new open page, click **Create new profile**. Select **Microsoft Azure App Service** and click **OK**.
+
+- 7. Provide following information in the newly opened window:
+    - Web App Name: <Name for the web app server which will host the website>
+    - Subscription: <Select the same subscription in which you have deployed this solution>
+    - Resource Group: <Select the resource group which you created for this solution>
+    - App Service Plan: <Select the app service plan which is available in the Resource Group of this solution>
+
+![](Figures/websiteCreateProfile.png)
+
+- 8. Click **Create**. This will publish the website to the Web App server and open the website for you. You can also access the website with following url: https://<webapp server name>.azurewebsites.net/
+
 
 ## Delete the Solution
 If you want to delete the solution, select the resource group ***inventoryopt[UI][N]_resourcegroup***, click on **Delete** at the top of the new opened blade. Confirm the resource group name and click **Delete** at the bottom of this blade.

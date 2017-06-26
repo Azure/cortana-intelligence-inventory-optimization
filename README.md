@@ -1,12 +1,12 @@
 # Inventory Optimization - A Cortana Intelligence Solution How-To Guide
 Inventory management is one of the central problems in retail. Frequently inventory managers need to decide how many items of each product they need to order from suppliers. A manual ordering of products cannot scale to thousands of products and cannot take into account changing demands and many business constraints and costs. Existing inventory optimization systems are not scalable enough to meet the requirements of large retailers. Also, these systems are not flexible enough and cannot incorporate important business goals and constraints. 
 
-In this Solution How-To Guide, we develop a cloud-based, scalable, and flexible inventory optimization solution. To scale up for hundreds of thousands of store and product combinations,  we use [Azure Data Lake Analytics](https://azure.microsoft.com/en-us/services/data-lake-analytics/) for data processing and [Azure Batch](https://azure.microsoft.com/en-us/services/batch/) for solving optimization problems in parallel. We provide scripts for eight commonly used inventory optimization policies. These scripts can be customized for a specific retailer and new policies can be added by providing a few scripts. We inlcuded [Bonmin](https://projects.coin-or.org/Bonmin), an open-source solver for general MINLP (Mixed Integer NonLinear Programming) problems, in a Docker image. Additional open-source solvers (e.g. [MIPCL](http://www.mipcl-cpp.appspot.com/)) and commercial solvers like Gurobi can be easily incorporated into this Docker image. For details of the inventory policies included and instructions on how to customize this solution, please refer to the TechnicalGuide.pdf. 
+In this Solution How-To Guide, we develop a cloud-based, scalable, and flexible inventory optimization solution. To scale up for hundreds of thousands of store and product combinations,  we use [Azure Data Lake Analytics](https://azure.microsoft.com/en-us/services/data-lake-analytics/) for data processing and [Azure Batch](https://azure.microsoft.com/en-us/services/batch/) for solving optimization problems in parallel. We provide scripts for eight commonly used inventory optimization policies. These scripts can be customized for a specific retailer and new policies can be added by providing a few scripts. We included [Bonmin](https://projects.coin-or.org/Bonmin), an open-source solver for general MINLP (Mixed Integer NonLinear Programming) problems, in a Docker image. Additional open-source solvers (e.g. [MIPCL](http://www.mipcl-cpp.appspot.com/)) and commercial solvers like Gurobi can be easily incorporated into this Docker image. For details of the inventory policies included and instructions on how to customize this solution, please refer to the TechnicalGuide.pdf. 
 
 Data scientists and developers will tailor this solution to business goals and constraints of big retailers and will build custom large-scale inventory optimization systems on top of it. These systems will speed up the ordering process and will improve widely used inventory management business metrics (e.g. normalized revenue per day and inventory turnover). 
 
 ## Solution Architecture
-In this session, we provide more details about how the above solution is operationalized in Cortana Intelligence Suite. The figure below describes the solution architecture.
+In this section, we provide more details about how the above solution is operationalized in Cortana Intelligence Suite. The figure below describes the solution architecture.
 
 ![](https://github.com/Azure/cortana-intelligence-inventory-optimization/blob/master/Manual%20Deployment%20Guide/Figures/SolutionArchitecture.png)
 
@@ -19,6 +19,23 @@ In this session, we provide more details about how the above solution is operati
 - **Visualize**: A PowerBI Dashboard is used to visualize inventory policy performance and inventory level. 
 
 ## Solution Dashboard
+Below is a snapshot of the Power BI dashboard that visualizes the results and relevant information of this inventory optimization solution. 
+
+![Power BI Dashboard Snapshot](https://github.com/Azure/cortana-intelligence-inventory-optimization/blob/master/Manual%20Deployment%20Guide/Figures/PowerBI_Dashboard.png)
+
+The dashboard contains four parts:
+
+1. **Inventory Management Policies**: shows the inventory optimization policies that have been created, 
+with Active Flag indicating which policy is active and Sim as a baseline policy to be compared with the
+active policies. 
+
+2. **Evaluation Metrics**: presents the evaluation metrics of inventory optimization, including Normalized 
+Revenue (NR), Total Revenue (TR), Number of Stockout Events (NSE), and Turnover Ratio (TOR). 
+
+3. **Inventory Level**: shows the inventory level aggregated over all the products of a specific set of stores 
+at the end of each day.   
+
+4. **Store Information**: shows the information of the stores which have been simulated in this solution.
 
 ## Getting Started
 This Solution How-To Guide contains materials to help both technical and business audiences understand our inventory optimization solution built on [Cortana Intelligence](https://www.microsoft.com/en-us/server-cloud/cortana-intelligence-suite/Overview.aspx).
