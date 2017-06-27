@@ -7,10 +7,10 @@ import string
 from azure.datalake.store import core, lib, multithread
 
 import sys, subprocess, time
-import numpy
 import pandas as pd
 from datetime import datetime
 from pyomo.environ import *
+import numpy
 import scipy
 import logging
 
@@ -21,7 +21,7 @@ logger.setLevel(logging.DEBUG)
 
 def download_from_adls(adl, short_filename, filename):
     download_succeeded = False
-    for i in arange(n_download_retries):
+    for i in range(n_download_retries):
         try:
             multithread.ADLDownloader(adl, lpath = short_filename, rpath = filename, overwrite=True)
         except BaseException as e:
