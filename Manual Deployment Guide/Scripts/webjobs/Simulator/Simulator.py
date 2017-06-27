@@ -1,4 +1,4 @@
-#Data simulator for Inventory Optimization Solution How-to
+﻿#Data simulator for Inventory Optimization Solution How-to
 
 #
 # Copyright © Microsoft Corporation (“Microsoft”).
@@ -912,12 +912,16 @@ class Store:
         self.orders['Quantity'] = self.orders['Quantity'].astype(int)
         self.orders['ConfidenceInterval'] = self.orders['ConfidenceInterval'].astype(int)
         grouped = self.orders.groupby('PolicyName')
+        conf = self.description.configurations
+
         for name, group in grouped:
-            orders_file_name = self.description.hierarchy['OrdersFolder'] + '/' + str(name) + '/orders_' + str(self.store_id) + '.csv'
+
+            directory_name = conf.loc[conf['InventoryPolicyName'] == str(name),'DirectoryName'].iat[0]
+            orders_file_name = self.description.hierarchy['OrdersFolder'] + '/' + str(directory_name) + '/orders_' + str(self.store_id) + '.csv'
             with self.adl.open(orders_file_name, 'wb') as f:
                 f.write(group.to_csv(index=False).encode('utf-8'))
 
-            partial_orders_file_name = self.description.hierarchy['OrdersFolder'] + '/' + str(name) + '/partial_orders_' + str(self.store_id) + '.csv'
+            partial_orders_file_name = self.description.hierarchy['OrdersFolder'] + '/' + str(directory_name) + '/partial_orders_' + str(self.store_id) + '.csv'
             if self.adl.exists(partial_orders_file_name):
                 if n_orig_orders < self.orders.shape[0]:
                     new_orders_all = self.orders.iloc[n_orig_orders:self.orders.shape[0]]
