@@ -7,21 +7,6 @@ DECLARE @current_time string = DateTime.Now.ToString();
 CREATE DATABASE IF NOT EXISTS SQPerishableOrderDB ;
 USE DATABASE SQPerishableOrderDB;
 
-CREATE TABLE IF NOT EXISTS dbo.Orders
-(
-    InventoryPolicyName string,
-    StoreID string,
-    ProductID string,
-    SupplierID string,
-    Quantity int,
-    OrderTimestamp DateTime,
-    [ETA] DateTime,
-    ConfidenceInterval int,
-    Fulfilled bool,
-    INDEX clx_StoreID CLUSTERED(StoreID ASC) 
-)
-DISTRIBUTED BY HASH(StoreID);
-
 ////////////////////////////////////////////////
 // Names of input files
 ////////////////////////////////////////////////
@@ -40,12 +25,26 @@ DECLARE @SolutionDir string = @SolutionsCSVFolder + @policy_dir + "/{StoreID}/{P
 DECLARE @SolutionFiles string = @SolutionDir +  @policy_name + "_" +  
                                 "{SolutionDate:yyyy}{SolutionDate:MM}{SolutionDate:dd}{SolutionDate:HH}{SolutionDate:mm}.csv";
 DECLARE @ProductsSuppliersFile string = @StaticDataFolder + "store_product_supplier.csv";
+DECLARE @OrdersFiles string = @OrdersFolder + @policy_dir + "/orders_{*}.csv";
 DECLARE @PartialOrdersFiles string = @OrdersFolder + @policy_dir + "/partial_orders_{*}.csv";
 DECLARE @InventoryFiles string = @RawDataFolder + "inv_store{*}.csv";
 
 /////////////////////////////////////////////
 // Load solutions
 /////////////////////////////////////////////
+
+@previous_orders = 
+    EXTRACT  InventoryPolicyName string,
+             StoreID string,
+             ProductID string,
+             SupplierID string,
+             Quantity int,
+             OrderTimestamp DateTime,
+             [ETA] DateTime,
+             ConfidenceInterval int,
+             Fulfilled bool
+    FROM @OrdersFiles
+    USING Extractors.Csv(skipFirstNRows: 1); 
 
 @solutions_prelim = 
     EXTRACT StoreID                         string,
@@ -115,7 +114,7 @@ DECLARE @InventoryFiles string = @RawDataFolder + "inv_store{*}.csv";
                              Convert.ToString(OrderTimestamp) AS PrevOrderTimestamp, Convert.ToString([ETA]) AS [ETA]                                                
                       FROM @latest_solution AS a 
                       JOIN @total_inventory AS b ON a.StoreID == b.StoreID AND a.ProductID == b.ProductID
-                      LEFT OUTER JOIN dbo.Orders AS c ON a.StoreID == c.StoreID AND a.ProductID == c.ProductID;
+                      LEFT OUTER JOIN @previous_orders AS c ON a.StoreID == c.StoreID AND a.ProductID == c.ProductID;
 
 DECLARE @createOrders = @"
 import pandas as pd
@@ -174,7 +173,18 @@ def usqlml_main(df):
                     FROM @orders AS a JOIN @product_suppliers AS b
                     ON a.StoreID == b.StoreID AND a.ProductID == b.ProductID;
 
-INSERT INTO dbo.Orders SELECT * FROM @orders_suppliers;
+@new_orders = SELECT * FROM @previous_orders
+              UNION ALL
+              SELECT * FROM @orders_suppliers;
+
+DROP TABLE IF EXISTS dbo.Orders;
+
+CREATE TABLE dbo.Orders
+(
+     INDEX clx_StoreID CLUSTERED(StoreID ASC)
+     DISTRIBUTED BY HASH(StoreID)
+) AS SELECT * FROM @new_orders;
+
 
 /////////////////////////////////////////////////////////////////////////////
 // Update partial orders file
@@ -182,7 +192,7 @@ INSERT INTO dbo.Orders SELECT * FROM @orders_suppliers;
 
 DROP TABLE IF EXISTS dbo.PartialOrders;
 
-@partial_orders = 
+@previous_partial_orders = 
     EXTRACT  InventoryPolicyName string,
              StoreID string,
              ProductID string,
@@ -199,7 +209,7 @@ CREATE TABLE dbo.PartialOrders
 (
      INDEX clx_StoreID CLUSTERED(StoreID ASC)
      DISTRIBUTED BY HASH(StoreID)
-) AS SELECT * FROM @partial_orders;
+) AS SELECT * FROM @previous_partial_orders;
 
 INSERT INTO dbo.PartialOrders SELECT * FROM @orders_suppliers;
 
