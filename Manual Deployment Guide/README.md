@@ -377,7 +377,7 @@ Query*. You will see the following
 
 - On the rightmost panel of Figure 3, right click the table named *InventoryPolicy* and select 
 *Edit Query*. Change the URL of the table to 
-adl://[ADL_Name].azuredatalakestore.net/orders/inventory.csv
+adl://[ADL_Name].azuredatalakestore.net/configuration/InventoryPolicy.txt
 
 - Similarly, right click the table named *Metric* and *MetricExtended_InventoryLevel*. Then, select 
 *Edit Query* and change the URL of these two tables to 
