@@ -29,10 +29,10 @@ The dashboard contains four parts:
 with Active Flag indicating which policy is active and Sim as a baseline policy to be compared with the
 active policies. 
 
-2. **Evaluation Metrics**: presents the evaluation metrics of inventory optimization, including Normalized 
+2. **Performance Evaluation**: presents the evaluation metrics of inventory optimization, including Normalized 
 Revenue (NR), Total Revenue (TR), Number of Stockout Events (NSE), and Turnover Ratio (TOR). 
 
-3. **Inventory Level**: shows the inventory level aggregated over all the products of a specific set of stores 
+3. **Inventory Status**: shows the inventory level aggregated over all the products of a specific set of stores 
 at the end of each day.   
 
 4. **Store Information**: shows the information of the stores which have been simulated in this solution.

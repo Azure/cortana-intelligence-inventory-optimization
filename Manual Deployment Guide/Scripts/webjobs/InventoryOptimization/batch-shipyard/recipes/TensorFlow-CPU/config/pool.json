@@ -1,0 +1,17 @@
+{
+    "pool_specification": {
+        "id": "tensorflow-cpu",
+        "vm_size": "STANDARD_D1_V2",
+        "vm_count": {
+            "dedicated": 1
+        },
+        "publisher": "Canonical",
+        "offer": "UbuntuServer",
+        "sku": "16.04-LTS",
+        "ssh": {
+            "username": "docker"
+        },
+        "reboot_on_start_task_failed": false,
+        "block_until_all_global_resources_loaded": true
+    }
+}

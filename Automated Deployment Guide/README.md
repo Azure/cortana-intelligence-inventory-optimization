@@ -1,25 +1,26 @@
-# Demand Forecasting and Price Optimization for Retail 
+# Inventory Optimization - A Cortana Intelligence Solution How-To Guide
 
 ## Abstract
-This **Automated Deployment Guide** contains the post-deployment instructions for the deployable **Demand Forecasting and Price Optimization for Retail** solution in the Cortana Intelligence Gallery. 
+This **Automated Deployment Guide** contains the post-deployment instructions for the deployable **Inventory Optimization for Retail** solution in the Cortana Intelligence Gallery. 
 
-<Guide type="PostDeploymentGuidance" url="https://github.com/Azure/cortana-intelligence-price-optimization-for-retail/blob/master/Automated%20Deployment%20Guide/Post%20Deployment%20Instructions.md"/>
+<Guide type="PostDeploymentGuidance" url="https://github.com/Azure/cortana-intelligence-inventory-optimization/blob/master/Automated%20Deployment%20Guide/Post%20Deployment%20Instructions.md"/>
 
 
 ## Summary
 <Guide type="Summary">
-While pricing is recognized as a pivotal determinant of success in the retail industry, it is also one of the most challenging merchandising tasks. Retailers face many challenges when choosing pricing strategies to maximize profit, including accurately forecasting financial impact of potential pricing tactics, taking reasonable consideration of core business constraints, and fairly validating the executed pricing decisions. Expanding product offerings add further computational requirements to make in-time pricing decisions, compounding the difficulty of this already overwhelming task.
+Inventory management is one of the central problems in retail. Frequently inventory managers need to decide how many items of each product they need to order from suppliers. A manual ordering of products cannot scale to thousands of products and cannot take into account changing demands and many business constraints and costs. Existing inventory optimization systems are not scalable enough to meet the requirements of large retailers. Also, these systems are not flexible enough and cannot incorporate important business goals and constraints. 
 
-The solution provided here addresses the challenges raised above by utilizing historical transaction data to train a demand forecasting model that predicts the impact of store, department, brand, and product attributes on demand and sales rates. Pricing of products in a competing group is also incorporated to predict cross product impact such as cannibalization. A price optimization algorithm can then employ the model to forecast demand at various candidate price points while considering business constraints such as feasible price ranges, and choose the combination which maximizes profit. An experiment on store level is designed to evaluate algorithm performance, compared to the alternate pricing strategy. The whole process described above is operationalized and deployed in the Cortana Intelligence Suite.
+In this Solution How-To Guide, we develop a cloud-based, scalable, and flexible inventory optimization solution. To scale up for hundreds of thousands of store and product combinations,  we use [Azure Data Lake Analytics](https://azure.microsoft.com/en-us/services/data-lake-analytics/) for data processing and [Azure Batch](https://azure.microsoft.com/en-us/services/batch/) for solving optimization problems in parallel. We provide scripts for eight commonly used inventory optimization policies. These scripts can be customized for a specific retailer and new policies can be added by providing a few scripts. We included [Bonmin](https://projects.coin-or.org/Bonmin), an open-source solver for general MINLP (Mixed Integer NonLinear Programming) problems, in a Docker image. Additional open-source solvers (e.g. [MIPCL](http://www.mipcl-cpp.appspot.com/)) and commercial solvers like Gurobi can be easily incorporated into this Docker image. For details of the inventory policies included and instructions on how to customize this solution, please refer to the TechnicalGuide.pdf. 
 
-This solution will enable retailers to ingest historical transaction data, predict future demand, and obtain optimal pricing recommendations on a regular basis, consequently improving profitability and reducing the time and effort required for pricing tasks.
+Data scientists and developers will tailor this solution to business goals and constraints of big retailers and will build custom large-scale inventory optimization systems on top of it. These systems will speed up the ordering process and will improve widely used inventory management business metrics (e.g. normalized revenue per day and inventory turnover). 
 </Guide>
 
 ## Prerequisites
 <Guide type="Prerequisites">
 
-- This pattern requires creation of **1 HDInsight Cluster with 16 cores**, **1 Virtual Machine** and **1 Data Lake Store**. Ensure adequate HDInsight/Virtual Machine quotas and Data Lake Stores are available before provisioning. By default one subscription can create a maximum of 20 core cluster. 
-The limit can be increased. Please consider deleting any unused HDInsight Cluster and Data Lake Store from your subscription. You may contact [Azure Support](https://azure.microsoft.com/support/faq/) if you need to increase the limit.
+- This pattern requires creation of **1 Azure Batch Account**, **1 DataLake Analytics** and **1 DataLake Store**. Ensure adequate Azure Batch, DataLake Analytics and DataLake Stores are available before provisioning. By default, subscriptions each region has 3 Azure Batch accounts.
+
+The limit can be increased. Please consider deleting any unused Azure Batch and DataLake from your subscription. You may contact [Azure Support](https://azure.microsoft.com/support/faq/) if you need to increase the limit.
 
 - This pattern requires user to have admin or owner privilege in order to create Service Principal in later steps during solution deployment. Check your account permissions using the document [Required permissions](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal#required-permissions). 
 </Guide>
@@ -28,25 +29,23 @@ The limit can be increased. Please consider deleting any unused HDInsight Cluste
 
 #### Estimated Provisioning Time: <Guide type="EstimatedTime">1 Hour</Guide>
 <Guide type="Description">
-The Cortana Intelligence Suite provides advanced analytics tools through Microsoft Azure — data ingestion, data storage, data processing and advanced analytics components — all of the essential elements for building an demand forecasting and price optimization for retail solution.
-
-This solution combines several Azure services to provide powerful advantages. Azure Data Lake Store stores the weekly raw sales data. Apache Spark for Azure HDInsight ingests the data and executes data preprocessing, forecasting modeling and price optimization algorithms. Finally, Data Factory orchestrates and schedules the entire data flow.
+The Cortana Intelligence Suite provides advanced analytics tools through Microsoft Azure — data ingestion, data storage, data processing and advanced analytics components — all of the essential elements for building an inventory optimization for retail solution.
 
 The 'Deploy' button will launch a workflow that will deploy an instance of the solution within a Resource Group in the Azure subscription you specify. The solution includes multiple Azure services (described below) along with a web job that simulates data so that immediately after deployment you have a working end-to-end solution. 
 
-## Solution Diagram
-![Solution Diagram](Figures/SolutionArchitecture.png)
+## Solution Architecture
+In this section, we provide more details about how the above solution is operationalized in Cortana Intelligence Suite. The figure below describes the solution architecture.
 
-## Technical details and workflow
-1.	The simulation data is generated hourly by newly deployed **Azure Web Jobs**.
+![](https://github.com/Azure/cortana-intelligence-inventory-optimization/blob/master/Manual%20Deployment%20Guide/Figures/SolutionArchitecture.png)
 
-2.	This synthetic data is stored at **Azure Data Lake Store**, that will be used in the rest of the solution flow.
+### What's Under the Hood
+- **Data source**: The data in this solution is generated using a data simulator, including demand forecasting, inventory level, and sales data. These simulated data are saved on Azure Data Lake Store. 
+- **Data pre-processing**: The raw data is first converted to [Pyomo](http://www.pyomo.org/) input format using Azure Data Lake Analytics (ADLA) U-SQL jobs. Then Pyomo python script converts the input into standard optimization problem formats, .nl or .mps. 
+- **Parallel optimization using Azure Batch**: The optimization problems are solved by BONMIN in Docker containers. We create a task for each data partition, e.g. store and product combination, and all the tasks are executed in parallell in an Azure Batch virtual machine pool.
+- **Result post-processing**: The results of solving optimization problems are converted to order time and order amount by ADLA U-SQL jobs. Both intermediate and final results are saved on Azure Data Lake Store
+- **Orchestration and schedule**: A **Main** Azure Web Job is scheduled to run once every hour. This web job invokes the other web jobs that are executed according to the schedule of each inventory policy in an excel configuration file. 
+- **Visualize**: A PowerBI Dashboard is used to visualize inventory policy performance and inventory level. 
 
-3.	**Spark on HDInsight** is used to ingest and preprocess the raw data, build and retrain the demand forecasting models, and execute price optimization algorithms. 
-
-6. **Azure Data Factory** orchestrates and schedules the entire data flow.
-
-7.	Finally, **Power BI** is used for results visualization, so that users can monitor the results of the sales, predicted future demand as well as recommended optimal prices for a variety of products sold in different stores.
 </Guide>
 ##### Disclaimer
 ©2017 Microsoft Corporation. All rights reserved.  This information is provided "as-is" and may change without notice. Microsoft makes no warranties, express or implied, with respect to the information provided here.  Third party data was used to generate the solution.  You are responsible for respecting the rights of others, including procuring and complying with relevant licenses in order to create similar datasets.
