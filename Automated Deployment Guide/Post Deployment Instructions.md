@@ -41,13 +41,11 @@ The inventory optimization solution is composed of five major components: data s
 
 > **Note**: For demo purpose, a master webjob(Main) is scheduled to run every hour and invokes the other webjobs to simulate one day every hour. The figure below illustrates the data flow between different webjobs. Note that all web jobs write/read to/from Azure Data Lake Store (ADLS). 
 
+![](https://github.com/Azure/cortana-intelligence-inventory-optimization/blob/master/Manual%20Deployment%20Guide/Figures/webJobFlow.png)
 
 ### Azure Data Lake Store
-Both raw data and analytical results are saved in **Azure Data Lake Store** in this solution. You can monitor the generated datasets by clicking the link on your deployment page.
+Both raw data and analytical results are saved in **Azure Data Lake Store** in this solution. You can monitor the generated datasets by clicking the link on your deployment page. Detailed description of the data in Azure DataLake store can be found in [Technical Deployment Guide](https://github.com/Azure/cortana-intelligence-resource-optimization) under section **Structure of Directories in Azure DataLake**
 
-There are mainly two final result datasets: **Aggregated Sales Data** and **Optimization Result Data**. Each record of **Aggregated Sales Data** contain weekly sales, product features and store features for one product sold at one store in a specific week. Each record of **Optimization Result Data** contain predicted weekly sales on this record's features, recommended optimal price, product features and store features for one product sold at one store in a specific week. **Aggregated Sales Data** only contain historical data, whereas **Optimization Result Data** contain historical recommendations as well as the future price recommendation for the coming week. **Aggregated Sales Data** contain records for all stores, whereas **Optimization Result Data** only contain records for stores in treatment group, because only stores in treatment group accepts/needs the recommended price from optimization algorithm.
-
-For both **Aggregated Sales Data** and **Optimization Result Data**, the solution produces result datasets in [**Parquet file**](<http://parquet.apache.org/>) format, which is a columnar storage format in the Hadoop ecosystem. The **Parquet files** can be access by sql query, using `%%sql` magic in **Jupyter Notebook** pre-installed on HDinsight Spark Cluster. 
 
 ### Setup Power BI
 
@@ -59,7 +57,12 @@ For both **Aggregated Sales Data** and **Optimization Result Data**, the solutio
 
 ## Scaling
 
+The architecture of this solution is designed to be scalable. Azure DataLake Store can scale throughput to support any size of analytic workload without redesigning your application or repartitioning your data at higher scale. Azure Batch, can also be scaled up to fit into heavier computation needs.
+
 ## Customization
+
+For solution customization, you can refer to the [Technical Deployment Guide](https://github.com/Azure/cortana-intelligence-resource-optimization) and [Manual Deployment Guide](https://github.com/Azure/cortana-intelligence-inventory-optimization/tree/master/Manual%20Deployment%20Guide) to gain an inside view of how the solution is built, the function of each component and access to all the source codes used in the demo solution
+
 
 ##### Disclaimer
 ©2016 Microsoft Corporation. All rights reserved.  This information is provided "as-is" and may change without notice. Microsoft makes no warranties, express or implied, with respect to the information provided here.  Third party data was used to generate the solution.  You are responsible for respecting the rights of others, including procuring and complying with relevant licenses in order to create similar datasets.
