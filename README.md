@@ -11,10 +11,10 @@ In this section, we provide more details about how the above solution is operati
 ![](https://github.com/Azure/cortana-intelligence-inventory-optimization/blob/master/Manual%20Deployment%20Guide/Figures/SolutionArchitecture.png)
 
 ### What's Under the Hood
-- **Data source**: The data in this solution is generated using a data simulator, including demand forecasting, inventory level, and sales data. These simulated data are saved on Azure Data Lake Store. 
-- **Data pre-processing**: The raw data is first converted to [Pyomo](http://www.pyomo.org/) input format using Azure Data Lake Analytics (ADLA) U-SQL jobs. Then Pyomo python script converts the input into standard optimization problem formats, .nl or .mps. 
-- **Parallel optimization using Azure Batch**: The optimization problems are solved by BONMIN in Docker containers. We create a task for each data partition, e.g. store and product combination, and all the tasks are executed in parallell in an Azure Batch virtual machine pool.
-- **Result post-processing**: The results of solving optimization problems are converted to order time and order amount by ADLA U-SQL jobs. Both intermediate and final results are saved on Azure Data Lake Store
+- **Data source**: The data in this solution is generated using a data simulator, including stores, storage spaces, products, suppliers, demand forecasting, sales, inventory levels, and order placements and deliveries data. These simulated data are saved on Azure Data Lake Store. 
+- **Data pre-processing**: First, extract know values of optimization problems from the raw data using Azure Data Lake Analytics (ADLA) U-SQL job. Then use [Pyomo](http://www.pyomo.org/) to convert the input into standard optimization problem formats, .nl or .mps. 
+- **Parallel optimization using Azure Batch**: Create inventory management policy by solving inventory optimization problems using BONMIN in Docker containers. We create a task for each data partition, e.g. store and product combination, and all the tasks are executed in parallell in an Azure Batch virtual machine pool.
+- **Result post-processing**: ADLA U-SQL jobs use optimization problem solution, current time and inventory levels to place new orders. Both intermediate and final results are saved on Azure Data Lake Store
 - **Orchestration and schedule**: A **Main** Azure Web Job is scheduled to run once every hour. This web job invokes the other web jobs that are executed according to the schedule of each inventory policy in an excel configuration file. 
 - **Visualize**: A PowerBI Dashboard is used to visualize inventory policy performance and inventory level. 
 
@@ -48,6 +48,8 @@ For more information on how to tailor Cortana Intelligence to your needs, [conne
 ### Technical Audiences
 See the **[Manual Deployment Guide](https://github.com/Azure/cortana-intelligence-inventory-optimization/tree/master/Manual%20Deployment%20Guide)** folder for a full set of instructions on how to deploy the end-to-end pipeline, including a step-by-step walkthrough and all the scripts that you’ll need to deploy this solution. **For technical problems or questions about deployment, please post in the issues tab of the repository.**
 
+## Deep dive and customization
+For more technical details of this solution and instructions on how to customize it, please see the **Technical Guide.pdf** in this repository.
 
 # Contributing
 
