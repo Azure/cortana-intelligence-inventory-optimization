@@ -3,6 +3,17 @@
 ## Abstract
 This document is focusing on the post deployment instructions for the automated deployment through [Cortana Intelligence Solutions](https://gallery.cortanaintelligence.com/solutions). The source code of the solution as well as manual deployment instructions can be found [here](https://github.com/Azure/cortana-intelligence-inventory-optimization/tree/master/Manual%20Deployment%20Guide).
 
+### Quick links
+[Monitor Progress](#monitor-progress) - See how you can monitor the resources that have been deployed to your subscription.
+
+[Visualization Steps](#visualization) - Instructions to connect up a Power BI dashboard to your deployment that visualized the results.
+
+[Scaling](#scaling) - Guidance on how to think about scaling this solution according to your needs.
+
+[Customization](#customization) - Guidance on how to think about customizing this solution with your own data.
+
+
+
 ## Monitor Progress
 Once the solution is deployed to the subscription, you can see the services deployed by clicking the resource group name on the final deployment screen in the CIS.
 
@@ -10,10 +21,26 @@ This will show all the resources under this resource groups on [Azure management
 
 After successful deployment, the entire solution is automatically started on cloud. You can monitor the progress from the following resources.
 This part contains instructions for managing different Azure componenets in the deployed solution.
-### Web Jobs
-A web job is created during the deployment. You can monitor the web job by clicking the link on your deployment page. This web job will generate weekly sales data hourly. The generated sales data will be stored in **Azure Data Lake Store**.
-> **Note**: In the demo here, the simulator will generate **one week's** simulated data in **one hour**. And **Azure Data Factory** is scheduled to process, and output the results for **one week's** data **in one hour**. 
- That is to say, in this solution demo, one week is condensed to one hour. In this case, you are able to view multiple weeks' results in a few hours, rather than waiting for multiple weeks to get the results for a few weeks. However, in the reality deployment, the cycle time should be consistent with the real time.
+
+### Azure Function
+Azure Function app is created during the deployment. This hosts 7 webjobs which performs mostly orchastration and data simulation. You can monitor the webjob by clicking the link on your deployment page. 
+
+The inventory optimization solution is composed of five major components: data simulation, data pre-processing, inventory optimization, order placement, and evaluation. The table below lists the task and execution engine of each component. Each step starts with an Azure Web Job. The actual execution is done by Python scripts within the web jobs, Azure Data Lake Analytics jobs submitted by the web job Python script, or Azure Batch jobs submitted by the web job Python script. 
+
+|Web Job Name	| Task |	Execution Engine|
+|------------------------|---------------------|---------------------|
+| Simulator              |Simulate raw data: stores, storage spaces, products, suppliers, demand forecasting, sales, and inventory levels, order placements and deliveries.| Python script in the web job   |
+| InventoryOptimization(Data extraction part)  | Use Pyomo to define abstract optimization problems of inventory management policies.Extract known values of optimization problems from the raw data. | Pyomo Python scripts in the web job. U-SQL jobs on Azure Data Lake Analytics  |
+| InventoryOptimization(Optimization part)      |Create inventory management policy by solving inventory optimization problems using Bonmin. | Azure Batch   |
+| GenerateOrder             |Use solution optimization problem, current time and inventory levels to place new orders.| U-SQL jobs on Azure Data Lake Analytics  |
+| Evaluation             |Compute performance metrics of inventory management policies.|  Python script in the web job |
+| UploadScriptToADLS             |Upload the configuration files/scripts for optimization and runs UploadStaticDataToADLS which uploads the static data for initial PowerBI reports.| Python script in the web job |
+| UploadStaticDataToADLS             |Uploads the static data to Azure DataLake Store.|  Python script in the web job |
+| InstallPackages             | Installs required python packages on Azure Functions Server to run above mentioned webjobs.|  Bash script in the web job |
+
+
+> **Note**: For demo purpose, a master webjob(Main) is scheduled to run every hour and invokes the other webjobs to simulate one day every hour. The figure below illustrates the data flow between different webjobs. Note that all web jobs write/read to/from Azure Data Lake Store (ADLS). 
+
 
 ### Azure Data Lake Store
 Both raw data and analytical results are saved in **Azure Data Lake Store** in this solution. You can monitor the generated datasets by clicking the link on your deployment page.
