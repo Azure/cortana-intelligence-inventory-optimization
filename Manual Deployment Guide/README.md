@@ -447,11 +447,11 @@ You will need the following accounts and software to create this solution:
 
 > Note: We will be installing Visual Studio Community edition 2015. If you have it already or have Visual Studio Professional 2015(or above), you can go to the Step B.
 
-- 1. Download the installer for VS Community Edition [here](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15)
+1) Download the installer for VS Community Edition [here](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15).
 
-- 2. Run the installer. In sometime, it will ask to select the workloads. Select **Python Development**
+2) Run the installer. In sometime, it will ask to select the workloads. Select **Python Development** and **ASP.NET and web development**. The size of application will be around 1.67 Gb.
 
-- 3. Click Install.
+3) Click Install.
 
 ### B. Run Inventory Optimization Website
 
@@ -461,11 +461,11 @@ In this section, we will collect the credentials which the website will need to 
 
  Here, we will collect the credentials of Service Principal(Client ID & Client Secret), DataLake Store name and Tenant Id. As you have deployed the solution, you should already have this information. You can access this information again by going to the Application Settings of the Web App(In case of manual deployment) or Azure Functions(in case of automated deployment).
 
-- 1. Download the [inventoryoptimizationwebsite.zip]() and unzip it
+1) Download the [inventoryoptimizationwebsite.zip]() and unzip it
 
-- 5. Browse to the unzipped file to inventoryoptimizationwebsite\inventoryoptimizationwebsite\inventoryoptimizationwebsite and open **views.py** under inventoryoptimizationwebsite project
+2) Browse to the unzipped file to inventoryoptimizationwebsite\inventoryoptimizationwebsite\inventoryoptimizationwebsite and open **views.py** under inventoryoptimizationwebsite project
 
-- 6. Update the value for variables on line 49 - 52 in views.py. Replace the text between ' ' with the value of each variable.  
+3) Update the value for variables on line 49 - 52 in views.py. Replace the text between ' ' with the value of each variable.  
 
 ```
 adl_name = '<DATALAKESTORE_NAME>'
@@ -474,23 +474,23 @@ client_id = '<CLIENT_ID>'
 client_secret = '<CLIENT_SECRET>'
 ```
 
-- 7. Save and close the file.
+4) Save and close the file.
 
 #### 2. Publish Web Site to Azure Web App Server
 
-- 1. Open the Visual Studios. On the right top corner, click **Sign In**. Provide your azure subscription(portal.microsoft.com) credentials.  
+1) Open the Visual Studios. On the right top corner, click **Sign In**. Provide your azure subscription(portal.microsoft.com) credentials.  
 
-- 2. Go to file -> Open -> Project/Solution.
+2) Go to file -> Open -> Project/Solution.
 
-- 3. Browse to the folder where you unzipped the inventoryoptimizationwebsite and open **inventoryoptimizationwebsite.sln**.
+3) Browse to the folder where you unzipped the inventoryoptimizationwebsite and open **inventoryoptimizationwebsite.sln**.
 
-- 4. If the poject fails to load, just right click on the Solution Explorer area and click on build. It will load the project.
+4) If the poject fails to load, just right click on the Solution Explorer area and click on build. It will load the project.
 
-- 5. Right click on the [PY]inventoryoptimizationwebsite and select publish.
+5) Right click on the [PY]inventoryoptimizationwebsite and select publish.
 
-- 6. In the new open page, click **Create new profile**. Select **Microsoft Azure App Service** and click **OK**.
+6) In the new open page, click **Create new profile**. Select **Microsoft Azure App Service** and click **OK**.
 
-- 7. Provide following information in the newly opened window:
+7) Provide following information in the newly opened window:
     - Web App Name: <Name for the web app server which will host the website>
     - Subscription: <Select the same subscription in which you have deployed this solution>
     - Resource Group: <Select the resource group which you created for this solution>
@@ -498,7 +498,7 @@ client_secret = '<CLIENT_SECRET>'
 
 ![](Figures/websiteCreateProfile.png)
 
-- 8. Click **Create**. This will publish the website to the Web App server and open the website for you. You can also access the website with following url: https://<webapp server name>.azurewebsites.net/
+8) Click **Create**. This will publish the website to the Web App server and open the website for you. You can also access the website with following url: https://<webapp server name>.azurewebsites.net/
 
 
 ## Delete the Solution
