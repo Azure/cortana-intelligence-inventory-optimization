@@ -9,7 +9,7 @@
 - [Delete the Solution](#delete-the-solution)
 
 ## Abstract
-This **Manual Deployment Guide** provides step-by-step instructions for deploying the **Inventory Optimization Solution**. Going through this manual deployment process will help implementers gain an inside view of how the solution is built, the function of each component,and how all elements work together. 
+This **Manual Deployment Guide** provides step-by-step instructions for deploying the **Inventory Optimization Solution**. Going through this manual deployment process will help implementers gain an inside view of how the solution is built, the function of each component,and how all elements work together. The estimated deployment time of this solution is 4~6 hours, depending on your experience with Azure and whether you deploy the optional components. 
 
 ## Prerequisites
 You will need the following accounts and software to create this solution:
@@ -46,10 +46,13 @@ Similarly, we want to use a common name for the different resources we are creat
 
 Where [UI] is the user initials and N is a random integer that you choose. Characters must be entered in lowercase. Several services, such as Azure Storage, require a unique name for the storage account across a region and hence this format should provide the user with a unique identifier. So for example, Steven X. Smith might use a base service name of *inventoryoptsxs01.*  
 
->**NOTE:** In this deployment guide, we create most resources in the South Central US region. The resource availability, e.g. Azure Batch Core quotas, in different regions depends on your subscription. Please choose a region that satisfies the following requirement
+>**NOTE:** In this deployment guide, we create most resources in the  Central US region. The resource availability, e.g. Azure Batch account quotas, in different regions depends on your subscription. Please choose a region that satisfies the following requirement
 
-- At least one Azure Batch account is available. By default, you can create three batch accounts per region per subscription. 
-- At least 20 Azure Batch VM cores are available. The default VM cores quota is 20. 
+- At least one Azure Batch account is available. By default, you can create one batch account per region per subscription. To check the number of available Batch accounts in your subscription 
+  - Navigate to ***portal.azure.com*** and log in to your account
+  - Click **All resources** on the left. 
+  - In the filters at the top, select the subscription you want to use to deploy this solution and select **Batch accounts** for the resource type. You will see how many Batch accounts have been created in each region. Delete any Batch account no longer needed or deploy this solution in a region where no Batch account has been created.
+  - You can also submit a request to increase you quota by selecting **Help + support** on the left side of the portal page. 
 
 >For more details about Azure Batch quotas and how to increase the quotas, please see [this documentation](https://docs.microsoft.com/en-us/azure/batch/batch-quota-limit). When deploying resources, make sure all data storage and compute resources are created in the same region to avoid inter-region data movement.
 
@@ -79,7 +82,7 @@ In the setup steps below, the following Azure resources will be created and conf
 
   - Set the resource group to the resource group we created by selecting the radio button ***Use existing***
 
-  -  Location set to South Central US
+  -  Location set to Central US
   > **NOTE:** This storage account will be used as the associated storage account of the Azure Batch Account which will be created in later steps. Because it is required that the Azure Batch Account and its associated storage account must be located at the same Azure location, you should set the location of the storage account to one of the locations where your subscription has enough quotas for creating Azure Batch pools.
 	
   - Click ***Create***
@@ -97,7 +100,7 @@ In the setup steps below, the following Azure resources will be created and conf
   
   - Click on **Storage account** and select the storage account ***inventoryopt[UI][N]*** created in Step 2. 
 
-  -  Location set to South Central US
+  -  Location set to  Central US
 
   -  Leave **Pool allocation mode** as **Batch Service**
 
@@ -120,7 +123,7 @@ In the setup steps below, the following Azure resources will be created and conf
 
 - Set the name to ***inventoryopt[UI][N]***
 - Set the resource group to ***inventoryopt[UI][N]\_resourcegroup*** which we created, by selecting the radio button ***Use existing***
-- Set Location to South Central US 
+- Set Location to  Central US 
 - Click **Create** at the bottom left corner of the blade
 
 ### 6. Create Azure Data Lake Analytics Account
@@ -130,7 +133,7 @@ In the setup steps below, the following Azure resources will be created and conf
 
 - Set the name to ***inventoryopt[UI][N]***
 - Set the resource group to the **inventoryopt[UI][N]\_resourcegroup**, by selecting the radio button ***Use existing***
-- Set Location to South Central US
+- Set Location to  Central US
 - Click on **Data Lake Store**, from the list of Data Lake Stores, select the Data Lake Store created in Step 5.  
 - Click **Create** in the bottom left corner of the blade
 
@@ -160,7 +163,7 @@ In the setup steps below, the following Azure resources will be created and conf
 - Set the resource group to ***inventoryopt[UI][N]\_resourcegroup***, by selecting the radio button ***Use existing***
 - Click **App Service plan/Location > Create New**
   - Set the name to ***inventoryopt[UI][N]***
-  - Set hte location to South Central US
+  - Set hte location to  Central US
   - Choose your preferred pricing tier
   - Click **OK** at the bottom
   - Wait for the App Service Plan to be created
@@ -178,6 +181,8 @@ In the setup steps below, the following Azure resources will be created and conf
 - From the extension list, select **Python 3.5.2 x64**
 - Read and accept the Legal Terms by click **OK** at the bottom of the **Accept legal terms** blade
 - Click **OK** at the bottom of the **Add extension** blade
+
+**Enable Always-on on the Web App** This is required to run scheduled web jobs. 
 
 ### 8. Configure Web App Service
 In this step, we will collect the credentials of each resource and enter them as **Application settings** of the Web App, so that they can be read by the web jobs (created in the next step) as web app environmental variables. We will also set some other configurations, e.g. number of virtual machines(VM) in the Azure Batch pool, VM configurations.
@@ -286,7 +291,7 @@ Add the following Key:Value pairs to the application settings of your Web App Se
 - If you need more clarification on this section, follow the instructions [here](https://docs.microsoft.com/en-us/azure/data-lake-store/data-lake-store-secure-data#a-namefilepermissionsaassign-users-or-security-group-as-acls-to-the-azure-data-lake-store-file-system).
 
 ### 10. Create and run the web jobs
-In this step we will add scripts of 7 web jobs to the Web App we created in Step 7. Under ***Manual Deployment Guide/Scripts/webjobs***, you will find 7 folders, one folder for each web job. You will first need to create a zip file for each folder.
+In this step we will add scripts of 8 web jobs to the Web App we created in Step 7. Under ***Manual Deployment Guide/Scripts/webjobs***, you will find 7 folders, one folder for each web job. You will first need to create a zip file for each folder.
 
 **Create and run InstallPackages web job**
 
@@ -309,20 +314,24 @@ In this step we will add scripts of 7 web jobs to the Web App we created in Step
 16) Wait until a green **Success** message shows up in the log page.It should take about 5 minutes for this web job to complete.
 17) Check the log and make sure there is no errors as some errors don't trigger a failure of the web job.
 
-**Create and run UploadToADLS web job**
+**Create and run UploadScriptToADLS and UploadStaticDataTOADLS web jobs** The **UploadScriptToADLS** web job uploads U-SQL and Python scripts for data pre-processing, optimization, and result post-processing to Azure Data Lake store. The **UploadStaticDataTOADLS** pre-populates Azure Data Lake Store with two weeks of data and results. 
 
-Repeat the same steps as the ***InstallPackages*** web job, except that the web job **Name** will be ***UploadToADLS*** and you will upload the zip file ***UploadToADLS.zip***
+Repeat the same steps as the ***InstallPackages*** web job for the following web job names and zip files.
+| **Web Job Name** |**zip file name**               |**Estimated running time**|
+|------------------------|--------------------------|--------------------------|
+| UploadScriptToADLS     |UploadScriptToADLS.zip    |3-5 minutes|
+| UploadStaticDataToADLS |UploadStaticDataToADLS.zip|30 minutes|
 
 **Create Simulator, InventoryOptimization, GenerateOrder, and Evaluation web jobs**
 
 Follow steps 1~13 in creating the ***InstallPackages*** web job for the following web job names and zip files. You DON'T need to manually run these web jobs, as they will be invoked by the ***Main*** web job to be created later.
 
-| **Web Job Name** |**zip file name**          |
-|------------------------|---------------------|
-| Simulator              |Simulator.zip|
-| InventoryOptimization  |InventoryOptimization.zip|
-| GenerateOrder          |GenerateOrder.zip|
-| Evaluation             |Evaluation.zip|
+| **Web Job Name** |**zip file name**              |**Estimated running time**|
+|------------------------|-------------------------|--------------------------|
+| Simulator              |Simulator.zip            |6-7 minutes|
+| InventoryOptimization  |InventoryOptimization.zip|Less than 30 seconds or 2 hours. When no optimization task is scheduled to run, <30 seconds. When there are optimization tasks scheduled to run, about 2 hours.|
+| GenerateOrder          |GenerateOrder.zip        |15-20 minutes|
+| Evaluation             |Evaluation.zip           |15-20 minutes|
 
 **Create and schedule the Main web job**
 
