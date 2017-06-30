@@ -176,13 +176,16 @@ In the setup steps below, the following Azure resources will be created and conf
 - On the left tab click Resource Groups
 - Click on the resource group we created earlier ***inventoryopt\[UI\]\[N\]_resourcegroup***
 - Click the App Service in the list of resources. 
-- Under the App Service, search for "Extensions" and click "Extensions"
+- Under App Service, search for "Extensions" and click "Extensions"
 - In the new blade, click **+Add** at the top
 - From the extension list, select **Python 3.5.2 x64**
 - Read and accept the Legal Terms by click **OK** at the bottom of the **Accept legal terms** blade
 - Click **OK** at the bottom of the **Add extension** blade
 
 **Enable Always-on on the Web App** This is required to run scheduled web jobs. 
+- Under App Service, select **Application settings**
+- Switch **Always On** from **Off** to **On**
+- Click **Save** at the top
 
 ### 8. Configure Web App Service
 In this step, we will collect the credentials of each resource and enter them as **Application settings** of the Web App, so that they can be read by the web jobs (created in the next step) as web app environmental variables. We will also set some other configurations, e.g. number of virtual machines(VM) in the Azure Batch pool, VM configurations.
