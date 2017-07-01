@@ -74,9 +74,21 @@ def construct_url(webjob_name, action):
     return url
 
 #This function monitors the status of a web job and returns the finishing status when it's finished. 
-def monitor_webjob(job_name, url):   
+def monitor_webjob(job_name, url):  
     response = requests.get(url)
     job_info = response.json()
+
+    retry_count = 1000 
+    while (not job_info) and (retry_count > 0):
+        response = requests.get(url)
+        job_info = response.json()
+        retry_count = retry_count - 1
+        print(retry_count)
+        time.sleep (1)
+
+    #if not job_info:
+    #    print("Can not get the status of the web job " + job_name +" after 10 attempts")
+
     job_status = job_info["latest_run"]["status"]
 
     while job_status in ('Running','Initializing'):
@@ -84,6 +96,15 @@ def monitor_webjob(job_name, url):
         time.sleep (10)
         response = requests.get(url)
         job_info = response.json()
+
+        retry_count = 1000 
+        while (not job_info) and (retry_count > 0):
+            response = requests.get(url)
+            job_info = response.json()
+            retry_count = retry_count - 1
+            print(retry_count)
+            time.sleep (1)
+
         job_status = job_info["latest_run"]["status"]
     if job_status =='Success':
         print('Webjob ' + job_name + ' finished successfully!')

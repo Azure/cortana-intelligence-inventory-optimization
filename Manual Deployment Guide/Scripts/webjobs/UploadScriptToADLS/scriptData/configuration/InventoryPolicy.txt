@@ -1,0 +1,9 @@
+ActiveFlag	InventoryPolicyID	InventoryPolicyName	SolverName	OptimizationDefinition	ExecutionFrequency	PartitionFields	DirectoryName
+0	eoq	eoq	BONMIN	eoq	Daily	Store,Department	eoq
+0	eoq_mip	eoq_mip	BONMIN	eoq_mip	Daily	Store,Department	eoq_big
+1	dynlotsizing	DynLotSizing	BONMIN	dynlotsizing	Daily	Store,Product	dynlotsizing
+0	capdynlot	CapDynLot	BONMIN	capacitated_dynlotsizing	Daily	Store	capacitated_dynlotsizing
+0	s_q	s_Q	BONMIN	s_Q	Daily	Store,Product	sQ
+0	s_q_perishable	s_Q_perishable	BONMIN	s_Q_perishable	Daily	Store,Department,Product	sQperishable
+0	newsvendor	newsvendor	BONMIN	newsvendor	Daily	Product	newsvendor
+1	Sim	Sim			Daily		
