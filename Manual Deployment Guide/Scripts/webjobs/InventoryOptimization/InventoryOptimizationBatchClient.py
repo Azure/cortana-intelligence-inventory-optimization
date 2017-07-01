@@ -155,7 +155,7 @@ def create_configuration_files(config_dir):
             "ssh": {
                 "username": "docker"
             },
-            "reboot_on_start_task_failed": False,
+            "reboot_on_start_task_failed": True,
             "block_until_all_global_resources_loaded": True
         }
     }

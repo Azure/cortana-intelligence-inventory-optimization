@@ -1,0 +1,337 @@
+REFERENCE ASSEMBLY [ExtPython];
+
+// Use internal database for storing ordering times (order_times table) and orders
+
+CREATE DATABASE IF NOT EXISTS DynLotSizingOrderDB ;
+USE DATABASE DynLotSizingOrderDB;
+
+//DROP TABLE IF EXISTS dbo.OrderTimes;
+
+CREATE TABLE IF NOT EXISTS dbo.OrderTimes
+(
+    TimePeriodID int,
+    time DateTime,
+    processed int,
+    INDEX clx_TimePeriodID CLUSTERED(TimePeriodID ASC) 
+)
+DISTRIBUTED BY HASH(TimePeriodID);
+
+//DROP TABLE IF EXISTS dbo.Orders;
+
+CREATE TABLE IF NOT EXISTS dbo.Orders
+(
+    InventoryPolicyName string,
+    StoreID string,
+    ProductID string,
+    SupplierID string,
+    Quantity int,
+    OrderTimestamp DateTime,
+    [ETA] DateTime,
+    ConfidenceInterval int,
+    Fulfilled bool,
+    INDEX clx_StoreID CLUSTERED(StoreID ASC) 
+)
+DISTRIBUTED BY HASH(StoreID);
+
+//////////////////////////////////////////////
+// Constants of inventory policy
+//////////////////////////////////////////////
+
+DECLARE @period_length int = 7; // number of days in each time period
+
+////////////////////////////////////////////////
+// Names of input files
+////////////////////////////////////////////////
+
+DECLARE @SolutionsCSVFolder string = "/optimization/output_csv/";
+DECLARE @OrdersFolder string = "/orders/";
+DECLARE @GlobalPolicyDir string = "/inventory_scripts/";
+DECLARE @StaticDataFolder string = "/publicparameters/";
+
+DECLARE @policy_name string = "dynlotsizing";
+
+DECLARE @UsqlFolder string = @GlobalPolicyDir + @policy_name + "/";
+DECLARE @SolutionDir string = @SolutionsCSVFolder + @policy_name + "/{StoreID}/{ProductID}/";
+DECLARE @SolutionFiles string = @SolutionDir + @policy_name + "_" +  
+                                "{SolutionDate:yyyy}{SolutionDate:MM}{SolutionDate:dd}{SolutionDate:HH}{SolutionDate:mm}.csv";
+DECLARE @ProductsSuppliersFile string = @StaticDataFolder + "store_product_supplier.csv";
+DECLARE @PartialOrdersFiles string = @OrdersFolder + @policy_name + "/partial_orders_{*}.csv";
+
+/////////////////////////////////////////////
+// Load solutions
+/////////////////////////////////////////////
+
+@solutions_prelim = 
+    EXTRACT StoreID                         string,
+            ProductID                       string,
+            SolutionDate                    DateTime,
+            VarName                         string,
+            Value                           string
+    FROM @SolutionFiles
+    USING Extractors.Csv(); 
+
+@solutions = 
+    SELECT StoreID, ProductID, SolutionDate, VarName, Convert.ToDouble(Value) AS Value FROM @solutions_prelim WHERE Value != "None";
+
+// get the latest solution
+
+@last_date = 
+    SELECT StoreID, ProductID, Convert.ToDateTime(MAX(SolutionDate)) AS LastDate 
+    FROM @solutions GROUP BY StoreID, ProductID;
+
+@latest_solution = 
+    SELECT a.StoreID, a.ProductID, SolutionDate.ToString() AS SolutionDate, VarName, Value FROM @solutions AS a
+    JOIN @last_date AS b ON a.StoreID == b.StoreID AND a.ProductID == b.ProductID 
+    AND SolutionDate == LastDate;
+
+@latest_solution_time = 
+    SELECT Convert.ToDateTime(MAX(LastDate)) AS SolutionDate FROM @last_date;
+
+// get number of time periods
+
+@T = SELECT Convert.ToInt32(MAX(Convert.ToInt32(VarName.Substring(2,VarName.Length-3)))) AS [T] 
+     FROM @latest_solution WHERE VarName.StartsWith("z");
+
+///////////////////////////////////////////////////////////////
+// reset order_times table, if needed
+///////////////////////////////////////////////////////////////
+
+@times = SELECT [T], @period_length AS period_length FROM @T;
+
+@python_input_order_times = SELECT [T],  
+                                   a.SolutionDate.ToString() AS solution_time, 
+                                   period_length, TimePeriodID, 
+                                   b.time.ToString() AS time,
+                                   b.processed, 1 AS dummy
+                            FROM @times AS x
+                            CROSS JOIN @latest_solution_time AS a
+                            FULL OUTER JOIN dbo.OrderTimes AS b ON [T] == TimePeriodID;           
+
+DECLARE @resetOrderSchedule = @"
+import pandas as pd
+import numpy as np
+from datetime import datetime
+
+def usqlml_main(df):
+    curr_solution = df.loc[df['T'] != 0,['T','solution_time','period_length']]
+    curr_solution['solution_time'] = curr_solution['solution_time'].apply(lambda x: datetime.strptime(x, '%m/%d/%Y %I:%M:%S %p'))
+    solution_time = curr_solution['solution_time'].iat[0]
+
+    curr_orders = df.loc[df['time'] != '',['TimePeriodID','time','processed']]
+
+    if curr_orders.shape[0] != 0 and curr_orders['time'].iat[0] != '':
+        curr_orders['time'] = curr_orders['time'].apply(lambda x: datetime.strptime(x, '%m/%d/%Y %I:%M:%S %p'))
+        start_planning_time = curr_orders['time'].min()
+    else:
+        start_planning_time = np.nan
+
+    if pd.isnull(start_planning_time) or solution_time > start_planning_time:
+        new_order_times = pd.DataFrame({'TimePeriodID': range(1,curr_solution['T'].iat[0]+1), 
+                                        'time': pd.date_range(solution_time, periods = curr_solution['T'].iat[0], 
+                                                              freq = str(curr_solution['period_length'].iat[0]) + 'd'),
+                                        'processed': int(0)}, columns=['TimePeriodID', 'time', 'processed'])
+        new_order_times['time'] = new_order_times['time'].apply(lambda x: datetime.strftime(x, '%m/%d/%Y %I:%M:%S %p'))
+        new_order_times['processed'] = new_order_times['processed'].astype('int32')
+    else:
+        if pd.notnull(start_planning_time):
+            curr_orders['time'] = curr_orders['time'].apply(lambda x: datetime.strftime(x, '%m/%d/%Y %I:%M:%S %p'))
+        new_order_times = curr_orders
+    
+    return new_order_times
+";
+
+@order_times = REDUCE @python_input_order_times
+               ON dummy
+               PRODUCE TimePeriodID int, 
+                       time string,
+                       processed int
+               USING new Extension.Python.Reducer(pyScript:@resetOrderSchedule);
+
+////////////////////////////////////////////////////////////////////
+// create new orders, if needed
+////////////////////////////////////////////////////////////////////
+
+DECLARE @current_time string = DateTime.Now.ToString();
+
+@curr_time_table = SELECT * FROM (VALUES(@current_time)) AS T(current_time);
+
+@latest_solution_index = SELECT *, 
+                                Convert.ToInt32(VarName.Substring(VarName.IndexOf("[") + 1, 
+                                                                  VarName.IndexOf("]") - VarName.IndexOf("[") - 1)) AS index
+                         FROM @latest_solution;
+
+@python_input_orders = SELECT a.*, b.*, c.*
+                       FROM @order_times AS a JOIN @latest_solution_index AS b 
+                       ON a.TimePeriodID == b.index
+                       CROSS JOIN @curr_time_table AS c;
+                       
+DECLARE @createOrders = @"
+import pandas as pd
+from datetime import datetime
+
+# this code is executed in parallel for all combinations of (StoreID,ProductID)
+def usqlml_main(df):
+
+    # check if we need to place orders
+    current_time = datetime.strptime(df['current_time'].iat[0], '%m/%d/%Y %I:%M:%S %p')
+    df['time'] = df['time'].apply(lambda x: datetime.strptime(x, '%m/%d/%Y %I:%M:%S %p'))
+    next_processing_time = df.loc[df['processed'] == 0,'time'].min()
+
+    if current_time < next_processing_time:
+        # we don't need to place orders
+        r = pd.DataFrame(columns = ['StoreID','ProductID','Quantity','OrderTimestamp'])
+        r['Quantity'] = r['Quantity'].astype('int32')
+        return r
+    else:
+        # we are going to place order
+        # find ID of the next processing time period
+        id = df.loc[df['time'] == next_processing_time, 'TimePeriodID'].iat[0]
+
+        # find delta[id]
+        var_name = 'delta[' + str(id) + ']'
+        delta = df.loc[df['VarName'] == var_name,'Value'].iat[0]
+        if delta == 0:
+            r = pd.DataFrame(columns = ['StoreID','ProductID','Quantity','OrderTimestamp'])
+            r['Quantity'] = r['Quantity'].astype('int32')
+            return r
+        else:
+            var_name = 'z[' + str(id) + ']'
+            store_id = str(df['StoreID'].iat[0])
+            product_id = str(df['ProductID'].iat[0])
+            order = pd.DataFrame({'StoreID': store_id, 'ProductID': product_id, 
+                                  'Quantity': int(round(df.loc[df['VarName'] == var_name,'Value'].iat[0])),
+                                  'OrderTimestamp': df['current_time'].iat[0]}, 
+                                  index = [1],
+                                  columns = ['StoreID','ProductID','Quantity','OrderTimestamp'])
+            order['Quantity'] = order['Quantity'].astype('int32')
+            return order
+";
+
+@orders = REDUCE @python_input_orders ON StoreID, ProductID
+          PRODUCE StoreID string, 
+                  ProductID string,
+                  Quantity int,
+                  OrderTimestamp string
+          USING new Extension.Python.Reducer(pyScript:@createOrders);
+
+//////////////////////////////////////////////////////////
+// Update order_times table
+/////////////////////////////////////////////////////////
+
+@python_input_updated_order_times = SELECT a.*, b.*
+                                    FROM @order_times AS a 
+                                    CROSS JOIN @curr_time_table AS b;
+
+DECLARE @updateOrderTimes = @"
+import pandas as pd
+from datetime import datetime
+
+def usqlml_main(df):
+    
+    # check if we need to place orders
+    current_time = datetime.strptime(df['current_time'][0],'%m/%d/%Y %I:%M:%S %p')
+    df['time'] = df['time'].apply(lambda x: datetime.strptime(x, '%m/%d/%Y %I:%M:%S %p'))
+    next_processing_time = df.loc[df['processed'] == 0,'time'].min()
+    if current_time >= next_processing_time:
+        df.loc[df['time'] == next_processing_time, 'processed'] = 1
+    df['time'] = df['time'].apply(lambda x: datetime.strftime(x, '%m/%d/%Y %I:%M:%S %p'))
+
+    return df[['TimePeriodID','time','processed']]
+";
+
+@updated_order_times = REDUCE (SELECT * FROM @python_input_updated_order_times) ON current_time
+                       PRODUCE TimePeriodID int, 
+                               time string,
+                               processed int                                                            
+                       USING new Extension.Python.Reducer(pyScript:@updateOrderTimes);      
+
+DROP TABLE dbo.OrderTimes;
+
+CREATE TABLE dbo.OrderTimes (
+    INDEX clx_TimePeriodID CLUSTERED(TimePeriodID ASC) 
+    DISTRIBUTED BY HASH (TimePeriodID)
+) AS SELECT TimePeriodID, Convert.ToDateTime(time) AS time, processed FROM @updated_order_times;
+
+////////////////////////////////////////////////////////////
+// Add supplier data to orders
+////////////////////////////////////////////////////////////
+
+@product_suppliers = 
+    EXTRACT StoreID                         string,
+            SupplierID                      string,
+            ProductID                       string,
+            LeadTime                        int,
+            LeadTimeConfidenceInterval      int,
+            MinOrderQuantity                int,
+            MaxOrderQuantity                int,
+            QuantityMultiplier              int,
+            PurchaseCost                    float,
+            BackorderCost                   float,
+            ShippingCost                    float,
+            PurchaseCostBudget              float,
+            OrderingFrequency               string,
+            ServiceLevel                    float
+    FROM @ProductsSuppliersFile
+    USING Extractors.Csv(skipFirstNRows: 1); 
+
+@orders_suppliers = SELECT @policy_name AS InventoryPolicyName, a.StoreID, a.ProductID, b.SupplierID, a.Quantity, 
+                           Convert.ToDateTime(a.OrderTimestamp) AS OrderTimestamp,
+                           Convert.ToDateTime(a.OrderTimestamp).Add(new System.TimeSpan(b.LeadTime, 0, 0, 0)) AS [ETA], 
+                           b.LeadTimeConfidenceInterval, false AS Fulfilled
+                    FROM @orders AS a JOIN @product_suppliers AS b
+                    ON a.StoreID == b.StoreID AND a.ProductID == b.ProductID;
+
+INSERT INTO dbo.Orders SELECT * FROM @orders_suppliers;
+
+/////////////////////////////////////////////////////////////////////////////
+// Update partial orders file
+/////////////////////////////////////////////////////////////////////////////
+
+DROP TABLE IF EXISTS dbo.PartialOrders;
+
+@partial_orders = 
+    EXTRACT  InventoryPolicyName string,
+             StoreID string,
+             ProductID string,
+             SupplierID string,
+             Quantity int,
+             OrderTimestamp DateTime,
+             [ETA] DateTime,
+             ConfidenceInterval int,
+             Fulfilled bool
+    FROM @PartialOrdersFiles
+    USING Extractors.Csv(skipFirstNRows: 1); 
+
+CREATE TABLE dbo.PartialOrders
+(
+     INDEX clx_StoreID CLUSTERED(StoreID ASC)
+     DISTRIBUTED BY HASH(StoreID)
+) AS SELECT * FROM @partial_orders;
+
+INSERT INTO dbo.PartialOrders SELECT * FROM @orders_suppliers;
+
+/////////////////////////////////////////////////////////////////////////////
+// Generate second USQL script that will create CSV files for all orders
+/////////////////////////////////////////////////////////////////////////////
+
+DECLARE @outfile_orders_store string = @OrdersFolder + @policy_name + "/" + "orders_";
+DECLARE @outfile_partial_orders_store string = @OrdersFolder + @policy_name + "/" + "partial_orders_";
+
+// Get IDs of all stores
+@store_ids = SELECT DISTINCT StoreID FROM @product_suppliers;
+
+@stmts = 
+    SELECT * FROM (VALUES (1,"USE DATABASE DynLotSizingOrderDB;")) AS i(id, output)
+    UNION ALL
+    SELECT 2 AS id, "OUTPUT (SELECT * FROM dbo.Orders WHERE StoreID == \"" +  StoreID + "\") TO \"" + @outfile_orders_store 
+           + StoreID +  ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output 
+    FROM @store_ids            
+    UNION ALL
+    SELECT 3 AS id, "OUTPUT (SELECT * FROM dbo.PartialOrders WHERE StoreID == \"" +  StoreID + "\") TO \"" + @outfile_partial_orders_store 
+           + StoreID +  ".csv\" USING Outputters.Csv(outputHeader: true, quoting: false);" AS output
+    FROM @store_ids;
+         
+DECLARE @outfile string = @UsqlFolder + "gen_orders_" + @policy_name + ".usql";
+
+OUTPUT (SELECT output FROM @stmts ORDER BY id ASC OFFSET 0 ROWS) TO @outfile
+USING Outputters.Text(delimiter: ' ', quoting: false);
