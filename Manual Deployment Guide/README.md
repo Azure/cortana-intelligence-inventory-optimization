@@ -26,7 +26,6 @@ You will need the following accounts and software to create this solution:
 
 ## Architecture
 ![](Figures/SolutionArchitecture.png)
-  *<center> Figure 1. Inventory Optimization Architecture </center>*
 
 
 The figure above shows the overall architecture of the Inventory Optimization Solution. Below is a brief introduction of each component. 
@@ -353,57 +352,90 @@ We will create a **Main** web job that invokes the other web jobs once every hou
 For details of the function of each web job, please see the **Solution Overview** section in the **Technical Guide.pdf**.     
 
 ### 11. Set up PowerBI Dashboard
-We have designed a Power BI dashboard to visualize relevant information of the inventory optimization. 
-The Power BI file of the dashboard named *InventoryOptimizationDashboard.pbix* can be found in the Power 
-BI directory. First, you need to open the file by double clicking. The figure below 
-is what you will see after opening the file.
 
-![Dashboard with Prepopulated Data](Figures/open_dashboard.png)
-*<center> Figure 2. Power BI Dashboard with Prepopulated Data </center>*
+We have designed a Power BI dashboard to visualize the results and relevant information of the inventory optimization solution. In this step, we will explain how to set up the dashboard.
 
-The dashboard is prepopulated with default data so that you could have a quick glance at the results of
-the solution. Next, you will need to take the following steps to configure the dashboard:
+>   **Note**: The prerequisite of this step is to download and install the free software [Power BI desktop](https://powerbi.microsoft.com/desktop).
 
-- On the rightmost panel named *Fields*, right click the table named *InventoryLevel* and select *Edit 
-Query*. You will see the following 
+**Download the Power BI report file and sign-in**
 
-  ![Edit Data Source of InventoryLevel Table](Figures/edit_query_inventory_level.png)
-  *<center> Figure 3. Edit Data Source of InventoryLevel Table </center>*
+-   Make sure you have installed the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop). If not, you may see an error message showing that it is unable to open the dashboard when you try to open the Power BI file.
 
-  Then, click *Source* under the *APPLIED STEPS* on the right side and enter the URL of your inventory table
+-   In this GitHub repository, you can download the Power BI file of the dashboard *InventoryOptimizationSolution.pbix* under the folder [Power BI](https://github.com/Azure/cortana-intelligence-inventory-optimization/blob/master/Manual%20Deployment%20Guide/Power%20BI/) and then open it by double clicking.
 
-  ![Edit the URL of InventoryLevel Table](Figures/edit_url_inventory_level.png)
-  *<center> Figure 4. Edit the URL of InventoryLevel Table </center>*
-  
-  adl://[ADL_Name].azuredatalakestore.net/orders/inventory.csv
+-   The dashboard is prepopulated with cached data so that you could have a quick glance at the results of the solution. You might see a message saying "There are pending changes in your queries that haven't been applied." Please **DO NOT** Apply Changes since the data sources have not been updated yet.
 
-  where you need to replace the [ADL_Name] with the name of the Azure Data Lake store that you have chosen, and click *OK*.
+    >   **Note**: The visualizations that you see now in your Power BI report are the cached results from a previous demo deployment, rather than the real data in your own deployment. You will see the visualizations that correspond to the data sitting under your subscription after you follow the below steps to change the data connection to your own Azure Data Lake Store.
 
-  Next, sign in to your Azure account by clicking *Sign 
-  in* in the pop-up window below
+-   Sign in by clicking **Sign in** on the top-left corner. Note: You must have a Microsoft Office 365 subscription for Power BI access.
 
-  ![Enter Azure Credentials](Figures/enter_credentials.png)
-  *<center> Figure 5. Enter Azure Credentials </center>*
+-   Click **Edit Queries** on the top and open the query editor. You will see 5 Queries in the left panel of the query editor. You might also see an error message saying "DataFormat.Error: Invalid URI: The hostname could not be parsed.". Please ignore this error message for now and follow the instructions below to update the data sources. Once the data sources are updated, the error will be gone.
 
-  After that, click the button *Connect* to connect to the data source. 
+    ![Click Edit Queries to Open the Query Editor](Figures/click_edit_queries.png)
 
-- On the rightmost panel of Figure 3, right click the table named *InventoryPolicy* and select 
-*Edit Query*. Change the URL of the table to 
-adl://[ADL_Name].azuredatalakestore.net/configuration/InventoryPolicy.txt
 
-- Similarly, right click the table named *Metric* and *MetricExtended_InventoryLevel*. Then, select 
-*Edit Query* and change the URL of these two tables to 
-adl://[ADL_Name].azuredatalakestore.net/orders/metric_test.csv
+**Update the Azure Data Lake Store account in the Power BI file**
 
-- Right click the table named *StoreInfo* and select *Edit Query* to change the URL of the table to
-adl://[ADL_Name].azuredatalakestore.net/publicparameters/stores.csv
+Next, you will need to take the following steps to update the data sources:
 
-- Right click the table named *SummaryMetric* and select *Edit Query* to change the URL of the table to
-adl://[ADL_Name].azuredatalakestore.net/orders/summary_metric_test.csv
+-   Click **StoreInfo** query and you will see that this query is highlighted in a darker color as the following screenshot shows. Then, click the **Advanced Editor** on the top, which is next to the **Refresh Preview**.
 
-After the above steps, you should be able to see the recent results gradually show up in the dashboard by clicking the **Refresh** button above the dashboard. 
+    <img src="Figures/click_storeinfo_query.png" width="300">
 
-For details of the Power BI dashboard content, please see the **Power BI Visualization Guide** section in the **Technical Guide.pdf**
+-   On the pop-up Advanced Editor window, replace the [ADL_NAME] in the first line with the name of the Azure Data Lake Store that you deployed in the previous steps.
+
+    ![Update the Azure Data Lake Store name](Figures/change_adl_name.png)
+
+-   Then, click **Done** on the bottom-right corner of the Advanced Editor window. You will see a warning message below
+
+    ![Click Edit Credentials of Data Lake](Figures/click_edit_credentials.png)
+
+-   Click **Edit Credentials** in the above message and sign in the Azure Data Lake Store that you deployed by clicking **Sign in** in the pop-up window with your Azure account name and password.
+
+-   Repeat the above steps that you have done for **StoreInfo** query (click the corresponding query, open the corresponding advanced query editor and replace the [ADL_NAME] with your data lake store name) on the other 4 queries: **InventoryPolicy** query, **InventoryLevel** query, **MetricExtended_InventoryLevel** query, and **SummaryMetric** query.
+
+-   Click **Close & Apply** on the top-left, and you will see the visualization report in Power BI Desktop.
+
+    ![Click Close & Apply](Figures/click_close_apply.png)
+
+>   For details of the Power BI dashboard content, please see the **Power BI Visualization Guide** section in the **Technical Guide.pdf**.
+
+-   [Optional] You can click **Refresh** on the top if you want to refresh the report, when there are new data coming in.
+
+    ![Click Refresh](Figures/click_refresh.png)
+
+
+**Select the active policy being compared with the baseline policy**
+
+The dashboard shows the performance metrics of two active inventory optimization policies and a basedline policy. The policy IDs of the active policies are s_Q and s_Q_perishable respectively, while the policy ID of the baseline policy is Sim. By comparing an active policy with the baseline policy, we will see the performance improvements generated by inventory optimization.
+
+>   **Note**: In the dashboard, the improvements of s_Q_perishable policy over the baseline policy are displayed *by default*. The current step is needed if you want to change the active policy being compared with the baseline policy to s_Q.
+
+We can choose which acive policy to be compared with the baseline policy when computing the improvement ratio of each metric shown in each of the 4 cards in the Performance Evaluation part of the dashboard. For instance, you can click the card indicating the increased normalized revenue in the last quarter as follows
+
+![Click the Card Showing Normalized Revenue Improvement](Figures/click_card_normalized_revenue.png)
+
+On the right-hand side, you can find that **PolicyID is s_Q_perishable** under the **Visual level filters** of the **Filters** panel. If you move your cursor to **PolicyID is s_Q_perishable**, you will see an arrow sign appearing. You can further click this arrow sign and choose s_Q policy instead of s_Q_perishable policy. Typically you should only choose one of the active policies. In case you select both of them, the average improvements of the s_Q and s_Q_perishable over the baseline policy will be shown.
+
+<img src="Figures/visual_level_filters_policy_id.png" width="300">   
+
+**[Optional] Publish the dashboard to** [Power BI online](http://www.powerbi.com/)
+
+>   Note that this step requires a Power BI account (or Office 365 account).
+
+-   Click **Publish** on the top panel. Choose **My workspace** (or any other workspace where you wish to publish the dashboard) and after a little while you will see a window showing that pulishing to Power BI is succeeded.
+
+-   Click the link "Open 'InventoryOptimizationSolution.pbix' in Power BI" in the window to open the dashboard in a browser. You should see the dashboard in the browser. If not, click 'InventoryOptimizationSolution' under **REPORTS** section of **My Workspace** in the navigation panel on the left-hand side. You may need to click the arrow sign besides **My Workspace** and scroll down to find **REPORTS** section.
+
+-   Click **Pin Live Page** on the top. On the pop-up window, choose **New Dashboard**, and put the name of the new dashboard, e.g. InventoryOptimizationSolution, and click **Pin Live**.
+
+-   Click **InventoryOptimizationSolution** in the **DASHBOARDS** section of **My Workspace**. Click the three dots on the top-right of the dashboard tile (see the red box in the screenshot below). You may need to scoll to the right to see these three dots. Click the middle pencil icon to edit the tile details. In **Functionality**, check **Display last refresh time**, and click **Apply**. You will see the last refresh time showing up on the top-left of the dashboard.
+
+     ![Click Three Dots](Figures/click_three_dots.png) 
+
+-   Scroll down the bar on the right-hand side of **My Workspace** to find **InventoryOptimizationSolution** in the **DATASETS** section. Right click the dots besides **InventoryOptimizationSolution** and select **SCHEDULE REFRESH**. You might see a message "Your data source can't be refreshed because the credentials are invalid. Please update your credentials and try again." Please click *each* **Edit credentials** below this message and sign in your Office 365 account. Once this is done, you can click **Scheduled refresh** and choose **On** under **Keep your data up to date**. Then, you can specify the refresh frequency and select times for automatic data refresh by clicking **Add another time**.
+
+    <img src="Figures/specify_refresh_times.png" width="300">
 
 ## Validation and Results
 
@@ -514,4 +546,5 @@ client_secret = '<CLIENT_SECRET>'
 
 
 ## Delete the Solution
+
 If you want to delete the solution, select the resource group ***inventoryopt[UI][N]_resourcegroup***, click on **Delete** at the top of the new opened blade. Confirm the resource group name and click **Delete** at the bottom of this blade.
