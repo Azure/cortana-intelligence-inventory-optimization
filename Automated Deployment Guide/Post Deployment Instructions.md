@@ -61,7 +61,7 @@ The architecture of this solution is designed to be scalable. Azure DataLake Sto
 
 ## Customization
 
-For solution customization, you can refer to the [Technical Deployment Guide](https://github.com/Azure/cortana-intelligence-resource-optimization) and [Manual Deployment Guide](https://github.com/Azure/cortana-intelligence-inventory-optimization/tree/master/Manual%20Deployment%20Guide) to gain an inside view of how the solution is built, the function of each component and access to all the source codes used in the demo solution
+For solution customization, you can refer to the [Technical Deployment Guide](https://github.com/Azure/cortana-intelligence-inventory-optimization) and [Manual Deployment Guide](https://github.com/Azure/cortana-intelligence-inventory-optimization/tree/master/Manual%20Deployment%20Guide) to gain an inside view of how the solution is built, the function of each component and access to all the source codes used in the demo solution
 
 
 ##### Disclaimer
