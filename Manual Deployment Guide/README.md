@@ -437,6 +437,13 @@ On the right-hand side, you can find that **PolicyID is s_Q_perishable** under t
 
     <img src="Figures/specify_refresh_times.png" width="300">
 
+**Collect PowerBI URL for the Inventory Optimization Website**
+
+- On the online dashboard, click on **File** on left top of the page. 
+- From the dropdown, select **Publlish to Web**
+- In the popup window copy the **URL** under *Link you can send in email* and save it.
+- You will be required to provide the above collected URL while setting up the inventory optimization website.
+
 ## Validation and Results
 
 **Check Web Job logs**
