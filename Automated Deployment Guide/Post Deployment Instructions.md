@@ -8,7 +8,11 @@ This document is focusing on the post deployment instructions for the automated 
 
 [Azure Function](#azure-function) - Description of the webjobs created by this solution.
 
-[Azure Data Lake Storage](#azure-data-lake-storage) - Description of the storage used by this solution.
+[Azure Data Lake Store](#azure-data-lake-store) - Description of the storage used by this solution.
+
+[Azure Data Lake Analytics](#azure-data-lake-analytics) - Monitoring Azure Data Lake Analytics jobs.
+
+[Azure Batch](#azure-batch) - Monitoring Azure Batch jobs.
 
 [Visualization Steps](#setup-power-bi) - Instructions to connect up a Power BI dashboard to your deployment that visualized the results.
 
@@ -26,7 +30,7 @@ Once the solution is deployed to the subscription, you can see the services depl
 This will show all the resources under this resource groups on [Azure management portal](https://portal.azure.com/).
 
 After successful deployment, the entire solution is automatically started on cloud. You can monitor the progress from the following resources.
-This part contains instructions for managing different Azure components in the deployed solution.
+This section contains instructions for managing different Azure components in the deployed solution.
 
 ### Azure Function
 Azure Function app is created during the deployment. This hosts 7 web jobs which performs mostly orchestration and data simulation. You can monitor the webjob by clicking the link on your deployment page.
@@ -49,9 +53,24 @@ The inventory optimization solution is composed of five major components: data s
 
 ![](https://github.com/Azure/cortana-intelligence-inventory-optimization/blob/master/Manual%20Deployment%20Guide/Figures/webJobFlow.png)
 
+To see the status of the latest executions of webjobs:
+1. Go to your **resource group** created for this solution
+2. Go to the **Azure Function App** associated with this resource
+3. Click on the **Platform features**
+4. Choose **All settings** in **General settings**.
+5. Choose **WebJobs** in **Settings**.
+
+Detailed log files of current and previous executions can be accesses by selecting a web job and clicking on **Logs** in the top row.
+
+
 ### Azure Data Lake Store
 Both raw data and analytical results are saved in **Azure Data Lake Store** in this solution. You can monitor the generated datasets by clicking the link on your deployment page. Detailed description of the data in Azure DataLake store can be found in [Technical Deployment Guide](https://github.com/Azure/cortana-intelligence-resource-optimization) under section **Structure of Directories in Azure DataLake**
 
+### Azure Data Lake Analytics
+Azure Data Lake Analytics is used by InventoryOptimization and GenerateOrders webjobs to run U-SQL jobs. The status of U-SQL jobs can be monitored by going to resource group of the solution, clicking on the **Azure Data Lake Analytics** service associated with the resource and selecting **Job Management** in **Data Lake Analytics** section.
+
+### Azure Batch
+Azure Batch is used by InventoryOptimization webjobs to solve optimization problems. Solving optimization problem involves provisioning Azure Batch pool, running a job and then deleting the pool. The status of Azure Batch pools and jobs can be monitored by going to resource group of the solution, clicking on the **Azure Batch** service associated with the resource and selecting **Pools** and **Jobs** in **Features** section.
 
 ### Setup Power BI
 
