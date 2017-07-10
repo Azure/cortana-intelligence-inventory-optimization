@@ -6,13 +6,17 @@ This document is focusing on the post deployment instructions for the automated 
 ### Quick links
 [Monitor Progress](#monitor-progress) - See how you can monitor the resources that have been deployed to your subscription.
 
-[Visualization Steps](#visualization) - Instructions to connect up a Power BI dashboard to your deployment that visualized the results.
+[Azure Function](#azure-function) - Description of the webjobs created by this solution.
+
+[Azure Data Lake Storage](#azure-data-lake-storage) - Description of the storage used by this solution.
+
+[Visualization Steps](#setup-power-bi) - Instructions to connect up a Power BI dashboard to your deployment that visualized the results.
 
 [Scaling](#scaling) - Guidance on how to think about scaling this solution according to your needs.
 
 [Customization](#customization) - Guidance on how to think about customizing this solution with your own data.
 
-[Stopping and Resuming the Solution](#stopping) - How to stop or delete the solution.
+[Stopping and Resuming the Solution](#stopping-and-resuming-the-solution) - How to stop or delete the solution.
 
 
 
@@ -22,10 +26,10 @@ Once the solution is deployed to the subscription, you can see the services depl
 This will show all the resources under this resource groups on [Azure management portal](https://portal.azure.com/).
 
 After successful deployment, the entire solution is automatically started on cloud. You can monitor the progress from the following resources.
-This part contains instructions for managing different Azure componenets in the deployed solution.
+This part contains instructions for managing different Azure components in the deployed solution.
 
 ### Azure Function
-Azure Function app is created during the deployment. This hosts 7 webjobs which performs mostly orchastration and data simulation. You can monitor the webjob by clicking the link on your deployment page.
+Azure Function app is created during the deployment. This hosts 7 web jobs which performs mostly orchestration and data simulation. You can monitor the webjob by clicking the link on your deployment page.
 
 The inventory optimization solution is composed of five major components: data simulation, data pre-processing, inventory optimization, order placement, and evaluation. The table below lists the task and execution engine of each component. Each step starts with an Azure Web Job. The actual execution is done by Python scripts within the web jobs, Azure Data Lake Analytics jobs submitted by the web job Python script, or Azure Batch jobs submitted by the web job Python script.
 
@@ -41,7 +45,7 @@ The inventory optimization solution is composed of five major components: data s
 | InstallPackages             | Installs required python packages on Azure Functions Server to run above mentioned webjobs.|  Bash script in the web job |
 
 
-> **Note**: For demo purpose, a master webjob(Main) is scheduled to run every hour and invokes the other webjobs to simulate one day every hour. The figure below illustrates the data flow between different webjobs. Note that all web jobs write/read to/from Azure Data Lake Store (ADLS).
+> **Note**: For demo purpose, a master webjob, called Main, is scheduled to run every hour and invokes the other webjobs to simulate one day every hour. The figure below illustrates the data flow between different webjobs. Note that all web jobs write/read to/from Azure Data Lake Store (ADLS).
 
 ![](https://github.com/Azure/cortana-intelligence-inventory-optimization/blob/master/Manual%20Deployment%20Guide/Figures/webJobFlow.png)
 
@@ -70,7 +74,7 @@ For solution customization, you can refer to the [Technical Deployment Guide](ht
 The easiest way to pause the solution is to stop invoking Main webjob:
 
 1. Go to your **resource group** created for this solution
-2. Go to the **Function App** associated with this resource
+2. Go to the **Azure Function App** associated with this resource
 3. Click on the **Platform features**
 4. Click on the **Advanced tools (Kudu)** link in Development Tools section
 5. In the newly opened browser window, click on **Debug console** and then choose **CMD**
