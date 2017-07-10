@@ -1,4 +1,4 @@
-# Inventory Optimization for Retail 
+# Inventory Optimization for Retail
 
 ## Abstract
 This document is focusing on the post deployment instructions for the automated deployment through [Cortana Intelligence Solutions](https://gallery.cortanaintelligence.com/solutions). The source code of the solution as well as manual deployment instructions can be found [here](https://github.com/Azure/cortana-intelligence-inventory-optimization/tree/master/Manual%20Deployment%20Guide).
@@ -12,6 +12,8 @@ This document is focusing on the post deployment instructions for the automated 
 
 [Customization](#customization) - Guidance on how to think about customizing this solution with your own data.
 
+[Stopping and Resuming the Solution](#stopping) - How to stop or delete the solution.
+
 
 
 ## Monitor Progress
@@ -23,9 +25,9 @@ After successful deployment, the entire solution is automatically started on clo
 This part contains instructions for managing different Azure componenets in the deployed solution.
 
 ### Azure Function
-Azure Function app is created during the deployment. This hosts 7 webjobs which performs mostly orchastration and data simulation. You can monitor the webjob by clicking the link on your deployment page. 
+Azure Function app is created during the deployment. This hosts 7 webjobs which performs mostly orchastration and data simulation. You can monitor the webjob by clicking the link on your deployment page.
 
-The inventory optimization solution is composed of five major components: data simulation, data pre-processing, inventory optimization, order placement, and evaluation. The table below lists the task and execution engine of each component. Each step starts with an Azure Web Job. The actual execution is done by Python scripts within the web jobs, Azure Data Lake Analytics jobs submitted by the web job Python script, or Azure Batch jobs submitted by the web job Python script. 
+The inventory optimization solution is composed of five major components: data simulation, data pre-processing, inventory optimization, order placement, and evaluation. The table below lists the task and execution engine of each component. Each step starts with an Azure Web Job. The actual execution is done by Python scripts within the web jobs, Azure Data Lake Analytics jobs submitted by the web job Python script, or Azure Batch jobs submitted by the web job Python script.
 
 |Web Job Name	| Task |	Execution Engine|
 |------------------------|---------------------|---------------------|
@@ -39,7 +41,7 @@ The inventory optimization solution is composed of five major components: data s
 | InstallPackages             | Installs required python packages on Azure Functions Server to run above mentioned webjobs.|  Bash script in the web job |
 
 
-> **Note**: For demo purpose, a master webjob(Main) is scheduled to run every hour and invokes the other webjobs to simulate one day every hour. The figure below illustrates the data flow between different webjobs. Note that all web jobs write/read to/from Azure Data Lake Store (ADLS). 
+> **Note**: For demo purpose, a master webjob(Main) is scheduled to run every hour and invokes the other webjobs to simulate one day every hour. The figure below illustrates the data flow between different webjobs. Note that all web jobs write/read to/from Azure Data Lake Store (ADLS).
 
 ![](https://github.com/Azure/cortana-intelligence-inventory-optimization/blob/master/Manual%20Deployment%20Guide/Figures/webJobFlow.png)
 
@@ -62,6 +64,27 @@ The architecture of this solution is designed to be scalable. Azure DataLake Sto
 ## Customization
 
 For solution customization, you can refer to the [Technical Deployment Guide](https://github.com/Azure/cortana-intelligence-inventory-optimization) and [Manual Deployment Guide](https://github.com/Azure/cortana-intelligence-inventory-optimization/tree/master/Manual%20Deployment%20Guide) to gain an inside view of how the solution is built, the function of each component and access to all the source codes used in the demo solution
+
+## Stopping and Resuming the Solution
+
+The easiest way to pause the solution is to stop invoking Main webjob:
+
+1. Go to your **resource group** created for this solution
+2. Go to the **Function App** associated with this resource
+3. Click on the **Platform features**
+4. Click on the **Advanced tools (Kudu)** link in Development Tools section
+5. In the newly opened browser window, click on **Debug console** and then choose **CMD**
+6. Navigate to **site -> wwwroot -> app_data -> jobs -> triggered -> Main**
+7. (Optional) If you plan to resume running the solution later on, save settings.job by clicking on the first icon from the left in the settings.job line
+7. In settings.job line click on the third icon from the left and delete this file from the webjob.
+8. This will stop generating data which will reduce the consumption of resources in the subscription
+
+To resume the solution, drg previously saved settings.job file into the directory of the Main webjob.
+
+To entirely remove the solution
+
+1. Go to your **resource group** created for this solution
+2. Click **Delete** at the top of the screen.
 
 
 ##### Disclaimer
