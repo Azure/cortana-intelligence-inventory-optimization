@@ -102,7 +102,7 @@ The easiest way to pause the solution is to stop invoking Main webjob:
 7. In settings.job line click on the third icon from the left and delete this file from the webjob.
 8. This will stop generating data which will reduce the consumption of resources in the subscription
 
-To resume the solution, drg previously saved settings.job file into the directory of the Main webjob.
+To resume the solution, drag previously saved settings.job file into the directory of the Main webjob.
 
 To entirely remove the solution
 
