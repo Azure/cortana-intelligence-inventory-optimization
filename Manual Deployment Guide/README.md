@@ -491,14 +491,16 @@ You will need the following accounts and software to create this solution:
 
 -   A network connection
 
--   [Microsoft Visual Studios](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15)
+-   [Python 3.4](http://go.microsoft.com/fwlink/?linkid=516990)
+
+-   [Python Tools for Visual Studio (PTVS)](http://aka.ms/ptvs)
 
 
 ### A. Install Visual Studios 
 
-> Note: We will be installing Visual Studio Community edition 2015. If you have it already or have Visual Studio Professional 2015(or above), you can go to the Step B.
+> Note: We will be installing Visual Studio Community edition 2015 with Python Tools. If you have it already or have Visual Studio Professional 2015(or above), you can go to the **Step B**. You still need to install Python Tools if not already installed.
 
-1) Download the installer for VS Community Edition [here](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15).
+1) Download the installer for [Python Tools for Visual Studio (PTVS)](http://aka.ms/ptvs).
 
 2) Run the installer. In sometime, it will ask to select the workloads. Select **Python Development** and **ASP.NET and web development**. The size of application will be around 1.67 Gb.
 
@@ -527,7 +529,9 @@ client_secret = '<CLIENT_SECRET>'
 
 4) Save and close the file.
 
-#### 2. Publish Web Site to Azure Web App Server
+#### 2. Add Virtual Environment and Python Packages
+
+Install [Python 3.4](http://go.microsoft.com/fwlink/?linkid=516990) if not done aready.
 
 1) Open the Visual Studios. On the right top corner, click **Sign In**. Provide your azure subscription(portal.microsoft.com) credentials.  
 
@@ -535,13 +539,30 @@ client_secret = '<CLIENT_SECRET>'
 
 3) Browse to the folder where you unzipped the inventoryoptimizationwebsite and open **inventoryoptimizationwebsite.sln**.
 
-4) If the poject fails to load, just right click on the Solution Explorer area and click on build. It will load the project.
+4) If the poject fails to load, just right click on the Solution Explorer area and click on build. It will load the project. Try to reload the project as well.
 
-5) Right click on the [PY]inventoryoptimizationwebsite and select publish.
+5) Once the project loads, go to the Solution Explorer Tab on right and expand inventoryoptimizationwebsite.
 
-6) In the new open page, click **Create new profile**. Select **Microsoft Azure App Service** and click **OK**.
+6) Right Click on **Python Environments** and select **Add Virtual Environment**
 
-7) Provide following information in the newly opened window:
+![](Figures/website2.png)
+
+7) In the new opened window, provide the following details:
+ - Name the environment as **env** (do not change the path).
+ - Select base interpreter **Python 3.4(32-bit)**.
+![](Figures/website2.png)
+
+8) Copy site-packages from inventoryoptimizationwebsite\inventoryoptimizationwebsite\inventoryoptimizationwebsite/site-packages and replace the folder inventoryoptimizationwebsite\inventoryoptimizationwebsite\env\Lib\site-packages with it.
+
+9) Right click on the new python evnironment **env(Python 3.4(32-bit))** and select **install from requirements.txt**. This will refrest the virtual environment and load all the python packages which we copied in step 8.  
+
+#### 3. Publish Web Site to Azure Web App Server
+
+1) Right click on the [PY]inventoryoptimizationwebsite and select publish.
+
+2) In the new open page, click **Create new profile**. Select **Microsoft Azure App Service** and click **OK**.
+
+3) Provide following information in the newly opened window:
     - Web App Name: <Name for the web app server which will host the website>
     - Subscription: <Select the same subscription in which you have deployed this solution>
     - Resource Group: <Select the resource group which you created for this solution>
@@ -549,7 +570,7 @@ client_secret = '<CLIENT_SECRET>'
 
 ![](Figures/websiteCreateProfile.png)
 
-8) Click **Create**. This will publish the website to the Web App server and open the website for you. You can also access the website with following url: https://<webapp server name>.azurewebsites.net/
+4) Click **Create**. This will publish the website to the Web App server and open the website for you. You can also access the website with following url: https://<webapp server name>.azurewebsites.net/
 
 
 ## Delete the Solution
