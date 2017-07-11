@@ -550,7 +550,8 @@ Install [Python 3.4](http://go.microsoft.com/fwlink/?linkid=516990) if not done 
 7) In the new opened window, provide the following details:
  - Name the environment as **env** (do not change the path).
  - Select base interpreter **Python 3.4(32-bit)**.
-![](Figures/website2.png)
+
+![](Figures/website3.png)
 
 8) Copy site-packages from inventoryoptimizationwebsite\inventoryoptimizationwebsite\inventoryoptimizationwebsite/site-packages and replace the folder inventoryoptimizationwebsite\inventoryoptimizationwebsite\env\Lib\site-packages with it.
 
