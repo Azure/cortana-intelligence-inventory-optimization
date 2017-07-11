@@ -64,7 +64,7 @@ Detailed log files of current and previous executions can be accesses by selecti
 
 
 ### Azure Data Lake Store
-Both raw data and analytical results are saved in **Azure Data Lake Store** in this solution. You can monitor the generated datasets by clicking the link on your deployment page. Detailed description of the data in Azure DataLake store can be found in [Technical Deployment Guide](https://github.com/Azure/cortana-intelligence-resource-optimization) under section **Structure of Directories in Azure DataLake**
+Both raw data and analytical results are saved in **Azure Data Lake Store** in this solution. You can monitor the generated datasets by clicking the link on your deployment page. Detailed description of the data in Azure DataLake store can be found in **[Technical Guide](https://github.com/Azure/cortana-intelligence-inventory-optimization/tree/master/Technical%20Guide.pdf)** under section **Structure of Directories in Azure DataLake**
 
 ### Azure Data Lake Analytics
 Azure Data Lake Analytics is used by InventoryOptimization and GenerateOrders webjobs to run U-SQL jobs. The status of U-SQL jobs can be monitored by going to resource group of the solution, clicking on the **Azure Data Lake Analytics** service associated with the resource and selecting **Job Management** in **Data Lake Analytics** section.
@@ -86,7 +86,7 @@ The architecture of this solution is designed to be scalable. Azure DataLake Sto
 
 ## Customization
 
-For solution customization, you can refer to the [Technical Deployment Guide](https://github.com/Azure/cortana-intelligence-inventory-optimization) and [Manual Deployment Guide](https://github.com/Azure/cortana-intelligence-inventory-optimization/tree/master/Manual%20Deployment%20Guide) to gain an inside view of how the solution is built, the function of each component and access to all the source codes used in the demo solution
+For solution customization, you can refer to the **[Technical  Guide](https://github.com/Azure/cortana-intelligence-inventory-optimization/tree/master/Technical%20Guide.pdf)** and **[Manual Deployment Guide](https://github.com/Azure/cortana-intelligence-inventory-optimization/tree/master/Manual%20Deployment%20Guide)** to gain an inside view of how the solution is built, the function of each component and access to all the source codes used in the demo solution
 
 ## Stopping and Resuming the Solution
 
