@@ -495,6 +495,8 @@ You will need the following accounts and software to create this solution:
 
 -   [Python Tools for Visual Studio (PTVS)](http://aka.ms/ptvs)
 
+-   [inventoryoptimizationwebsite.zip](https://github.com/Azure/cortana-intelligence-inventory-optimization/raw/master/Manual%20Deployment%20Guide/Scripts/inventoryoptimizationwebsite.zip)
+
 
 ### A. Install Visual Studios 
 
@@ -514,7 +516,7 @@ In this section, we will collect the credentials which the website will need to 
 
  Here, we will collect the credentials of Service Principal(Client ID & Client Secret), DataLake Store name and Tenant Id. As you have deployed the solution, you should already have this information. You can access this information again by going to the Application Settings of the Web App(In case of manual deployment) or Azure Functions(in case of automated deployment).
 
-1) Download the [inventoryoptimizationwebsite.zip]() and unzip it
+1) Download the [inventoryoptimizationwebsite.zip](https://github.com/Azure/cortana-intelligence-inventory-optimization/raw/master/Manual%20Deployment%20Guide/Scripts/inventoryoptimizationwebsite.zip) and unzip it
 
 2) Browse to the unzipped file to inventoryoptimizationwebsite\inventoryoptimizationwebsite\inventoryoptimizationwebsite and open **views.py** under inventoryoptimizationwebsite project
 
