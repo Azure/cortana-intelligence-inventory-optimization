@@ -140,7 +140,7 @@ min_order_quantity_interval = 100
 max_order_quantity_interval = 100000
 min_quantity_multiplier = 1
 max_quantity_multiplier = 20
-min_purchase_cost = 1
+min_purchase_cost = 2
 max_purchase_cost = 20
 min_backorder_multiplier = 1
 max_backorder_multiplier = 1.5
@@ -326,7 +326,6 @@ class AttributeDescription:
         self.hierarchy = {}
         self.hierarchy['InitialWeeksToSimulate'] = n_weeks_to_simulate
         self.hierarchy['WeeksToForecast'] = n_weeks_to_forecast
-        self.hierarchy['AdlName'] = adl_name
         self.hierarchy['RawDataFolder'] = raw_data_folder
         self.hierarchy['PublicParametersFolder'] = public_parameters_folder
         self.hierarchy['PrivateParametersFolder'] = private_parameters_folder        

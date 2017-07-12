@@ -61,6 +61,6 @@ for dir in dir_list:
 
 #Update the Schedule file to Main webjob, so that it starts after all the static data is uploaded
 fileName='D:\\home\\site\\wwwroot\\app_data\\jobs\\triggered\\Main\\settings.job'
-cronJob = '{"schedule":"0 0 * * * *"}'
+cronJob = '{"schedule":"0 0 0/6 * * *"}'
 with open(fileName, "w") as f:
  f.write(cronJob)

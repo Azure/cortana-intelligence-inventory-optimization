@@ -13,6 +13,7 @@ from datetime import datetime
 from pyomo.environ import *
 import scipy
 import logging
+from numpy import arange
 
 n_download_retries = 5 # number of times to try to download a CSV file from ADLS
 
