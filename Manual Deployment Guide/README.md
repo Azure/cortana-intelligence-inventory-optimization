@@ -525,6 +525,7 @@ adl_name = '<DATALAKESTORE_NAME>'
 tenant_id = '<TENANT_ID>'
 client_id = '<CLIENT_ID>'
 client_secret = '<CLIENT_SECRET>'
+powerbi_url = '<Replace the current url with the one collected in Power BI section **Collect PowerBI URL for the Inventory Optimization Website** >'
 ```
 
 4) Save and close the file.
@@ -553,7 +554,7 @@ Install [Python 3.4](http://go.microsoft.com/fwlink/?linkid=516990) if not done 
 
 ![](Figures/website3.png)
 
-8) Copy site-packages from inventoryoptimizationwebsite\inventoryoptimizationwebsite\inventoryoptimizationwebsite/site-packages and replace the folder inventoryoptimizationwebsite\inventoryoptimizationwebsite\env\Lib\site-packages with it.
+8) Copy site-packages from inventoryoptimizationwebsite\inventoryoptimizationwebsite\inventoryoptimizationwebsite\\**site-packages** and replace the folder inventoryoptimizationwebsite\inventoryoptimizationwebsite\env\Lib\\**site-packages** with it.
 
 9) Right click on the new python evnironment **env(Python 3.4(32-bit))** and select **install from requirements.txt**. This will refrest the virtual environment and load all the python packages which we copied in step 8.  
 
@@ -564,14 +565,15 @@ Install [Python 3.4](http://go.microsoft.com/fwlink/?linkid=516990) if not done 
 2) In the new open page, click **Create new profile**. Select **Microsoft Azure App Service** and click **OK**.
 
 3) Provide following information in the newly opened window:
-    - Web App Name: <Name for the web app server which will host the website>
-    - Subscription: <Select the same subscription in which you have deployed this solution>
-    - Resource Group: <Select the resource group which you created for this solution>
-    - App Service Plan: <Select the app service plan which is available in the Resource Group of this solution>
+    - Web App Name: \<Name for the web app server which will host the website>
+    - Subscription: \<Select the same subscription in which you have deployed this solution>
+    - Resource Group: \<Select the resource group which you created for this solution>
+    - App Service Plan: \<Select the app service plan which is available in the Resource Group of this solution>
+
 
 ![](Figures/websiteCreateProfile.png)
 
-4) Click **Create**. This will publish the website to the Web App server and open the website for you. You can also access the website with following url: https://<webapp server name>.azurewebsites.net/
+4) Click **Create**. This will publish the website to the Web App server and open the website for you. You can also access the website with following url: https://\<webapp server name>.azurewebsites.net/
 
 
 ## Delete the Solution
