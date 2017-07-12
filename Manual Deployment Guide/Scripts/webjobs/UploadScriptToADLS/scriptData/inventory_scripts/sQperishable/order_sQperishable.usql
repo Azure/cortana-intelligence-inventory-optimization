@@ -155,7 +155,7 @@ def usqlml_main(df):
     Q = Q.rename(columns = {'Value': 'Quantity', 'Units': 'CurrentInventory'})
     del Q['OrderTimestamp']
     
-    critical_products = s.query('Units < Value')
+    critical_products = s.query('Units <= Value')
     if critical_products.shape[0] > 0:
         orders = pd.merge(critical_products, Q, on=['StoreID','ProductID'])
         orders['Quantity'] += orders['Value'] - orders['CurrentInventory']

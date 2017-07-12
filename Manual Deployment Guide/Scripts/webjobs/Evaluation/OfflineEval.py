@@ -1,4 +1,4 @@
-#
+﻿#
 # Copyright © Microsoft Corporation (“Microsoft”).
 #
 # Microsoft grants you the right to use this software in accordance with your subscription agreement, if any, to use software 
@@ -20,17 +20,22 @@
 
 
 # -*- coding: utf-8 -*-
-
 """
 Offline Evaluation for Inventory Optimization Solution How-to 
 Created on  March 8, 2017 
-Updated on  June 28, 2017
+Updated on  July 6, 2017
 
 @author: Fidan Boylu & Chenhui Hu
 
 Change log: 
     - Changed policy ID to directory name when writing partial order files (6/27/17)
-    - Added a thread to renew ADL token periodically (6/28/17)
+    - Combined two input datetimes in the get_num_stock() function (7/2/17)
+    - Removed 'test' in the files names 'metric_test.csv' and 'summary_metric_test.csv' (7/2/17) 
+    - Computed aggregated total revenue and aggregated # of stockout events in recent periods (7/2/17) 
+    - Added a thread to renew ADL token periodically (7/2/17)
+    - Handled the case where sales_orders file is empty (7/3/17)
+    - Handled empty sales file (7/3/17)
+    - Specified products managed by each policy (7/6/17)
 """
 
 import sys
@@ -38,8 +43,8 @@ import os
 import time
 import getopt
 import threading
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from datetime import datetime
 from azure.datalake.store import core, lib, multithread
@@ -50,24 +55,13 @@ if sys.version_info[0] < 3:
 else:
     from io import StringIO
 
-# temporary development environment
-#adl_name = 'retailtemplatedp03' 
-#tenant_id = '72f988bf-86f1-41af-91ab-2d7cd011db47'
-#client_id = '1c0a41b9-ccdf-4064-ab12-443d924397f9' 
-#client_secret = 'CBVo+b9bzSv+LLt6Omw7u9IY/GcN4uW/b4axFr1LdRg=' 
-
-#adl_name = 'adl5sr7gfoc'
-#client_id = 'd0f69339-48fa-4857-960b-a1fe50a819ef'
-#client_secret = '0AS4TJQCO3iC4URYbwR5Sa9zPrdWwedDUJ2J/t0rtWk='
-#tenant_id = '72f988bf-86f1-41af-91ab-2d7cd011db47'
-
 adl_name = os.environ['DATALAKESTORE_NAME']
 tenant_id = os.environ['TENANT_ID']
 client_id = os.environ['CLIENT_ID']
 client_secret = os.environ['CLIENT_SECRET']
 
-raw_data_folder_sales = 'rawdata' 
-raw_data_folder_orders = 'orders' 
+raw_data_folder_sales = 'rawdata'
+raw_data_folder_orders = 'orders'
 configuration_folder = 'configuration'
 
 n_stores = 6
@@ -75,30 +69,24 @@ n_products = 20
 
 
 def read_file(file_name, timecolumns):
-    global adl
     with adl.open(file_name, 'rb') as f:
         file = pd.read_csv(f, error_bad_lines=False) 
     file[timecolumns] = file[timecolumns].apply(pd.to_datetime, format='%Y-%m-%d %H:%M:%S')
     return file
 
     
-def write_file(file, file_name): 
-    global adl
+def write_file(file, file_name):   
     with adl.open(file_name, 'wb') as f:
         f.write(file.to_csv(index=False, date_format='%Y-%m-%d %H:%M:%S').encode('utf-8'))
-   
+
         
 def read_partial_orders(store_id):
-    global adl
-    #print("Reading partial order file")
     cols = ['PolicyID', 'StoreID', 'ProductID', 'SupplierID', 'Quantity','OrderTimestamp', 'ETA', 'ConfidenceInterval', 'Fulfilled']
     partial_orders_master = pd.DataFrame(columns=cols)
     policy_folders = adl.ls(raw_data_folder_orders)
-    #print(policy_folders)
-
+     
     for policy in policy_folders:
         file_name = '{}/partial_orders_{}.csv'.format(policy, store_id)
-        #print(file_name)
         if adl.exists(file_name):
             with adl.open(file_name, blocksize=2 ** 20) as f:
                 policy_orders = pd.read_csv(StringIO(f.read().decode('utf-8')), sep=",", 
@@ -123,7 +111,7 @@ def compute_metric(sales_temp, orders_temp):
     
     # Sort the two tables by date ascending  
     orders_temp = orders_temp.sort_values(['PolicyID', 'ETA'])   
-    sales_temp = sales_temp.sort_values('TransactionDateTime')
+    sales_temp = sales_temp.sort_values('TransactionDateTime')    ; 
     sales_orders = pd.DataFrame(columns = sales_temp.columns.tolist() + ['OrderETA','PolicyID'])
     policies = orders_temp.PolicyID.unique() 
     
@@ -151,7 +139,7 @@ def compute_metric(sales_temp, orders_temp):
                 orders_policy = orders_temp[orders_temp['PolicyID'] == policy_id]
                 for index_o, row_o in orders_policy.iterrows():
                     if ((row_s['ProductID'] == row_o['ProductID']) & (row_o['Quantity'] > 0) & (row_s['TransactionDateTime'] > row_o['ETA'])):
-                        orders_temp.ix[index_o,'Quantity'] = max(row_o['Quantity'] - row_s['Units'], 0) # avoid negative values
+                        orders_temp.ix[index_o,'Quantity'] = max(row_o['Quantity'] - row_s['Units'], 0) # may cause negative value
                         #orders_temp.ix[index_o,'Quantity'] = row_o['Quantity'] - row_s['Units']
                         temp_row = sales_temp.loc[index_s].copy()
                         temp_row['OrderETA'] = row_o['ETA']
@@ -162,7 +150,9 @@ def compute_metric(sales_temp, orders_temp):
                         sales_orders = sales_orders.append(temp_row)  
                         break
                     
-    sales_orders = sales_orders.reset_index().iloc[:,1:]            
+    sales_orders = sales_orders.reset_index().iloc[:,1:]   
+    if sales_orders.shape[0] == 0:
+        sys.exit(0)
     # Create column for number of days to sale as day fraction
     sales_orders['DaysToSale'] = sales_orders['TransactionDateTime'] - sales_orders['OrderETA'].apply(lambda x: pd.to_datetime(x, format='%Y-%m-%d %H:%M:%S').replace(minute=0, hour=0, second=0))
     sales_orders['DaysToSale'] = sales_orders['DaysToSale'].dt.total_seconds()/(24*60*60)
@@ -181,7 +171,7 @@ def compute_metric(sales_temp, orders_temp):
             #metric_policy = (sales_orders_policy['Price'].sum()/sales_orders_policy['DaysToSale'].sum())
             sales_orders_policy['NormRevenue'] = sales_orders_policy['Price'] / sales_orders_policy['DaysToSale']
             metric_policy = sales_orders_policy['NormRevenue'].sum()            
-            # Compute total revenue
+            # compute total revenue
             total_revenue_policy = sales_orders_policy['Price'].sum()
             #print("---------------------------")
             #print(sales_orders_policy[sales_orders_policy['ProductID']=='1_1'].shape[0])
@@ -201,8 +191,7 @@ def compute_metric(sales_temp, orders_temp):
     return metrics_df, orders_temp, sales_orders       
 
     
-def read_compute_write(store_id, file_date_format):
-    global adl    
+def read_compute_write(store_id, file_date_format):    
     # Read sales for the day
     sales_file_name = '{}/sales_store{}_{}.csv'.format(raw_data_folder_sales, store_id, file_date_format)
     if not adl.exists(sales_file_name):
@@ -210,8 +199,8 @@ def read_compute_write(store_id, file_date_format):
     sales_f = read_file(sales_file_name, 'TransactionDateTime')
     if sales_f.empty:
         return
-    
-    # Read configuration file to get the policy directory info
+                
+     # Read configuration file to get the policy directory info
     multithread.ADLDownloader(adl, lpath='.\Configurations.xlsx', 
                                    rpath=configuration_folder + '/Configurations.xlsx', overwrite=True)
     conf = pd.read_excel('.\Configurations.xlsx', sheetname='InventoryPolicyConfig')
@@ -220,17 +209,14 @@ def read_compute_write(store_id, file_date_format):
     orders = read_partial_orders(store_id)   
             
     # Compute metric
-    metrics_df, partial_orders_master, sales_orders = compute_metric(sales_f, orders) 
-    #write_file(sales_orders, '{}/sales_orders{}_{}.csv'.format(raw_data_folder_orders, store_id, file_date_format), adl)     
+    metrics_df, partial_orders_master, sales_orders = compute_metric(sales_f, orders) # change orders_to_date to orders when in real time mode
+    #write_file(sales_orders, '{}/sales_orders{}_{}.csv'.format(raw_data_folder_orders, store_id, file_date_format))     
 
     # Write partial orders for next day with unsold quantities for each order in history
-    policies = partial_orders_master['PolicyID'].unique()   
+    policies = partial_orders_master['PolicyID'].unique()
     for policy_id in policies:  
         directory_name = conf.loc[conf['InventoryPolicyName'] == policy_id,'DirectoryName'].iat[0]
-        print("directory name")
-        print(directory_name)
         partial_orders_file_name = '{}/{}/partial_orders_{}.csv'.format(raw_data_folder_orders, directory_name, store_id)
-        #partial_orders_file_name = '{}/{}/partial_orders_{}.csv'.format(raw_data_folder_orders, policy_id, store_id)
         partial_orders_policy = partial_orders_master.loc[partial_orders_master['PolicyID'] == policy_id].copy()
         partial_orders_policy['Quantity'] = partial_orders_policy['Quantity'].astype(int)
         partial_orders_policy['ConfidenceInterval'] = partial_orders_policy['ConfidenceInterval'].astype(int)
@@ -238,18 +224,19 @@ def read_compute_write(store_id, file_date_format):
         write_file(partial_orders_policy, partial_orders_file_name)   
     return metrics_df, sales_orders
 
-
+    
 def get_num_stockout(store_id, sales_orders, today_date):
     """
     Get the number of stockout events on a certain day for each store under all policies
     """
-    global adl
     file_date_format = today_date.strftime('%Y_%m_%d_%H_%M_%S')
     file_date_format_forecast = today_date.strftime('%Y-%m-%d_%H_%M_%S') 
+    print("file_date_format_forecast")
+    print(file_date_format_forecast)
     
     # Read sales for the day
     #sales_file_name = '{}/sales_store{}_{}.csv'.format(raw_data_folder_sales, store_id, file_date_format)
-    #sales_temp = read_file(sales_file_name, 'TransactionDateTime', adl)
+    #sales_temp = read_file(sales_file_name, 'TransactionDateTime')
     sales_temp = sales_orders[sales_orders['Spoilage']==False]
     
     # Read partial orders 
@@ -274,16 +261,16 @@ def get_num_stockout(store_id, sales_orders, today_date):
         file_date_format_round = pd.to_datetime(file_date_format, format='%Y_%m_%d_%H_%M_%S') 
         file_date_format_round = datetime(file_date_format_round.year, file_date_format_round.month, file_date_format_round.day, 0, 0, 0)
         inventory_df = orders_temp.loc[(orders_temp['PolicyID']==policy_id) & (orders_temp['ETA'] <= (pd.to_datetime(file_date_format_round, format='%Y_%m_%d_%H_%M_%S') + pd.DateOffset(1)))]
-        #print(inventory_df)
-		
+        #print(inventory_df) 
+        
+        # Temporary solution for handling different products managed by different policies
         if policy_id == "Sim":
-            managed_products = np.arange(1, n_products + 1)
-		if policy_id == "s_Q_perishable":
-            managed_products = np.arange(1, n_products/2 + 1)
-		if policy_id == "s_Q":
-            managed_products = np.arange(n_products/2 + 1, n_products + 1)
-			
-        			
+            managed_products = range(1, n_products + 1)
+        if policy_id == "s_Q_perishable":
+            managed_products = range(1, int(n_products/2) + 1)
+        if policy_id == "s_Q":
+            managed_products = range(int(n_products/2) + 1, n_products + 1)
+            
         for product_id in managed_products: 
             inventory_df_product = inventory_df.loc[inventory_df['ProductID']==str(product_id)+'_1']     
             cur_inventory = inventory_df_product['Quantity'].sum()      
@@ -311,11 +298,9 @@ def get_num_stockout(store_id, sales_orders, today_date):
     
     return num_stockout_df, inventory_store 
 
-    
-def metric_today(today_date):
 
-    print("--- Computing metrics of today ---")
-    global adl
+def metric_today(today_date):
+    print("Compute metric of today")
     inventory_file_name = '{}/inventory.csv'.format(raw_data_folder_orders)
     cols = ['PolicyID','DateTime','StoreID','ProductID','Inventory']
     inventory_master = pd.DataFrame(columns=cols)    
@@ -325,47 +310,48 @@ def metric_today(today_date):
             if inventory_file.shape[0] != 0:
                 print("Inventory file exists and contains records.")
                 inventory_avg_by_stores = inventory_file.groupby('PolicyID')['Inventory'].mean()
-       
+        
     for store_id in range(1, n_stores + 1): 
-        sales_file_name = '{}/sales_store{}_{}.csv'.format(raw_data_folder_sales, store_id, today_date.strftime('%Y_%m_%d_%H_%M_%S'))
-        if not adl.exists(sales_file_name):
-            return
-        sales_check = read_file(sales_file_name, 'TransactionDateTime')      
-        print("Checking if the following sales file is empty:")
-        print('{}/sales_store{}_{}.csv'.format(raw_data_folder_sales, store_id, today_date.strftime('%Y_%m_%d_%H_%M_%S')))
-        print(sales_check.empty)
-        if not sales_check.empty:                       
-            file_date_format = today_date.strftime('%Y_%m_%d_%H_%M_%S') 
-            # Get normalized revenue and total revenue
-            start_time = time.time()
-            metrics_df, sales_orders = read_compute_write(store_id, file_date_format)
-            print("read_compute_write() took %s seconds" % (time.time() - start_time))
-            # Get number of stockout events
-            file_date_format_forecast = today_date.strftime('%Y-%m-%d_%H_%M_%S') 
-            num_stockout_store, inventory_store = get_num_stockout(store_id, sales_orders, today_date)
-            start_time = time.time()
-            print("get_num_stockout() took %s seconds" % (time.time() - start_time))
-            inventory_master = pd.concat([inventory_master, inventory_store])
-            metrics_df['NumStockout'] = num_stockout_store
-            # Get turnover ratio
-            if not adl.exists(inventory_file_name):
-                inventory_avg_by_stores = inventory_store.groupby('PolicyID')['Inventory'].mean()
-            else:
-                with adl.open(inventory_file_name, 'rb') as f:
-                    inventory_file = pd.read_csv(f, error_bad_lines=False)  
-                if inventory_file.shape[0] == 0:
+            sales_file_name = '{}/sales_store{}_{}.csv'.format(raw_data_folder_sales, store_id, today_date.strftime('%Y_%m_%d_%H_%M_%S'))
+            if not adl.exists(sales_file_name):
+                return
+            sales_check = read_file(sales_file_name, 'TransactionDateTime')
+            print("Check if sales file is empty")
+            print('{}/sales_store{}_{}.csv'.format(raw_data_folder_sales, store_id, today_date.strftime('%Y_%m_%d_%H_%M_%S')))
+            print(sales_check.empty)
+            if not sales_check.empty:                       
+                file_date_format = today_date.strftime('%Y_%m_%d_%H_%M_%S') 
+                # Get normalized revenue and total revenue
+                start_time = time.time()
+                metrics_df, sales_orders = read_compute_write(store_id, file_date_format)
+                print("read_compute_write() took %s seconds" % (time.time() - start_time))
+                # Get number of stockout events
+                file_date_format_forecast = today_date.strftime('%Y-%m-%d_%H_%M_%S')
+                start_time = time.time()
+                num_stockout_store, inventory_store = get_num_stockout(store_id, sales_orders, today_date)
+                print("get_num_stockout() took %s seconds" % (time.time() - start_time))
+                inventory_master = pd.concat([inventory_master, inventory_store])
+                metrics_df['NumStockout'] = num_stockout_store
+                # Get turnover ratio
+                if not adl.exists(inventory_file_name):
                     inventory_avg_by_stores = inventory_store.groupby('PolicyID')['Inventory'].mean()
-            metrics_df['TurnoverRatio'] = metrics_df['TotalRevenue'].values / inventory_avg_by_stores.values 
-            metrics_df['StoreID'] = store_id                
-            # Write metrics_df to metric file
-            with adl.open(metric_file_name, 'ab') as f:
-                f.write(metrics_df.to_csv(index=False, header=False).encode('utf-8'))
+                else:
+                    with adl.open(inventory_file_name, 'rb') as f:
+                        inventory_file = pd.read_csv(f, error_bad_lines=False)  
+                    if inventory_file.shape[0] == 0:
+                        inventory_avg_by_stores = inventory_store.groupby('PolicyID')['Inventory'].mean()
+
+                metrics_df['TurnoverRatio'] = metrics_df['TotalRevenue'].values / inventory_avg_by_stores.values 
+                metrics_df['StoreID'] = store_id                
+                # Write metrics_df to metric file
+                with adl.open(metric_file_name, 'ab') as f:
+                    f.write(metrics_df.to_csv(index=False, header=False).encode('utf-8'))
                     
-    # Create an inventory file if it doesn't exist
+    # reate an inventory file if it doesn't exist
     if not adl.exists(inventory_file_name):
         inventory_file_header = pd.DataFrame(columns = ['PolicyID','DateTime','StoreID','ProductID','Inventory']) 
         write_file(inventory_file_header, inventory_file_name)    
-        
+
     # Write inventory_master to inventory file
     with adl.open(inventory_file_name, 'ab') as f:
         f.write(inventory_master.to_csv(index=False, header=False).encode('utf-8')) 
@@ -403,11 +389,10 @@ def get_metric_change(summary_metric):
 
     
 def write_summary_metric(today_date):
-    global adl
     days_per_week = 7
     days_per_month = 30 
     days_per_quarter = 91
-    metric_file_name = '{}/metric_test.csv'.format(raw_data_folder_orders)
+    metric_file_name = '{}/metric.csv'.format(raw_data_folder_orders)
     with adl.open(metric_file_name, 'rb') as f:
         metric_file = pd.read_csv(f, error_bad_lines=False) 
     # Check if the metric file is empty
@@ -421,7 +406,9 @@ def write_summary_metric(today_date):
     summary_metric_week = pd.DataFrame(columns=column_names) 
     last_week_metric = metric_file.loc[(metric_file['MetricDateTime'] <= today_date) & (metric_file['MetricDateTime'] >= today_date - pd.DateOffset(days_per_week))]                                   
     #avg_metric_last_week = metric_file.groupby(['PolicyID','StoreID'])['Metric'].mean().to_frame('Metric').reset_index() 
-    avg_metric_last_week = last_week_metric.groupby(['PolicyID','StoreID'])['Metric','TotalRevenue','NumStockout','TurnoverRatio'].mean().reset_index()
+    avg_metric_last_week1 = last_week_metric.groupby(['PolicyID','StoreID'])['Metric','TurnoverRatio'].mean().reset_index()
+    avg_metric_last_week2 = last_week_metric.groupby(['PolicyID','StoreID'])['TotalRevenue','NumStockout'].sum().reset_index()
+    avg_metric_last_week = avg_metric_last_week1.merge(avg_metric_last_week2, on=['PolicyID','StoreID'])
     summary_metric_week['PolicyID'] = avg_metric_last_week['PolicyID']
     summary_metric_week['StoreID'] = avg_metric_last_week['StoreID']
     summary_metric_week['Metric'] = avg_metric_last_week['Metric']
@@ -432,11 +419,13 @@ def write_summary_metric(today_date):
     summary_metric_week['EvalPeriod'] = '(I) LastWeek'
     metric_change = get_metric_change(summary_metric_week)
     summary_metric_week['MetricIncrease'], summary_metric_week['TotalRevenueIncrease'], summary_metric_week['NumStockoutDecrease'], summary_metric_week['TurnoverRatioIncrease'] = metric_change['MetricIncrease'], metric_change['TotalRevenueIncrease'], metric_change['NumStockoutDecrease'], metric_change['TurnoverRatioIncrease']
-     
+       
     # Get last month's metric
     summary_metric_month = pd.DataFrame(columns=column_names) 
     last_month_metric = metric_file.loc[(metric_file['MetricDateTime'] <= today_date) & (metric_file['MetricDateTime'] >= today_date - pd.DateOffset(days_per_month))]                                    
-    avg_metric_last_month = last_month_metric.groupby(['PolicyID','StoreID'])['Metric','TotalRevenue','NumStockout','TurnoverRatio'].mean().reset_index()
+    avg_metric_last_month1 = last_month_metric.groupby(['PolicyID','StoreID'])['Metric','TurnoverRatio'].mean().reset_index()
+    avg_metric_last_month2 = last_month_metric.groupby(['PolicyID','StoreID'])['TotalRevenue','NumStockout'].sum().reset_index()
+    avg_metric_last_month = avg_metric_last_month1.merge(avg_metric_last_month2, on=['PolicyID','StoreID'])
     summary_metric_month['PolicyID'] = avg_metric_last_month['PolicyID']
     summary_metric_month['StoreID'] = avg_metric_last_month['StoreID']
     summary_metric_month['Metric'] = avg_metric_last_month['Metric']
@@ -451,7 +440,9 @@ def write_summary_metric(today_date):
     # Get last quarter's metric
     summary_metric_quarter = pd.DataFrame(columns=column_names) 
     last_quarter_metric = metric_file.loc[(metric_file['MetricDateTime'] <= today_date) & (metric_file['MetricDateTime'] >= today_date - pd.DateOffset(days_per_quarter))]                                    
-    avg_metric_last_quarter = last_quarter_metric.groupby(['PolicyID','StoreID'])['Metric','TotalRevenue','NumStockout','TurnoverRatio'].mean().reset_index()
+    avg_metric_last_quarter1 = last_quarter_metric.groupby(['PolicyID','StoreID'])['Metric','TurnoverRatio'].mean().reset_index()
+    avg_metric_last_quarter2 = last_quarter_metric.groupby(['PolicyID','StoreID'])['TotalRevenue','NumStockout'].sum().reset_index()
+    avg_metric_last_quarter = avg_metric_last_quarter1.merge(avg_metric_last_quarter2, on=['PolicyID','StoreID'])
     summary_metric_quarter['PolicyID'] = avg_metric_last_quarter['PolicyID']
     summary_metric_quarter['StoreID'] = avg_metric_last_quarter['StoreID']
     summary_metric_quarter['Metric'] = avg_metric_last_quarter['Metric']
@@ -464,44 +455,17 @@ def write_summary_metric(today_date):
     summary_metric_quarter['MetricIncrease'], summary_metric_quarter['TotalRevenueIncrease'], summary_metric_quarter['NumStockoutDecrease'], summary_metric_quarter['TurnoverRatioIncrease'] = metric_change['MetricIncrease'], metric_change['TotalRevenueIncrease'], metric_change['NumStockoutDecrease'], metric_change['TurnoverRatioIncrease']
                                 
     summary_metric_all = pd.concat([summary_metric_week, summary_metric_month, summary_metric_quarter])
-     
+    
     # Write summary_metric_all to summary metric file
-    summary_metric_file_name = '{}/summary_metric_test.csv'.format(raw_data_folder_orders) 
+    summary_metric_file_name = '{}/summary_metric.csv'.format(raw_data_folder_orders) 
     with adl.open(summary_metric_file_name, 'ab') as f:
         f.write(summary_metric_all.to_csv(index=False, header=True).encode('utf-8')) 
-  
-                  
-def clean_adl():
-    # for testing: one time copy of day0 orders file from adl, write back with partial_orders file name
-    if adl.exists('{}/metric_test.csv'.format(raw_data_folder_orders)):
-        adl.rm('{}/metric_test.csv'.format(raw_data_folder_orders)) 
-    if adl.exists('{}/inventory.csv'.format(raw_data_folder_orders)):
-        adl.rm('{}/inventory.csv'.format(raw_data_folder_orders))  
-    policy_folders = adl.ls(raw_data_folder_orders)     
-    def is_folder(item_name):
-        return '.' not in item_name 
-    
-    for policy in policy_folders:
-        if is_folder(policy):
-            for store_id in range(1, n_stores + 1):
-                #store_id=1
-                partial_orders_file_name = '{}/partial_orders_{}.csv'.format(policy, store_id)
-                orders_file_name = '{}/orders_{}.csv'.format(policy, store_id)
-                print(orders_file_name)
-                with adl.open(orders_file_name, 'rb') as f:
-                    column_names = list(pd.read_csv(f))
-                    if 'Order timestamp' not in column_names:
-                        selected_columns = ['OrderTimestamp', 'ETA']
-                    else:
-                        selected_columns = ['Order timestamp', 'ETA']
-                f.close()    
-                orders = read_file('{}/orders_{}.csv'.format(policy, store_id), selected_columns)    
-                write_file(orders, partial_orders_file_name)                    
-    
 
-def renew_adl_token(interval, stop):
+        
+def renew_adl_token():
     print("--- Creating a thread to renew ADL token periodically ---")
     global adl
+    interval = 1800
     while True:
         time.sleep(interval)
         try:
@@ -510,31 +474,24 @@ def renew_adl_token(interval, stop):
             print("--- ADL token has been renewed ---")
         except Exception as e:
             raise Exception('Error while attempting to connect to Azure Data Lake Store:\n{}'.format(e))             
-        if stop():
-            print("--- Exiting the loop of renewing ADL token ---.")
-            break
-
+    print("--- Exiting the loop of renewing ADL token ---.")
+        
                 
 if __name__ == '__main__':   
     print("--- Evaluation started ---")
-    # The following line is used for local test and should not be included in WebJob
-    #today_date = datetime.strptime("01/07/2017 00:00:00","%m/%d/%Y %H:%M:%S")
     start_time = time.time()
-    
-    # Create an ADL token renew thread
-    stop_threads = False
-    renew_thread = threading.Thread(target=renew_adl_token, args=(600, lambda: stop_threads))
-    renew_thread.start()
-    
-    # Create a filesystem client object
-    global adl
     try:
         token = lib.auth(tenant_id=tenant_id, client_id=client_id, client_secret=client_secret)
         adl = core.AzureDLFileSystem(token=token, store_name=adl_name)
     except Exception as e:
         raise Exception('Error while attempting to connect to Azure Data Lake Store:\n{}'.format(e))
+
+    # Create an ADL token renew thread
+    renew_thread = threading.Thread(target=renew_adl_token)
+    renew_thread.daemon = True
+    renew_thread.start()
     
-    # Check if the 'orders' folder exists and the order files are inside    
+    # Check if the orders folder exists and the order files are inside    
     if not adl.exists(raw_data_folder_orders):
         sys.exit(0)
     else:    
@@ -550,33 +507,28 @@ if __name__ == '__main__':
     for opt, arg in opts:
         if opt in ("-d","--datetime"):
             print(arg)
-            # Running in BATCH mode
+            # running in BATCH mode
             today_date = datetime.strptime(arg,"%m/%d/%Y %H:%M:%S")
     
     if not ('today_date' in locals() or 'today_date' in globals()):
-        # Running in PROD mode
+        # running in PROD mode
         today_date = datetime(datetime.today().year, datetime.today().month, datetime.today().day)
     print(today_date)
     
-    metric_file_name = '{}/metric_test.csv'.format(raw_data_folder_orders)
+    metric_file_name = '{}/metric.csv'.format(raw_data_folder_orders)
     # Check if metric file already exists     
     if adl.exists(metric_file_name):  
         metric_today(today_date)
     else:
-        # Create empty metric file and write to ADL
+        # Create empty metric file and write to adl
         metric_file = pd.DataFrame(columns = ['PolicyID','MetricDateTime','Metric','TotalRevenue','NumStockout','TurnoverRatio','StoreID']) 
         write_file(metric_file, metric_file_name)      
         metric_today(today_date)
 
-    summary_metric_file_name = '{}/summary_metric_test.csv'.format(raw_data_folder_orders)    
+    summary_metric_file_name = '{}/summary_metric.csv'.format(raw_data_folder_orders)    
     # Check if summary metric file already exists     
     if adl.exists(summary_metric_file_name):
-        adl.rm('{}/summary_metric_test.csv'.format(raw_data_folder_orders))   
+        adl.rm('{}/summary_metric.csv'.format(raw_data_folder_orders))   
     write_summary_metric(today_date)
-    
-    # Stop the ADL token renew thread
-    stop_threads = True
-    renew_thread.join()
  
     print("--- %s seconds ---" % (time.time() - start_time))
-        

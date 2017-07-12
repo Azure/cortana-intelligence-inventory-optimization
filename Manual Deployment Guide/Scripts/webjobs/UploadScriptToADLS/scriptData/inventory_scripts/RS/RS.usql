@@ -138,34 +138,39 @@ CREATE TABLE dbo.SupplierProperties (
 DECLARE @generateProbabilisticForecast = @"
 import pandas as pd
 from scipy.stats import poisson
-from numpy import arange
+from numpy import concatenate
 
 def usqlml_main(df):
-    
-    if df.shape[0] == 1: # deterministic prediction, assume that the demand has Poisson distribution
-       mean_demand = df['PredictedDemand'].iat[0]
-       store_id = df['StoreID'].iat[0]
-       product_id = df['ProductID'].iat[0]
-       timestamp = df['Timestamp'].iat[0]
-       probabilistic_forecast = [{'StoreID': store_id, 'ProductID': product_id, 'Timestamp': timestamp,
-                                  'PredictedDemand': x, 'PredictedProbability': poisson.pmf(x, mean_demand)} 
-                                 for x in arange(poisson.ppf(0.01,mean_demand), poisson.ppf(0.99,mean_demand))]
-       probabilistic_forecast_df = pd.DataFrame(probabilistic_forecast, 
-                                                columns = ['StoreID', 'ProductID', 'Timestamp', 'PredictedDemand', 'PredictedProbability'])
-       total_probability = probabilistic_forecast_df['PredictedProbability'].sum()
-       probabilistic_forecast_df['PredictedProbability'] = probabilistic_forecast_df['PredictedProbability'] / total_probability
+    if df['PredictedProbability'].min() == 1: # deterministic prediction, assume that the demand has Poisson distribution
+       
+       df.sort_values(['Timestamp'], inplace=True)
 
+       demand = [range(int(poisson.ppf(0.01,x)),int(poisson.ppf(0.99,x))) for x in df['PredictedDemand']]
+       mean = [[x]*len(y) for x,y in zip(df['PredictedDemand'],demand)]
+       probabilities = poisson.pmf(concatenate(demand),concatenate(mean))
+     
+       probabilistic_forecast_df = pd.DataFrame({'StoreID': df['StoreID'].iat[0], 
+                                                 'ProductID': df['ProductID'].iat[0], 
+                                                 'Timestamp': concatenate([[x]*len(y) for x,y in zip(df['Timestamp'],demand)]),
+                                                 'PredictedDemand': concatenate(demand),
+                                                 'PredictedProbability': probabilities},
+                                                 columns = ['StoreID', 'ProductID', 'Timestamp', 'PredictedDemand', 
+                                                            'PredictedProbability'])
+
+       total_probabilities = probabilistic_forecast_df.groupby(['Timestamp'], sort=False)['PredictedProbability'].sum()
+       total_probabilities_expanded = concatenate([[x]*len(y) for x,y in zip(total_probabilities,demand)])
+       probabilistic_forecast_df['PredictedProbability'] = probabilistic_forecast_df['PredictedProbability'] / total_probabilities_expanded
 
        return probabilistic_forecast_df
     else:
        return df
 ";
 
-@python_output = REDUCE @python_input ON StoreID, ProductID, Timestamp
+@python_output = REDUCE @python_input ON StoreID, ProductID
                  PRODUCE StoreID string, 
                          ProductID string,
                          Timestamp string,
-                         PredictedDemand double,
+                         PredictedDemand int,
                          PredictedProbability double
                  USING new Extension.Python.Reducer(pyScript:@generateProbabilisticForecast);
 
@@ -252,7 +257,7 @@ from datetime import timedelta
 
 def usqlml_main(df):
     max_review_time = int(df['max_review_time'].iat[0])
-    df['Timestamp'] = df['Timestamp'].apply(lambda x: pd.to_datetime(x.split(chr(39))[1]))
+    df['Timestamp'] = df['Timestamp'].apply(lambda x: pd.to_datetime(x if x[0]!='b' else x.split(chr(39))[1]))
     timestamps = df['Timestamp'].unique()
     timestamps = [pd.to_datetime(x) for x in timestamps]   
     timestamps.sort()  # in-place sort of timestamps
