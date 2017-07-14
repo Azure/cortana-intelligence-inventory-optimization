@@ -77,35 +77,28 @@ def construct_url(webjob_name, action):
 def monitor_webjob(job_name, url):  
     response = requests.get(url)
     job_info = response.json()
+    
+    print(response)
 
-    retry_count = 1000 
-    while (not job_info) and (retry_count > 0):
-        response = requests.get(url)
-        job_info = response.json()
-        retry_count = retry_count - 1
-        print(retry_count)
-        time.sleep (1)
+    if not job_info:
+        job_status = 'NA'
+    else:
+        job_status = job_info["latest_run"]["status"]
 
-    #if not job_info:
-    #    print("Can not get the status of the web job " + job_name +" after 10 attempts")
-
-    job_status = job_info["latest_run"]["status"]
-
-    while job_status in ('Running','Initializing'):
+    while job_status in ('Running','Initializing','NA'):
         print('Webjob ' + job_name + ' is running. Waiting for 10 seconds.')
         time.sleep (10)
         response = requests.get(url)
+        
+        print(response)
+        
         job_info = response.json()
 
-        retry_count = 1000 
-        while (not job_info) and (retry_count > 0):
-            response = requests.get(url)
-            job_info = response.json()
-            retry_count = retry_count - 1
-            print(retry_count)
-            time.sleep (1)
-
-        job_status = job_info["latest_run"]["status"]
+        if not job_info:
+            job_status = 'NA'
+        else:
+            job_status = job_info["latest_run"]["status"]
+            
     if job_status =='Success':
         print('Webjob ' + job_name + ' finished successfully!')
     else:
@@ -120,6 +113,10 @@ def webjob_main(webjob_name):
     
     #monitor webjob
     get_url = construct_url(webjob_name, 'get')
+    
+    #pause 10 seconds before querying job status
+    time.sleep (10)
+    
     monitor_webjob(webjob_name, get_url)
 
 

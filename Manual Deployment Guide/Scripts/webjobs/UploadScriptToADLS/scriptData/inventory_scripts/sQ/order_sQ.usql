@@ -121,6 +121,9 @@ DECLARE @InventoryFiles string = @RawDataFolder + "inv_store{*}.csv";
                       JOIN @total_inventory AS b ON a.StoreID == b.StoreID AND a.ProductID == b.ProductID
                       LEFT OUTER JOIN @previous_orders AS c ON a.StoreID == c.StoreID AND a.ProductID == c.ProductID;
 
+OUTPUT (SELECT * FROM @inventory_solution) TO "/tmp/inventory_solution.txt"
+USING Outputters.Csv(outputHeader: true, quoting: false);
+
 DECLARE @createOrders = @"
 import pandas as pd
 
@@ -150,8 +153,12 @@ def usqlml_main(df):
         return orders
     
     solution = df[['StoreID', 'ProductID', 'Units', 'VarName', 'Value', 'OrderTimestamp']].drop_duplicates()
-    s = solution[solution['VarName'] == 's']
-    Q = solution[solution['VarName'] == 'Q']
+    if solution['VarName'].iat[0][0] != 'b':
+        s = solution[solution['VarName'] == 's']
+        Q = solution[solution['VarName'] == 'Q']
+    else:
+        s = solution[solution['VarName'] == 'b' + chr(39) + 's' + chr(39)]
+        Q = solution[solution['VarName'] == 'b' + chr(39) + 'Q' + chr(39)]
     Q = Q.rename(columns = {'Value': 'Quantity', 'Units': 'CurrentInventory'})
     del Q['OrderTimestamp']
     

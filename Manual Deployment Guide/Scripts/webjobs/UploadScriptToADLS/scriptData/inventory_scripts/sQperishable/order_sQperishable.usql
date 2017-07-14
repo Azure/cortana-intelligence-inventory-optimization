@@ -103,7 +103,7 @@ DECLARE @InventoryFiles string = @RawDataFolder + "inv_store{*}.csv";
             ExpiryDateTime                  DateTime
     FROM @InventoryFiles
     USING Extractors.Csv(skipFirstNRows: 1); 
-	
+
 @max_date = SELECT Convert.ToDateTime(MAX(InventoryDateTime)) AS MaxDate FROM @inventory_prelim;
 
 @inventory_latest = SELECT a.* FROM @inventory_prelim AS a
@@ -111,7 +111,7 @@ DECLARE @InventoryFiles string = @RawDataFolder + "inv_store{*}.csv";
 
 @inventory = SELECT a.StoreID, a.ProductID, Units ?? 0 AS Units FROM @product_suppliers AS a
              LEFT OUTER JOIN @inventory_latest AS b ON a.StoreID == b.StoreID AND a.ProductID == b.ProductID;
-			                                                   
+                                                  
 @total_inventory = 
     SELECT StoreID, ProductID, SUM(Units) AS Units FROM @inventory GROUP BY StoreID, ProductID;
 
@@ -150,8 +150,12 @@ def usqlml_main(df):
         return orders
     
     solution = df[['StoreID', 'ProductID', 'Units', 'VarName', 'Value', 'OrderTimestamp']].drop_duplicates()
-    s = solution[solution['VarName'] == 's']
-    Q = solution[solution['VarName'] == 'Q']
+    if solution['VarName'].iat[0][0] != 'b':
+        s = solution[solution['VarName'] == 's']
+        Q = solution[solution['VarName'] == 'Q']
+    else:
+        s = solution[solution['VarName'] == 'b' + chr(39) + 's' + chr(39)]
+        Q = solution[solution['VarName'] == 'b' + chr(39) + 'Q' + chr(39)]
     Q = Q.rename(columns = {'Value': 'Quantity', 'Units': 'CurrentInventory'})
     del Q['OrderTimestamp']
     
@@ -165,6 +169,7 @@ def usqlml_main(df):
         orders = pd.DataFrame(columns=[['StoreID','ProductID','Quantity','OrderTimestamp']]) 
         orders['Quantity'] = orders['Quantity'].astype('int')
         return orders
+
 ";
 
 @orders = REDUCE @inventory_solution ON StoreID, ProductID
