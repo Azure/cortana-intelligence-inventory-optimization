@@ -27,7 +27,7 @@ DECLARE @UsqlFolder string = @GlobalPolicyDir + @policy_name + "/";
 DECLARE @CSVFolder string = @GlobalCSVFolder + @policy_name + "/";
 DECLARE @DemandDir string = @DynamicDataFolder + "demand_forecasts/{*}/{*}/";
 DECLARE @DemandFiles string = @DemandDir + 
-                              "{ForecastDate:yyyy}-{ForecastDate:MM}-{ForecastDate:dd}_{ForecastDate:hh}_{ForecastDate:mm}_{ForecastDate:ss}.csv";
+                              "{ForecastDate:yyyy}-{ForecastDate:MM}-{ForecastDate:dd}_{ForecastDate:HH}_{ForecastDate:mm}_{ForecastDate:ss}.csv";
 
 ////////////////////////////////////////////////
 // Names of input files

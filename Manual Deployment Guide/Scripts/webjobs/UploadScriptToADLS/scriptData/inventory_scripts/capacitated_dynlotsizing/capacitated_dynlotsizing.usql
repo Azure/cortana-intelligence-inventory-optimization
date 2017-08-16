@@ -38,7 +38,7 @@ DECLARE @ProductsSuppliersFile string = @StaticDataFolder + "store_product_suppl
 DECLARE @InventoryFile string = @DynamicDataFolder + "inv_store{*}.csv";
 DECLARE @DemandDir string = @DynamicDataFolder + "demand_forecasts/{*}/{*}/";
 DECLARE @DemandFiles string = @DemandDir + 
-                              "{ForecastDate:yyyy}-{ForecastDate:MM}-{ForecastDate:dd}_{ForecastDate:hh}_{ForecastDate:mm}_{ForecastDate:ss}.csv";
+                              "{ForecastDate:yyyy}-{ForecastDate:MM}-{ForecastDate:dd}_{ForecastDate:HH}_{ForecastDate:mm}_{ForecastDate:ss}.csv";
 
 /////////////////////////////////////////////
 // Load input files

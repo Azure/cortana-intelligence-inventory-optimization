@@ -47,7 +47,7 @@ DECLARE @OrdersFile string = @OrdersFolder + @policy_name + "/orders_" + @StoreI
 DECLARE @PartialOrdersFile string = @OrdersFolder + @policy_name + "/partial_orders_" + @StoreID + "{*}.csv";
 DECLARE @DemandDir string = @DynamicDataFolder + "demand_forecasts/{*}/{*}/";
 DECLARE @DemandFiles string = @DemandDir + 
-                              "{ForecastDate:yyyy}-{ForecastDate:MM}-{ForecastDate:dd}_{ForecastDate:hh}_{ForecastDate:mm}_{ForecastDate:ss}.csv";
+                              "{ForecastDate:yyyy}-{ForecastDate:MM}-{ForecastDate:dd}_{ForecastDate:HH}_{ForecastDate:mm}_{ForecastDate:ss}.csv";
 
 /////////////////////////////////////////////
 // Load solutions

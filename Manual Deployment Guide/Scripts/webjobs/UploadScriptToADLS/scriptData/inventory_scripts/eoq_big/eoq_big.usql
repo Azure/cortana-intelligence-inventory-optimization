@@ -29,7 +29,7 @@ DECLARE @ProductsFile string = @StaticDataFolder + "brands_products.csv";
 DECLARE @ProductsSuppliersFile string = @StaticDataFolder + "store_product_supplier.csv";
 DECLARE @DemandDir string = @DynamicDataFolder + "demand_forecasts/{*}/{*}/";
 DECLARE @DemandFiles string = @DemandDir + 
-                              "{ForecastDate:yyyy}-{ForecastDate:MM}-{ForecastDate:dd}_{ForecastDate:hh}_{ForecastDate:mm}_{ForecastDate:ss}.csv";
+                              "{ForecastDate:yyyy}-{ForecastDate:MM}-{ForecastDate:dd}_{ForecastDate:HH}_{ForecastDate:mm}_{ForecastDate:ss}.csv";
 
 ///////////////////////////////////////////////
 // Names of output files
