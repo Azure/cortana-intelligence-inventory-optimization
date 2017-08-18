@@ -504,7 +504,7 @@ You will need the following accounts and software to create this solution:
 
 1) Download the installer for [Python Tools for Visual Studio (PTVS)](http://aka.ms/ptvs).
 
-2) Run the installer. In sometime, it will ask to select the workloads. Select **Python Development** and **ASP.NET and web development**. The size of application will be around 1.67 Gb.
+2) Run the installer. In some time, it will ask to select the workloads. Select **Python Development** and **ASP.NET and web development**. The size of application will be around 1.67 Gb.
 
 3) Click Install.
 
@@ -534,7 +534,7 @@ powerbi_url = '<Replace the current url with the one collected in Power BI secti
 
 #### 2. Add Virtual Environment and Python Packages
 
-Install [Python 3.4](http://go.microsoft.com/fwlink/?linkid=516990) if not done aready.
+Install [Python 3.4](http://go.microsoft.com/fwlink/?linkid=516990) if not done already.
 
 1) Open the Visual Studios. On the right top corner, click **Sign In**. Provide your azure subscription(portal.microsoft.com) credentials.  
 
@@ -542,7 +542,7 @@ Install [Python 3.4](http://go.microsoft.com/fwlink/?linkid=516990) if not done 
 
 3) Browse to the folder where you unzipped the inventoryoptimizationwebsite and open **inventoryoptimizationwebsite.sln**.
 
-4) If the poject fails to load, just right click on the Solution Explorer area and click on build. It will load the project. Try to reload the project as well.
+4) If the project fails to load, just right click on the Solution Explorer area and click on build. It will load the project. Try to reload the project as well.
 
 5) Once the project loads, go to the Solution Explorer Tab on right and expand inventoryoptimizationwebsite.
 
@@ -553,12 +553,15 @@ Install [Python 3.4](http://go.microsoft.com/fwlink/?linkid=516990) if not done 
 7) In the new opened window, provide the following details:
  - Name the environment as **env** (do not change the path).
  - Select base interpreter **Python 3.4(32-bit)**.
+ - Uncheck **Download and install packages**
 
 ![](Figures/website3.png)
 
+>**NOTE:** If you have not unchecked the **Download and install packages** in above step, you will see some unable to install packages error on the console. This can be ignored as we will manually put thoes packages, as mentioned in below step.
+
 8) Copy site-packages from inventoryoptimizationwebsite\inventoryoptimizationwebsite\inventoryoptimizationwebsite\\**site-packages** and replace the folder inventoryoptimizationwebsite\inventoryoptimizationwebsite\env\Lib\\**site-packages** with it.
 
-9) Right click on the new python evnironment **env(Python 3.4(32-bit))** and select **install from requirements.txt**. This will refrest the virtual environment and load all the python packages which we copied in step 8.  
+9) Right click on the new python environment **env(Python 3.4(32-bit))** and select **install from requirements.txt**. This will refresh the virtual environment and load all the python packages which we copied in step 8.  
 
 #### 3. Publish Web Site to Azure Web App Server
 
@@ -575,8 +578,9 @@ Install [Python 3.4](http://go.microsoft.com/fwlink/?linkid=516990) if not done 
 
 ![](Figures/websiteCreateProfile.png)
 
-4) Click **Create**. This will publish the website to the Web App server and open the website for you. You can also access the website with following url: https://\<webapp server name>.azurewebsites.net/
+4) Click **Create** and then **Publish**. This will publish the website to the Web App server and open the website for you. You can also access the website with following url: https://\<webapp server name>.azurewebsites.net/
 
+>**NOTE:** The publish may fail with the error "file name too long" if the location where you downloaded the website is too long. To fix this, put the website on desktop or C:/tmp and try publishing again.
 
 ## Delete the Solution
 
