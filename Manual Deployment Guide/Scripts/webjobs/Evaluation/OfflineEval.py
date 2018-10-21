@@ -129,7 +129,7 @@ def compute_metric(sales_temp, orders_temp):
                         temp_row['OrderETA'] = row_o['ETA']
                         temp_row['OrderETA'] = pd.to_datetime(temp_row['OrderETA'], format='%Y-%m-%d %H:%M:%S') #this is to fix strange behaviour with timestamp
                         temp_row['PolicyID'] = row_o['PolicyID']
-                        # Add a lable for spoilage
+                        # Add a label for spoilage
                         temp_row['Spoilage'] = False
                         sales_orders = sales_orders.append(temp_row)    
                         break
@@ -145,7 +145,7 @@ def compute_metric(sales_temp, orders_temp):
                         temp_row['OrderETA'] = row_o['ETA']
                         temp_row['OrderETA'] = pd.to_datetime(temp_row['OrderETA'], format='%Y-%m-%d %H:%M:%S')
                         temp_row['PolicyID'] = row_o['PolicyID']
-                        # Add a lable for spoilage
+                        # Add a label for spoilage
                         temp_row['Spoilage'] = True
                         sales_orders = sales_orders.append(temp_row)  
                         break
